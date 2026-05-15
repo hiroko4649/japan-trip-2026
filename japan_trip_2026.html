@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>日本旅行 2026 秋 — Hiroko & 夫</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Serif+JP:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg:         #faf8f5;
+    --surface:    #ffffff;
+    --border:     #e8e2d9;
+    --border-mid: #c8c0b5;
+    --text:       #2a2520;
+    --muted:      #8c8278;
+    --faint:      #c4bdb4;
+    --flight-bg:  #ddeef8; --flight-fg:  #1a4d70;
+    --concert-bg: #ede8f7; --concert-fg: #3d2a7a;
+    --user-bg:    #daf0e6; --user-fg:    #1a5c3a;
+    --hotel-bg:   #faebd2; --hotel-fg:   #6b3f0a;
+    --sun: #b83232; --sat: #2c5f8a;
+  }
+  body { font-family:'Noto Sans JP',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; }
+  .page { display:none; } .page.active { display:block; }
+
+  /* Header */
+  .header { background:var(--surface); border-bottom:1px solid var(--border); padding:28px 40px 24px; display:flex; align-items:flex-end; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+  .header-title { font-family:'Noto Serif JP',serif; font-size:26px; font-weight:600; letter-spacing:0.02em; line-height:1; }
+  .header-sub { font-size:13px; color:var(--muted); margin-top:6px; letter-spacing:0.05em; font-weight:300; }
+  .header-dates { font-family:'Noto Serif JP',serif; font-size:14px; color:var(--muted); text-align:right; letter-spacing:0.03em; }
+  .header-dates strong { display:block; font-size:17px; color:var(--text); font-weight:600; margin-bottom:3px; }
+  .trip-bar { background:var(--text); color:#fff; font-size:12px; letter-spacing:0.06em; font-weight:300; padding:7px 40px; display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
+  .trip-bar span { opacity:0.4; margin:0 4px; }
+
+  /* Legend */
+  .legend { display:flex; align-items:center; gap:16px; flex-wrap:wrap; padding:10px 40px; background:var(--surface); border-bottom:1px solid var(--border); font-size:12px; color:var(--muted); }
+  .leg { display:flex; align-items:center; gap:5px; }
+  .leg-chip { width:24px; height:9px; border-radius:2px; }
+  .leg-flight  { background:var(--flight-bg); } .leg-concert { background:var(--concert-bg); }
+  .leg-user    { background:var(--user-bg); }   .leg-hotel   { background:var(--hotel-bg); }
+  .sync-badge { margin-left:auto; display:flex; align-items:center; gap:5px; font-size:11px; letter-spacing:0.04em; }
+  .sync-dot { width:7px; height:7px; border-radius:50%; background:var(--faint); transition:background 0.4s; }
+  .sync-dot.synced  { background:#52a97a; }
+  .sync-dot.saving  { background:#e6a817; }
+  .sync-dot.offline { background:#c0392b; }
+
+  /* Calendar */
+  .cal-area { padding:28px 40px; max-width:860px; margin:0 auto; }
+  .month-card { background:var(--surface); border:1px solid var(--border); border-radius:12px; overflow:hidden; }
+  .weekdays { display:grid; grid-template-columns:repeat(7,1fr); background:#f2ede8; border-bottom:1px solid var(--border); }
+  .wd { text-align:center; font-size:11px; letter-spacing:0.05em; padding:8px 0; color:var(--muted); }
+  .wd.sun { color:var(--sun); } .wd.sat { color:var(--sat); }
+  .days { display:grid; grid-template-columns:repeat(7,1fr); grid-auto-rows:76px; }
+  .day { height:76px; overflow:hidden; padding:5px 6px 4px; border-right:1px solid var(--border); border-bottom:1px solid var(--border); cursor:pointer; transition:background 0.12s; position:relative; }
+  .day:hover { background:#f0ebe4; }
+  .day:nth-child(7n) { border-right:none; }
+  .day.month-boundary { border-top:2px solid var(--border-mid); }
+  .day.empty  { background:#f6f3f0; cursor:default; pointer-events:none; }
+  .day.outside { opacity:0.32; cursor:default; pointer-events:none; }
+  .day.has-memo::after { content:''; position:absolute; top:5px; right:5px; width:5px; height:5px; border-radius:50%; background:var(--muted); }
+  .month-label { font-family:'Noto Serif JP',serif; font-size:9px; font-weight:600; letter-spacing:0.05em; color:var(--faint); line-height:1; margin-bottom:1px; }
+  .day.dec-first .month-label { color:var(--muted); }
+  .day-num { font-size:13px; font-weight:300; color:var(--muted); line-height:1; margin-bottom:3px; }
+  .day.sun .day-num { color:var(--sun); font-weight:400; } .day.sat .day-num { color:var(--sat); font-weight:400; }
+  .day.trip .day-num { color:var(--text); font-weight:500; }
+  .evt-chip { font-size:9.5px; border-radius:3px; padding:1px 4px; margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; line-height:1.6; display:block; }
+  .evt-chip.flight  { background:var(--flight-bg);  color:var(--flight-fg); }
+  .evt-chip.concert { background:var(--concert-bg); color:var(--concert-fg); }
+  .evt-chip.user    { background:var(--user-bg);    color:var(--user-fg); }
+  .evt-chip.hotel   { background:var(--hotel-bg);   color:var(--hotel-fg); }
+  .evt-more { font-size:9px; color:var(--faint); margin-top:1px; }
+  .cal-footer { text-align:center; font-size:11px; color:var(--faint); padding:16px 40px 40px; letter-spacing:0.06em; }
+
+  /* Day View */
+  #dayPage { min-height:100vh; background:var(--bg); padding-bottom:60px; }
+  .day-header { background:var(--text); color:#fff; padding:0 40px; display:flex; align-items:center; gap:20px; height:64px; position:sticky; top:0; z-index:10; }
+  .back-btn { background:none; border:1px solid rgba(255,255,255,0.25); color:rgba(255,255,255,0.8); border-radius:6px; padding:6px 14px; font-size:13px; font-family:'Noto Sans JP',sans-serif; cursor:pointer; display:flex; align-items:center; gap:6px; transition:all 0.15s; flex-shrink:0; }
+  .back-btn:hover { border-color:rgba(255,255,255,0.55); color:#fff; }
+  .day-header-date { font-family:'Noto Serif JP',serif; font-size:20px; font-weight:600; letter-spacing:0.03em; }
+  .day-body { max-width:680px; margin:0 auto; padding:32px 40px; display:flex; flex-direction:column; gap:28px; }
+  .day-section { background:var(--surface); border:1px solid var(--border); border-radius:12px; overflow:hidden; }
+  .day-section-head { padding:14px 20px 12px; border-bottom:1px solid var(--border); }
+  .day-section-title { font-family:'Noto Serif JP',serif; font-size:14px; font-weight:600; color:var(--text); letter-spacing:0.04em; }
+  .day-section-body { padding:16px 20px; }
+  .evt-full-row { display:flex; align-items:center; justify-content:space-between; padding:8px 12px; border-radius:7px; margin-bottom:6px; font-size:14px; gap:8px; }
+  .evt-full-row:last-child { margin-bottom:0; }
+  .evt-full-row.flight  { background:var(--flight-bg);  color:var(--flight-fg); }
+  .evt-full-row.concert { background:var(--concert-bg); color:var(--concert-fg); }
+  .evt-full-row.user    { background:var(--user-bg);    color:var(--user-fg); }
+  .evt-full-row.hotel   { background:var(--hotel-bg);   color:var(--hotel-fg); }
+  .evt-full-text { flex:1; line-height:1.4; }
+  .evt-del-btn { background:none; border:none; cursor:pointer; font-size:17px; opacity:0.45; line-height:1; padding:0 2px; color:inherit; flex-shrink:0; transition:opacity 0.15s; }
+  .evt-del-btn:hover { opacity:1; }
+  .no-evts-msg { font-size:13px; color:var(--faint); font-style:italic; padding:4px 0; }
+  .add-evt-form { display:flex; flex-direction:column; gap:10px; }
+  .add-evt-form input, .add-evt-form select { width:100%; padding:10px 13px; border:1px solid var(--border); border-radius:8px; font-size:14px; font-family:'Noto Sans JP',sans-serif; color:var(--text); background:var(--bg); outline:none; transition:border 0.15s; }
+  .add-evt-form input:focus, .add-evt-form select:focus { border-color:var(--muted); background:#fff; }
+  .add-evt-btn { padding:10px 16px; background:var(--text); color:#fff; border:none; border-radius:8px; font-size:14px; font-family:'Noto Sans JP',sans-serif; cursor:pointer; font-weight:400; letter-spacing:0.04em; transition:opacity 0.15s; align-self:flex-start; min-width:100px; }
+  .add-evt-btn:hover { opacity:0.78; }
+  .memo-area { width:100%; min-height:220px; padding:14px; border:1px solid var(--border); border-radius:8px; font-size:14px; font-family:'Noto Sans JP',sans-serif; color:var(--text); background:var(--bg); line-height:1.9; resize:vertical; outline:none; transition:border 0.15s; }
+  .memo-area:focus { border-color:var(--muted); background:#fff; }
+  .memo-status { font-size:11px; color:var(--faint); margin-top:7px; letter-spacing:0.04em; height:16px; }
+
+  @media(max-width:640px){
+    .cal-area,.day-body{padding:12px 16px;} .header{padding:18px 18px 14px;} .legend{padding:10px 18px;} .trip-bar{padding:6px 18px;font-size:11px;}
+    .days{grid-auto-rows:60px;} .day{height:60px;padding:4px 3px;} .day-num{font-size:11px;} .evt-chip{font-size:8px;}
+    .day-header{padding:0 16px;} .day-header-date{font-size:17px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- CALENDAR PAGE -->
+<div class="page active" id="calPage">
+  <header class="header">
+    <div>
+      <div class="header-title">日本旅行 2026 秋</div>
+      <div class="header-sub">Hiroko &amp; 夫 ／ Travel Journal</div>
+    </div>
+    <div class="header-dates">
+      <strong>11月15日 — 12月15日</strong>31 days in Japan
+    </div>
+  </header>
+  <div class="trip-bar">
+    ✈ JL11 DFW 10:35 → HND 15:25 <span>|</span> 🎵 Bump of Chicken ×3 <span>|</span> ✈ JL12 HND 10:55 → DFW 07:35
+  </div>
+  <div class="legend">
+    <div class="leg"><div class="leg-chip leg-flight"></div>フライト</div>
+    <div class="leg"><div class="leg-chip leg-concert"></div>ライブ</div>
+    <div class="leg"><div class="leg-chip leg-user"></div>追加予定</div>
+    <div class="leg"><div class="leg-chip leg-hotel"></div>宿泊・その他</div>
+    <div class="sync-badge"><div class="sync-dot" id="sync-dot"></div><span id="sync-text">接続中...</span></div>
+  </div>
+  <div class="cal-area">
+    <div class="month-card">
+      <div class="weekdays" id="weekdays"></div>
+      <div class="days" id="days-grid"></div>
+    </div>
+  </div>
+  <div class="cal-footer">日付をクリックで詳細ページへ</div>
+</div>
+
+<!-- DAY VIEW PAGE -->
+<div class="page" id="dayPage">
+  <div class="day-header">
+    <button class="back-btn" onclick="window.showCal()">← カレンダー</button>
+    <div class="day-header-date" id="dv-date-label">—</div>
+  </div>
+  <div class="day-body">
+    <div class="day-section">
+      <div class="day-section-head"><div class="day-section-title">予定</div></div>
+      <div class="day-section-body"><div id="dv-evts-list"></div></div>
+    </div>
+    <div class="day-section">
+      <div class="day-section-head"><div class="day-section-title">予定を追加</div></div>
+      <div class="day-section-body">
+        <div class="add-evt-form">
+          <input type="text" id="dv-evt-input" placeholder="内容（例：京都・伏見稲荷）" />
+          <select id="dv-evt-type">
+            <option value="user">追加予定（緑）</option>
+            <option value="hotel">宿泊・その他（黄）</option>
+            <option value="flight">フライト（青）</option>
+            <option value="concert">ライブ（紫）</option>
+          </select>
+          <button class="add-evt-btn" onclick="window.dvAddEvt()">＋ 追加</button>
+        </div>
+      </div>
+    </div>
+    <div class="day-section">
+      <div class="day-section-head"><div class="day-section-title">メモ</div></div>
+      <div class="day-section-body">
+        <textarea class="memo-area" id="dv-memo" placeholder="この日のこと、何でも自由に書いてください。"></textarea>
+        <div class="memo-status" id="memo-status"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp }                  from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-database.js";
+
+/* ── Firebase ── */
+const app = initializeApp({
+  apiKey:            "AIzaSyB-aGOs10p4N_AOVxVRwzStH8g0AR7hbLo",
+  authDomain:        "japan-trip-2026-7cd55.firebaseapp.com",
+  databaseURL:       "https://japan-trip-2026-7cd55-default-rtdb.firebaseio.com",
+  projectId:         "japan-trip-2026-7cd55",
+  storageBucket:     "japan-trip-2026-7cd55.firebasestorage.app",
+  messagingSenderId: "191639339077",
+  appId:             "1:191639339077:web:99277d8dfa10f446eb232c"
+});
+const db = getDatabase(app);
+
+/* ── Constants ── */
+const TRIP_START = new Date(2026,10,15);
+const TRIP_END   = new Date(2026,11,15);
+const DOW_JP     = ['日','月','火','水','木','金','土'];
+const FIXED = {
+  '2026-11-15':[{type:'flight',  text:'✈ JL11 DFW発 10:35'}],
+  '2026-11-16':[{type:'flight',  text:'✈ HND着 15:25'}],
+  '2026-11-21':[{type:'concert', text:'🎵 BOC あなぶきAR香川'}],
+  '2026-11-29':[{type:'concert', text:'🎵 BOC 広島グリーンAR'}],
+  '2026-12-12':[{type:'concert', text:'🎵 BOC マリンメッセ福岡'}],
+  '2026-12-15':[{type:'flight',  text:'✈ JL12 HND発 10:55'}],
+};
+
+/* ── State ── */
+let userEvts={}, memos={}, activeKey=null, memoTimer=null, memoFocused=false;
+
+/* ── Sync UI ── */
+function setSync(s) {
+  const dot=document.getElementById('sync-dot'), txt=document.getElementById('sync-text');
+  if(!dot||!txt) return;
+  dot.className='sync-dot '+s;
+  txt.textContent = s==='synced'?'同期済み': s==='saving'?'保存中...': s==='offline'?'オフライン':'接続中...';
+}
+
+/* ── Firebase listeners ── */
+onValue(ref(db,'.info/connected'), s=>{ if(s.val()===false) setSync('offline'); });
+
+onValue(ref(db,'evts'), snap=>{
+  try{ userEvts=JSON.parse(snap.val()||'{}'); }catch(e){ userEvts={}; }
+  buildCalendar();
+  if(activeKey && isDayOpen()) renderEvts();
+  setSync('synced');
+}, ()=>setSync('offline'));
+
+onValue(ref(db,'memo'), snap=>{
+  try{ memos=JSON.parse(snap.val()||'{}'); }catch(e){ memos={}; }
+  buildCalendar();
+  if(activeKey && isDayOpen() && !memoFocused)
+    document.getElementById('dv-memo').value = memos[activeKey]||'';
+  setSync('synced');
+}, ()=>setSync('offline'));
+
+/* ── Save ── */
+function saveEvts(){
+  setSync('saving');
+  set(ref(db,'evts'),JSON.stringify(userEvts)).then(()=>setSync('synced')).catch(()=>setSync('offline'));
+}
+function saveMemos(){
+  setSync('saving');
+  set(ref(db,'memo'),JSON.stringify(memos))
+    .then(()=>{ setSync('synced'); memoMsg('保存しました'); })
+    .catch(()=>{ setSync('offline'); memoMsg('保存できませんでした'); });
+}
+function memoMsg(m){
+  const el=document.getElementById('memo-status');
+  if(!el) return;
+  el.textContent=m;
+  setTimeout(()=>{ el.textContent=''; },2000);
+}
+
+/* ── Helpers ── */
+function dk(y,m,d){ return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`; }
+function allEvts(k){ return [...(FIXED[k]||[]),(userEvts[k]||[])].flat(); }
+function inTrip(d){ return d>=TRIP_START && d<=TRIP_END; }
+function hasMemo(k){ return !!(memos[k]&&memos[k].trim()); }
+function isDayOpen(){ return document.getElementById('dayPage').classList.contains('active'); }
+
+/* ── Page switching ── */
+function showCal(){
+  document.getElementById('calPage').classList.add('active');
+  document.getElementById('dayPage').classList.remove('active');
+  buildCalendar();
+}
+function showDay(k,label){
+  activeKey=k;
+  document.getElementById('dv-date-label').textContent=label;
+  document.getElementById('dv-evt-input').value='';
+  document.getElementById('memo-status').textContent='';
+  renderEvts();
+  document.getElementById('dv-memo').value=memos[k]||'';
+  document.getElementById('calPage').classList.remove('active');
+  document.getElementById('dayPage').classList.add('active');
+  window.scrollTo(0,0);
+}
+
+/* ── Calendar ── */
+function buildWeekdays(){
+  document.getElementById('weekdays').innerHTML=
+    DOW_JP.map((d,i)=>`<div class="wd ${i===0?'sun':i===6?'sat':''}">${d}</div>`).join('');
+}
+function buildCalendar(){
+  const grid=document.getElementById('days-grid');
+  grid.innerHTML='';
+  const nov1dow=new Date(2026,10,1).getDay();
+  const dec1row=Math.floor((nov1dow+30)/7);
+  const bs=dec1row*7, be=bs+6;
+  let ci=0;
+  const blank=(ci,bs,be)=>{
+    const el=document.createElement('div');
+    el.className='day empty'+(ci>=bs&&ci<=be?' month-boundary':'');
+    return el;
+  };
+  for(let i=0;i<nov1dow;i++){ grid.appendChild(blank(ci,bs,be)); ci++; }
+  for(let d=1;d<=30;d++){ grid.appendChild(mkDay(2026,10,d,ci,bs,be)); ci++; }
+  for(let d=1;d<=31;d++){ grid.appendChild(mkDay(2026,11,d,ci,bs,be)); ci++; }
+  const rem=ci%7;
+  if(rem>0) for(let i=rem;i<7;i++){ grid.appendChild(blank(ci,bs,be)); ci++; }
+}
+function mkDay(y,m,d,ci,bs,be){
+  const date=new Date(y,m,d), dow=date.getDay(), k=dk(y,m,d);
+  const trip=inTrip(date), isNov1=(m===10&&d===1), isDec1=(m===11&&d===1);
+  const evts=allEvts(k);
+  const cell=document.createElement('div');
+  let cls='day';
+  if(dow===0)cls+=' sun'; if(dow===6)cls+=' sat';
+  cls+=trip?' trip':' outside';
+  if(isDec1)cls+=' dec-first';
+  if(ci>=bs&&ci<=be)cls+=' month-boundary';
+  if(trip&&hasMemo(k))cls+=' has-memo';
+  cell.className=cls;
+  let html='';
+  if(isNov1||isDec1) html+=`<div class="month-label">${m===10?'11月':'12月'}</div>`;
+  html+=`<div class="day-num">${d}</div>`;
+  evts.slice(0,2).forEach(e=>{ html+=`<span class="evt-chip ${e.type}">${e.text}</span>`; });
+  if(evts.length>2) html+=`<div class="evt-more">+${evts.length-2}件</div>`;
+  cell.innerHTML=html;
+  if(trip){
+    const label=`${y}年${m+1}月${d}日（${DOW_JP[dow]}）`;
+    cell.addEventListener('click',()=>showDay(k,label));
+  }
+  return cell;
+}
+
+/* ── Day view events ── */
+function renderEvts(){
+  const evts=allEvts(activeKey);
+  const el=document.getElementById('dv-evts-list');
+  if(!evts.length){ el.innerHTML='<div class="no-evts-msg">予定なし</div>'; return; }
+  el.innerHTML=evts.map((e,i)=>{
+    const fixed=(FIXED[activeKey]||[]).some(f=>f.text===e.text&&f.type===e.type);
+    return `<div class="evt-full-row ${e.type}">
+      <span class="evt-full-text">${e.text}</span>
+      ${fixed?'':`<button class="evt-del-btn" onclick="window.dvDelEvt(${i})">×</button>`}
+    </div>`;
+  }).join('');
+}
+function dvAddEvt(){
+  const name=document.getElementById('dv-evt-input').value.trim();
+  if(!name) return;
+  const type=document.getElementById('dv-evt-type').value;
+  if(!userEvts[activeKey]) userEvts[activeKey]=[];
+  userEvts[activeKey].push({type,text:name});
+  saveEvts();
+  document.getElementById('dv-evt-input').value='';
+  renderEvts();
+}
+function dvDelEvt(idx){
+  const e=allEvts(activeKey)[idx];
+  if((FIXED[activeKey]||[]).some(f=>f.text===e.text&&f.type===e.type)) return;
+  const ue=userEvts[activeKey]||[];
+  const pos=ue.findIndex(f=>f.text===e.text&&f.type===e.type);
+  if(pos>-1){ ue.splice(pos,1); userEvts[activeKey]=ue; }
+  saveEvts(); renderEvts();
+}
+
+/* ── Memo ── */
+const memoEl=document.getElementById('dv-memo');
+memoEl.addEventListener('focus',()=>memoFocused=true);
+memoEl.addEventListener('blur', ()=>memoFocused=false);
+memoEl.addEventListener('input',function(){
+  clearTimeout(memoTimer);
+  memoMsg('入力中...');
+  memoTimer=setTimeout(()=>{ memos[activeKey]=this.value; saveMemos(); },900);
+});
+
+/* ── Keyboard ── */
+document.addEventListener('keydown',e=>{
+  if(e.key==='Enter'&&isDayOpen()&&document.activeElement===document.getElementById('dv-evt-input')) dvAddEvt();
+});
+
+/* ── Expose to HTML onclick ── */
+window.showCal  = showCal;
+window.showDay  = showDay;
+window.dvAddEvt = dvAddEvt;
+window.dvDelEvt = dvDelEvt;
+
+/* ── Init ── */
+buildWeekdays();
+buildCalendar();
+</script>
+</body>
+</html>
