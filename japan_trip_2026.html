@@ -399,7 +399,7 @@ memoEl.addEventListener('input',function(){
 
 /* ── Keyboard ── */
 document.addEventListener('keydown',e=>{
-  if(e.key==='Enter'&&isDayOpen()&&document.activeElement===document.getElementById('dv-evt-input')) dvAddEvt();
+  if(e.key==='Enter'&&!e.isComposing&&isDayOpen()&&document.activeElement===document.getElementById('dv-evt-input')) dvAddEvt();
 });
 
 /* ── Expose to HTML onclick ── */
