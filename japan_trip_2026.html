@@ -20,6 +20,11 @@
     --concert-bg: #ede8f7; --concert-fg: #3d2a7a;
     --user-bg:    #daf0e6; --user-fg:    #1a5c3a;
     --hotel-bg:   #faebd2; --hotel-fg:   #6b3f0a;
+    --hiroko-bg:  #fde8f0; --hiroko-fg:  #8c2252;
+    --ippei-bg:   #d4f0ec; --ippei-fg:   #1a5c52;
+    --futari-bg:  #fde8d4; --futari-fg:  #7a3010;
+    --other1-bg:  #e8e8f4; --other1-fg:  #3a3a6a;
+    --other2-bg:  #e4ede0; --other2-fg:  #2a4a2a;
     --sun: #b83232; --sat: #2c5f8a;
   }
   body { font-family:'Noto Sans JP',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; }
@@ -40,6 +45,9 @@
   .leg-chip { width:24px; height:9px; border-radius:2px; }
   .leg-flight  { background:var(--flight-bg); } .leg-concert { background:var(--concert-bg); }
   .leg-user    { background:var(--user-bg); }   .leg-hotel   { background:var(--hotel-bg); }
+  .leg-hiroko  { background:var(--hiroko-bg); } .leg-ippei   { background:var(--ippei-bg); }
+  .leg-futari  { background:var(--futari-bg); } .leg-other1  { background:var(--other1-bg); }
+  .leg-other2  { background:var(--other2-bg); }
   .sync-badge { margin-left:auto; display:flex; align-items:center; gap:5px; font-size:11px; letter-spacing:0.04em; }
   .sync-dot { width:7px; height:7px; border-radius:50%; background:var(--faint); transition:background 0.4s; }
   .sync-dot.synced  { background:#52a97a; }
@@ -70,6 +78,11 @@
   .evt-chip.concert { background:var(--concert-bg); color:var(--concert-fg); }
   .evt-chip.user    { background:var(--user-bg);    color:var(--user-fg); }
   .evt-chip.hotel   { background:var(--hotel-bg);   color:var(--hotel-fg); }
+  .evt-chip.hiroko  { background:var(--hiroko-bg);  color:var(--hiroko-fg); }
+  .evt-chip.ippei   { background:var(--ippei-bg);   color:var(--ippei-fg); }
+  .evt-chip.futari  { background:var(--futari-bg);  color:var(--futari-fg); }
+  .evt-chip.other1  { background:var(--other1-bg);  color:var(--other1-fg); }
+  .evt-chip.other2  { background:var(--other2-bg);  color:var(--other2-fg); }
   .evt-more { font-size:9px; color:var(--faint); margin-top:1px; }
   .cal-footer { text-align:center; font-size:11px; color:var(--faint); padding:16px 40px 40px; letter-spacing:0.06em; }
 
@@ -90,6 +103,11 @@
   .evt-full-row.concert { background:var(--concert-bg); color:var(--concert-fg); }
   .evt-full-row.user    { background:var(--user-bg);    color:var(--user-fg); }
   .evt-full-row.hotel   { background:var(--hotel-bg);   color:var(--hotel-fg); }
+  .evt-full-row.hiroko  { background:var(--hiroko-bg);  color:var(--hiroko-fg); }
+  .evt-full-row.ippei   { background:var(--ippei-bg);   color:var(--ippei-fg); }
+  .evt-full-row.futari  { background:var(--futari-bg);  color:var(--futari-fg); }
+  .evt-full-row.other1  { background:var(--other1-bg);  color:var(--other1-fg); }
+  .evt-full-row.other2  { background:var(--other2-bg);  color:var(--other2-fg); }
   .evt-full-text { flex:1; line-height:1.4; }
   .evt-del-btn { background:none; border:none; cursor:pointer; font-size:17px; opacity:0.45; line-height:1; padding:0 2px; color:inherit; flex-shrink:0; transition:opacity 0.15s; }
   .evt-del-btn:hover { opacity:1; }
@@ -130,7 +148,12 @@
     <div class="leg"><div class="leg-chip leg-flight"></div>フライト</div>
     <div class="leg"><div class="leg-chip leg-concert"></div>ライブ</div>
     <div class="leg"><div class="leg-chip leg-user"></div>追加予定</div>
-    <div class="leg"><div class="leg-chip leg-hotel"></div>宿泊・その他</div>
+    <div class="leg"><div class="leg-chip leg-hotel"></div>宿泊</div>
+    <div class="leg"><div class="leg-chip leg-hiroko"></div>hiroko移動</div>
+    <div class="leg"><div class="leg-chip leg-ippei"></div>ippei移動</div>
+    <div class="leg"><div class="leg-chip leg-futari"></div>二人で移動</div>
+    <div class="leg"><div class="leg-chip leg-other1"></div>その他1</div>
+    <div class="leg"><div class="leg-chip leg-other2"></div>その他2</div>
     <div class="sync-badge"><div class="sync-dot" id="sync-dot"></div><span id="sync-text">接続中...</span></div>
   </div>
   <div class="cal-area">
@@ -160,7 +183,12 @@
           <input type="text" id="dv-evt-input" placeholder="内容（例：京都・伏見稲荷）" />
           <select id="dv-evt-type">
             <option value="user">追加予定（緑）</option>
-            <option value="hotel">宿泊・その他（黄）</option>
+            <option value="hotel">宿泊（黄）</option>
+            <option value="hiroko">hiroko移動（ピンク）</option>
+            <option value="ippei">ippei移動（ティール）</option>
+            <option value="futari">二人で移動（オレンジ）</option>
+            <option value="other1">その他1（青灰色）</option>
+            <option value="other2">その他2（緑灰色）</option>
             <option value="flight">フライト（青）</option>
             <option value="concert">ライブ（紫）</option>
           </select>
