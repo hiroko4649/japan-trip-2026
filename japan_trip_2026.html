@@ -22,40 +22,45 @@
     --other1-bg:#e8e8f4; --other1-fg:#3a3a6a;
     --other2-bg:#e4ede0; --other2-fg:#2a4a2a;
     --sun:#b83232; --sat:#2c5f8a;
+    --tr-bg:#d6eaf8; --tr-fg:#1a5276;
+    --bu-bg:#fef3cd; --bu-fg:#7d4e00;
+    --wk-bg:#d5f5e3; --wk-fg:#1e5631;
+    --sl-bg:#f2f2f2; --sl-fg:#555;
+    --tr-line:#2471a3; --bu-line:#b7770d; --wk-line:#1e8449; --sl-line:#bbb;
   }
   body { font-family:'Noto Sans JP',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; }
-  .page { display:none; } .page.active { display:block; }
+  .page{display:none;} .page.active{display:block;}
 
   /* ── Header ── */
-  .header { background:var(--surface); border-bottom:1px solid var(--border); padding:28px 40px 24px; display:flex; align-items:flex-end; justify-content:space-between; flex-wrap:wrap; gap:12px; }
-  .header-title { font-family:'Noto Serif JP',serif; font-size:26px; font-weight:600; letter-spacing:0.02em; line-height:1; }
-  .header-sub { font-size:13px; color:var(--muted); margin-top:6px; letter-spacing:0.05em; font-weight:300; }
-  .header-dates { font-family:'Noto Serif JP',serif; font-size:14px; color:var(--muted); text-align:right; letter-spacing:0.03em; }
-  .header-dates strong { display:block; font-size:17px; color:var(--text); font-weight:600; margin-bottom:3px; }
-  .trip-bar { background:var(--text); color:#fff; font-size:12px; letter-spacing:0.06em; font-weight:300; padding:7px 40px; display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
-  .trip-bar span { opacity:0.4; margin:0 4px; }
+  .header{background:var(--surface);border-bottom:1px solid var(--border);padding:28px 40px 24px;display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+  .header-title{font-family:'Noto Serif JP',serif;font-size:26px;font-weight:600;letter-spacing:0.02em;line-height:1;}
+  .header-sub{font-size:13px;color:var(--muted);margin-top:6px;letter-spacing:0.05em;font-weight:300;}
+  .header-dates{font-family:'Noto Serif JP',serif;font-size:14px;color:var(--muted);text-align:right;letter-spacing:0.03em;}
+  .header-dates strong{display:block;font-size:17px;color:var(--text);font-weight:600;margin-bottom:3px;}
+  .trip-bar{background:var(--text);color:#fff;font-size:12px;letter-spacing:0.06em;font-weight:300;padding:7px 40px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+  .trip-bar span{opacity:0.4;margin:0 4px;}
 
   /* ── Legend ── */
-  .legend { display:flex; align-items:center; gap:14px; flex-wrap:wrap; padding:10px 40px; background:var(--surface); border-bottom:1px solid var(--border); font-size:11px; color:var(--muted); }
-  .leg { display:flex; align-items:center; gap:4px; }
-  .leg-chip { width:20px; height:8px; border-radius:2px; }
+  .legend{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:10px 40px;background:var(--surface);border-bottom:1px solid var(--border);font-size:11px;color:var(--muted);}
+  .leg{display:flex;align-items:center;gap:4px;}
+  .leg-chip{width:20px;height:8px;border-radius:2px;}
   .leg-flight{background:var(--flight-bg);} .leg-concert{background:var(--concert-bg);}
-  .leg-user{background:var(--user-bg);}    .leg-hotel{background:var(--hotel-bg);}
+  .leg-user{background:var(--user-bg);}     .leg-hotel{background:var(--hotel-bg);}
   .leg-hiroko{background:var(--hiroko-bg);} .leg-ippei{background:var(--ippei-bg);}
   .leg-futari{background:var(--futari-bg);} .leg-other1{background:var(--other1-bg);}
   .leg-other2{background:var(--other2-bg);}
-  .sync-badge { margin-left:auto; display:flex; align-items:center; gap:5px; font-size:11px; letter-spacing:0.04em; }
-  .sync-dot { width:7px; height:7px; border-radius:50%; background:var(--faint); transition:background 0.4s; }
+  .sync-badge{margin-left:auto;display:flex;align-items:center;gap:5px;font-size:11px;letter-spacing:0.04em;}
+  .sync-dot{width:7px;height:7px;border-radius:50%;background:var(--faint);transition:background 0.4s;}
   .sync-dot.synced{background:#52a97a;} .sync-dot.saving{background:#e6a817;} .sync-dot.offline{background:#c0392b;}
 
   /* ── Calendar ── */
-  .cal-area { padding:28px 40px; max-width:860px; margin:0 auto; }
-  .month-card { background:var(--surface); border:1px solid var(--border); border-radius:12px; overflow:hidden; }
-  .weekdays { display:grid; grid-template-columns:repeat(7,1fr); background:#f2ede8; border-bottom:1px solid var(--border); }
-  .wd { text-align:center; font-size:11px; padding:8px 0; color:var(--muted); letter-spacing:0.05em; }
+  .cal-area{padding:28px 40px;max-width:860px;margin:0 auto;}
+  .month-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+  .weekdays{display:grid;grid-template-columns:repeat(7,1fr);background:#f2ede8;border-bottom:1px solid var(--border);}
+  .wd{text-align:center;font-size:11px;padding:8px 0;color:var(--muted);letter-spacing:0.05em;}
   .wd.sun{color:var(--sun);} .wd.sat{color:var(--sat);}
-  .days { display:grid; grid-template-columns:repeat(7,1fr); grid-auto-rows:76px; }
-  .day { height:76px; overflow:hidden; padding:5px 6px 4px; border-right:1px solid var(--border); border-bottom:1px solid var(--border); cursor:pointer; transition:background 0.12s; position:relative; }
+  .days{display:grid;grid-template-columns:repeat(7,1fr);grid-auto-rows:76px;}
+  .day{height:76px;overflow:hidden;padding:5px 6px 4px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);cursor:pointer;transition:background 0.12s;position:relative;}
   .day:hover{background:#f0ebe4;} .day:nth-child(7n){border-right:none;}
   .day.month-boundary{border-top:2px solid var(--border-mid);}
   .day.empty{background:#f6f3f0;cursor:default;pointer-events:none;}
@@ -114,49 +119,194 @@
   .memo-area:focus{border-color:var(--muted);background:#fff;}
   .memo-status{font-size:11px;color:var(--faint);margin-top:7px;letter-spacing:0.04em;height:16px;}
 
-  /* ── Itinerary display ── */
-  .itin-empty{font-size:13px;color:var(--faint);font-style:italic;}
-  .itin-wrap{display:flex;align-items:flex-start;width:100%;}
-  .itin-r{display:flex;align-items:flex-start;flex:1;min-height:30px;}
-  .itin-tc{width:52px;text-align:right;padding-right:10px;font-size:11px;color:var(--muted);padding-top:4px;flex-shrink:0;line-height:1.4;}
-  .itin-lc{display:flex;flex-direction:column;align-items:center;width:20px;flex-shrink:0;}
-  .itin-dot{width:10px;height:10px;border-radius:50%;background:var(--text);flex-shrink:0;margin-top:4px;}
-  .itin-vl{width:2px;flex:1;min-height:12px;}
-  .itin-vl.tr{background:#2471a3;} .itin-vl.bu{background:#b7770d;}
-  .itin-vl.wk{background:#1e8449;} .itin-vl.sl{background:#bbb;}
-  .itin-cc{flex:1;padding:2px 0 10px 10px;}
-  .itin-place{font-size:14px;font-weight:500;color:var(--text);line-height:1.4;}
-  .itin-note-line{display:block;font-size:11px;color:#666;margin-top:2px;padding:2px 0;}
-  .itin-sg{display:flex;align-items:center;gap:6px;padding:4px 0 4px 10px;flex:1;}
-  .itin-bd{display:inline-flex;align-items:center;gap:4px;font-size:11px;padding:3px 9px;border-radius:4px;}
-  .itin-bd.tr{background:#d6eaf8;color:#1a5276;}
-  .itin-bd.bu{background:#fef3cd;color:#7d4e00;}
-  .itin-bd.wk{background:#d5f5e3;color:#1e5631;}
-  .itin-bd.sl{background:#f2f2f2;color:#555;border:0.5px solid #ccc;}
-  .itin-dur{font-size:11px;color:#aaa;}
-  .itin-del{background:none;border:none;cursor:pointer;font-size:14px;opacity:0.25;padding:4px 4px 0;color:var(--text);flex-shrink:0;transition:opacity 0.15s;align-self:flex-start;}
-  .itin-del:hover{opacity:0.8;}
+  /* ══════════════════════════════
+     VISUAL ITINERARY EDITOR
+  ══════════════════════════════ */
 
-  /* ── Itinerary add forms ── */
-  .itin-add-area{margin-top:16px;padding-top:16px;border-top:1px solid var(--border);}
-  .itin-tabs{display:flex;gap:8px;margin-bottom:14px;}
-  .itin-tab{flex:1;padding:9px 8px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--muted);font-size:13px;font-family:'Noto Sans JP',sans-serif;cursor:pointer;text-align:center;transition:all 0.15s;font-weight:400;}
-  .itin-tab.active{background:var(--text);color:#fff;border-color:var(--text);}
-  .itin-tab:hover:not(.active){background:#f0ebe4;color:var(--text);}
-  .itin-form{display:none;flex-direction:column;gap:9px;}
-  .itin-form.active{display:flex;}
-  .itin-row{display:flex;gap:8px;}
-  .itin-in,.itin-sel{width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:'Noto Sans JP',sans-serif;color:var(--text);background:var(--bg);outline:none;transition:border 0.15s;}
-  .itin-in:focus,.itin-sel:focus{border-color:var(--muted);background:#fff;}
-  .itin-in-sm{flex:0 0 90px;}
-  .itin-hint{font-size:11px;color:var(--faint);margin-top:-4px;}
-  .itin-submit{padding:9px 18px;background:var(--text);color:#fff;border:none;border-radius:8px;font-size:13px;font-family:'Noto Sans JP',sans-serif;cursor:pointer;font-weight:400;letter-spacing:0.04em;transition:opacity 0.15s;align-self:flex-start;}
-  .itin-submit:hover{opacity:0.78;}
+  /* Ghost input: looks like text until focused */
+  .ve-in {
+    background: transparent;
+    border: none;
+    border-bottom: 1px dashed transparent;
+    font-family: 'Noto Sans JP', sans-serif;
+    color: var(--text);
+    outline: none;
+    padding: 1px 3px;
+    border-radius: 2px 2px 0 0;
+    transition: border-color 0.15s, background 0.15s;
+    min-width: 20px;
+  }
+  .ve-in:hover { border-bottom-color: var(--faint); }
+  .ve-in:focus { border-bottom-color: var(--muted); background: #f5f1ec; }
+
+  /* ── Each row wrapper ── */
+  .ve-entry { display:flex; align-items:flex-start; width:100%; }
+  .ve-entry:last-child { margin-bottom:0; }
+
+  /* ── Controls (↑↓×) on the right ── */
+  .ve-ctrl {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding-left: 8px;
+    flex-shrink: 0;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+  .ve-entry:hover .ve-ctrl { opacity: 1; }
+  .ve-ctrl-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 12px;
+    color: var(--faint);
+    padding: 1px 3px;
+    line-height: 1.4;
+    border-radius: 3px;
+    transition: color 0.15s, background 0.15s;
+  }
+  .ve-ctrl-btn:hover { color: var(--text); background: #f0ebe4; }
+  .ve-ctrl-btn.del:hover { color: #c0392b; background: #fde8e8; }
+
+  /* ── Timeline columns ── */
+  .ve-tc {
+    width: 56px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+    padding-right: 8px;
+    padding-top: 3px;
+  }
+  .ve-time-in {
+    width: 52px;
+    font-size: 11px;
+    color: var(--muted);
+    text-align: right;
+  }
+
+  .ve-lc {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 20px;
+    flex-shrink: 0;
+  }
+  .ve-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--text);
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
+  .ve-vl { width: 2px; flex: 1; min-height: 14px; }
+  .ve-vl.tr { background: var(--tr-line); }
+  .ve-vl.bu { background: var(--bu-line); }
+  .ve-vl.wk { background: var(--wk-line); }
+  .ve-vl.sl { background: var(--sl-line); }
+
+  /* ── Location content ── */
+  .ve-cc { flex: 1; padding: 1px 0 10px 10px; min-width: 0; }
+  .ve-place-in { font-size: 14px; font-weight: 500; width: 100%; display: block; }
+  .ve-notes-in { font-size: 12px; color: var(--muted); width: 100%; display: block; margin-top: 3px; }
+  .ve-notes-hint { font-size: 10px; color: var(--faint); margin-top: 2px; }
+
+  /* ── Transport content ── */
+  .ve-sg { display: flex; align-items: center; gap: 6px; padding: 3px 0 3px 10px; flex: 1; flex-wrap: wrap; }
+  .ve-badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 11px; padding: 3px 9px; border-radius: 4px;
+    flex-shrink: 0;
+  }
+  .ve-badge.tr { background: var(--tr-bg); color: var(--tr-fg); }
+  .ve-badge.bu { background: var(--bu-bg); color: var(--bu-fg); }
+  .ve-badge.wk { background: var(--wk-bg); color: var(--wk-fg); }
+  .ve-badge.sl { background: var(--sl-bg); color: var(--sl-fg); border: 0.5px solid #ccc; }
+  .ve-type-sel {
+    background: transparent; border: none; cursor: pointer;
+    font-size: 11px; font-family: 'Noto Sans JP', sans-serif;
+    color: inherit; padding: 0; outline: none;
+    -webkit-appearance: none; appearance: none;
+    max-width: 110px;
+  }
+  .ve-name-in { font-size: 11px; flex: 1; min-width: 60px; color: inherit; }
+  .ve-dur-in  { font-size: 11px; color: var(--muted); width: 70px; }
+
+  /* ── Insert row ── */
+  .ve-insert {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 1px 0 1px 76px;
+    opacity: 0;
+    transition: opacity 0.15s;
+    height: 20px;
+  }
+  .ve-insert:hover { opacity: 1; }
+  .ve-editor:hover .ve-insert { opacity: 0.5; }
+  .ve-editor:hover .ve-insert:hover { opacity: 1; }
+  .ve-insert-btn {
+    background: none; border: 1px dashed var(--faint);
+    border-radius: 4px; font-size: 10px; color: var(--muted);
+    cursor: pointer; padding: 1px 8px;
+    font-family: 'Noto Sans JP', sans-serif;
+    transition: all 0.15s;
+  }
+  .ve-insert-btn:hover { background: var(--bg); border-color: var(--muted); color: var(--text); }
+
+  /* ── Add buttons ── */
+  .ve-add-row { display: flex; gap: 10px; margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--border); flex-wrap: wrap; }
+  .ve-add-btn {
+    display: flex; align-items: center; gap: 5px;
+    padding: 7px 14px; border-radius: 7px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    font-size: 12px; color: var(--muted);
+    font-family: 'Noto Sans JP', sans-serif;
+    cursor: pointer; transition: all 0.15s;
+  }
+  .ve-add-btn:hover { background: #f0ebe4; color: var(--text); border-color: var(--border-mid); }
+
+  /* ── JSON section ── */
+  .ve-json-area { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border); }
+  .ve-json-btns { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+  .ve-json-btn {
+    display: flex; align-items: center; gap: 5px;
+    padding: 7px 14px; border-radius: 7px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    font-size: 12px; color: var(--muted);
+    font-family: 'Noto Sans JP', sans-serif;
+    cursor: pointer; transition: all 0.15s;
+  }
+  .ve-json-btn:hover { background: #f0ebe4; color: var(--text); border-color: var(--border-mid); }
+  .ve-json-btn.copied { background: var(--user-bg); color: var(--user-fg); border-color: #aad4ba; }
+  .ve-json-paste-wrap { display: none; flex-direction: column; gap: 8px; }
+  .ve-json-paste-wrap.open { display: flex; }
+  .ve-json-ta {
+    width: 100%; min-height: 100px; padding: 10px;
+    border: 1px solid var(--border); border-radius: 8px;
+    font-size: 12px; font-family: monospace;
+    color: var(--text); background: var(--bg);
+    resize: vertical; outline: none;
+  }
+  .ve-json-ta:focus { border-color: var(--muted); background: #fff; }
+  .ve-apply-btn {
+    padding: 8px 16px; background: var(--text); color: #fff;
+    border: none; border-radius: 7px;
+    font-size: 12px; font-family: 'Noto Sans JP', sans-serif;
+    cursor: pointer; align-self: flex-start;
+    transition: opacity 0.15s;
+  }
+  .ve-apply-btn:hover { opacity: 0.78; }
+  .ve-json-err { font-size: 11px; color: #c0392b; }
+  .ve-empty { font-size: 13px; color: var(--faint); font-style: italic; padding: 4px 0; }
 
   @media(max-width:640px){
     .cal-area,.day-body{padding:12px 16px;} .header{padding:18px 18px 14px;} .legend{padding:10px 18px;} .trip-bar{padding:6px 18px;font-size:11px;}
     .days{grid-auto-rows:60px;} .day{height:60px;padding:4px 3px;} .day-num{font-size:11px;} .evt-chip{font-size:8px;}
     .day-header{padding:0 16px;} .day-header-date{font-size:17px;}
+    .ve-ctrl{opacity:1;}
   }
 </style>
 </head>
@@ -236,40 +386,25 @@
       <div class="day-section-head"><div class="day-section-title">時系列スケジュール</div></div>
       <div class="day-section-body">
 
-        <!-- 表示エリア -->
-        <div id="dv-itin"></div>
+        <!-- Visual editor -->
+        <div class="ve-editor" id="ve-editor"></div>
 
-        <!-- 追加フォーム -->
-        <div class="itin-add-area">
-          <!-- タブ切り替え -->
-          <div class="itin-tabs">
-            <button class="itin-tab active" id="tab-loc"  onclick="window.itinTab('loc')">📍 場所を追加</button>
-            <button class="itin-tab"        id="tab-move" onclick="window.itinTab('move')">🚃 移動を追加</button>
+        <!-- Add buttons -->
+        <div class="ve-add-row">
+          <button class="ve-add-btn" onclick="window.veAddLoc(-1)">📍 場所を追加</button>
+          <button class="ve-add-btn" onclick="window.veAddMove(-1)">🚃 移動を追加</button>
+        </div>
+
+        <!-- JSON area -->
+        <div class="ve-json-area">
+          <div class="ve-json-btns">
+            <button class="ve-json-btn" id="json-copy-btn" onclick="window.veCopyRequest()">📋 JSON依頼書をコピー</button>
+            <button class="ve-json-btn" id="json-paste-toggle" onclick="window.veTogglePaste()">📥 JSONを貼り付けて適用</button>
           </div>
-
-          <!-- 場所フォーム -->
-          <div class="itin-form active" id="form-loc">
-            <div class="itin-row">
-              <input class="itin-in itin-in-sm" type="text" id="loc-time" placeholder="時刻" />
-              <input class="itin-in" type="text" id="loc-place" placeholder="場所名（例：高松、境港）" />
-            </div>
-            <input class="itin-in" type="text" id="loc-notes" placeholder="メモ・活動内容（例：うどん巡り、朝市散策）任意" />
-            <div class="itin-hint">複数の活動はカンマで区切ると複数行で表示されます</div>
-            <button class="itin-submit" onclick="window.itinAddLoc()">＋ 場所を追加</button>
-          </div>
-
-          <!-- 移動フォーム -->
-          <div class="itin-form" id="form-move">
-            <select class="itin-sel" id="move-type">
-              <option value="train">🚃 電車</option>
-              <option value="bus">🚌 バス</option>
-              <option value="walk">🚶 徒歩</option>
-              <option value="flight">✈️ 飛行機</option>
-              <option value="sleep">🌙 夜行・車中泊</option>
-            </select>
-            <input class="itin-in" type="text" id="move-name" placeholder="路線・便名（例：マリンライナー4号）" />
-            <input class="itin-in" type="text" id="move-dur"  placeholder="所要時間（例：約53分）任意" />
-            <button class="itin-submit" onclick="window.itinAddMove()">＋ 移動を追加</button>
+          <div class="ve-json-paste-wrap" id="json-paste-wrap">
+            <textarea class="ve-json-ta" id="json-paste-ta" placeholder='ClaudeのチャットでJSON依頼書を渡してできたJSONをここに貼り付けてください。&#10;例：[{"kind":"loc","time":"15:25","place":"羽田","notes":"JL11にて到着"},...]'></textarea>
+            <div class="ve-json-err" id="json-err"></div>
+            <button class="ve-apply-btn" onclick="window.veApplyJson()">適用する</button>
           </div>
         </div>
 
@@ -315,16 +450,20 @@ const FIXED={
   '2026-12-15':[{type:'flight',text:'✈ JL12 HND発 10:55'}],
 };
 
-// Transport type → line/badge class
-const MOVE_CFG={
-  train:{icon:'🚃',cls:'tr'}, bus:{icon:'🚌',cls:'bu'},
-  walk:{icon:'🚶',cls:'wk'},  flight:{icon:'✈️',cls:'tr'},
-  sleep:{icon:'🌙',cls:'sl'},
-};
+const MOVE_OPTS=[
+  {value:'train', label:'🚃 電車',  cls:'tr'},
+  {value:'bus',   label:'🚌 バス',  cls:'bu'},
+  {value:'walk',  label:'🚶 徒歩',  cls:'wk'},
+  {value:'flight',label:'✈️ 飛行機',cls:'tr'},
+  {value:'sleep', label:'🌙 夜行',  cls:'sl'},
+];
+function moveCls(t){ return (MOVE_OPTS.find(o=>o.value===t)||MOVE_OPTS[0]).cls; }
+function moveLabel(t){ return (MOVE_OPTS.find(o=>o.value===t)||MOVE_OPTS[0]).label; }
 
 /* ── State ── */
-let userEvts={},memos={},itinerary={};
-let activeKey=null,memoTimer=null,memoFocused=false;
+let userEvts={}, memos={}, itinerary={};
+let activeKey=null, memoTimer=null, memoFocused=false;
+let itinSaveTimer=null;
 
 /* ── Sync UI ── */
 function setSync(s){
@@ -349,7 +488,8 @@ onValue(ref(db,'memo'),snap=>{
 },()=>setSync('offline'));
 onValue(ref(db,'itin'),snap=>{
   try{itinerary=JSON.parse(snap.val()||'{}');}catch(e){itinerary={};}
-  if(activeKey&&isDayOpen())renderItin(); setSync('synced');
+  if(activeKey&&isDayOpen()) renderVE();
+  setSync('synced');
 },()=>setSync('offline'));
 
 function saveEvts(){setSync('saving');set(ref(db,'evts'),JSON.stringify(userEvts)).then(()=>setSync('synced')).catch(()=>setSync('offline'));}
@@ -363,6 +503,8 @@ function allEvts(k){return [...(FIXED[k]||[]),(userEvts[k]||[])].flat();}
 function inTrip(d){return d>=TRIP_START&&d<=TRIP_END;}
 function hasMemo(k){return !!(memos[k]&&memos[k].trim());}
 function isDayOpen(){return document.getElementById('dayPage').classList.contains('active');}
+function getEntries(){return itinerary[activeKey]||[];}
+function setEntries(arr){itinerary[activeKey]=arr;}
 
 /* ── Page switching ── */
 function showCal(){
@@ -375,7 +517,10 @@ function showDay(k,label){
   document.getElementById('dv-date-label').textContent=label;
   document.getElementById('dv-evt-input').value='';
   document.getElementById('memo-status').textContent='';
-  renderEvts(); renderItin();
+  document.getElementById('json-err').textContent='';
+  document.getElementById('json-paste-ta').value='';
+  document.getElementById('json-paste-wrap').classList.remove('open');
+  renderEvts(); renderVE();
   document.getElementById('dv-memo').value=memos[k]||'';
   document.getElementById('calPage').classList.remove('active');
   document.getElementById('dayPage').classList.add('active');
@@ -422,7 +567,7 @@ function mkDay(y,m,d,ci,bs,be){
   return cell;
 }
 
-/* ── Day view events ── */
+/* ── Events ── */
 function renderEvts(){
   const evts=allEvts(activeKey);
   const el=document.getElementById('dv-evts-list');
@@ -449,103 +594,233 @@ function dvDelEvt(idx){
   saveEvts();renderEvts();
 }
 
-/* ── Itinerary render ── */
-function renderItin(){
-  const entries=itinerary[activeKey]||[];
-  const el=document.getElementById('dv-itin');
-  if(!entries.length){el.innerHTML='<div class="itin-empty">まだ追加されていません</div>';return;}
+/* ══════════════════════════════
+   VISUAL EDITOR
+══════════════════════════════ */
+
+function renderVE(){
+  const entries=getEntries();
+  const container=document.getElementById('ve-editor');
+  if(!entries.length){
+    container.innerHTML='<div class="ve-empty">まだ追加されていません。下のボタンから場所や移動を追加してください。</div>';
+    return;
+  }
 
   let html='';
   for(let i=0;i<entries.length;i++){
     const e=entries[i];
-    const isLast=i===entries.length-1;
+    const isLast=(i===entries.length-1);
+
+    // Determine line class below this entry
+    let lineClass='sl';
+    if(!isLast){
+      const next=entries[i+1];
+      lineClass=next.kind==='move'?moveCls(next.moveType):'sl';
+    }
 
     if(e.kind==='loc'){
-      // 場所の点：次の移動の色で縦線を描く
-      let lineClass='sl';
-      if(!isLast){
-        const next=entries[i+1];
-        if(next.kind==='move') lineClass=(MOVE_CFG[next.moveType]||{cls:'sl'}).cls;
-      }
-      // notes をカンマで分割して複数行表示
-      const noteLines=e.notes?e.notes.split(',').map(s=>s.trim()).filter(s=>s):[];
-      html+=`<div class="itin-wrap">
-        <div class="itin-r">
-          <div class="itin-tc">${e.time||''}</div>
-          <div class="itin-lc">
-            <div class="itin-dot"></div>
-            ${!isLast?`<div class="itin-vl ${lineClass}"></div>`:''}
-          </div>
-          <div class="itin-cc">
-            <div class="itin-place">${e.place}</div>
-            ${noteLines.map(n=>`<span class="itin-note-line">— ${n}</span>`).join('')}
-          </div>
+      html+=`
+      <div class="ve-entry" data-idx="${i}">
+        <div class="ve-tc">
+          <input class="ve-in ve-time-in" data-idx="${i}" data-field="time"
+            value="${esc(e.time||'')}" placeholder="時刻" />
         </div>
-        <button class="itin-del" onclick="window.itinDel(${i})">×</button>
-      </div>`;
+        <div class="ve-lc">
+          <div class="ve-dot"></div>
+          ${!isLast?`<div class="ve-vl ${lineClass}"></div>`:''}
+        </div>
+        <div class="ve-cc">
+          <input class="ve-in ve-place-in" data-idx="${i}" data-field="place"
+            value="${esc(e.place||'')}" placeholder="場所名（例：高松）" />
+          <input class="ve-in ve-notes-in" data-idx="${i}" data-field="notes"
+            value="${esc(e.notes||'')}" placeholder="メモ・活動（例：うどん巡り, ランチ）任意" />
+          <div class="ve-notes-hint">複数の活動はカンマで区切ってください</div>
+        </div>
+        <div class="ve-ctrl">
+          <button class="ve-ctrl-btn" onclick="window.veMoveUp(${i})" title="上へ">↑</button>
+          <button class="ve-ctrl-btn" onclick="window.veMoveDown(${i})" title="下へ">↓</button>
+          <button class="ve-ctrl-btn del" onclick="window.veDel(${i})" title="削除">×</button>
+        </div>
+      </div>
+      ${!isLast?insertRow(i):''}`;
 
     } else {
-      // 移動の線：badge表示
-      const cfg=MOVE_CFG[e.moveType]||MOVE_CFG.train;
-      html+=`<div class="itin-wrap">
-        <div class="itin-r">
-          <div class="itin-tc"></div>
-          <div class="itin-lc"><div class="itin-vl ${cfg.cls}"></div></div>
-          <div class="itin-sg">
-            <span class="itin-bd ${cfg.cls}">${cfg.icon} ${e.name}</span>
-            ${e.dur?`<span class="itin-dur">${e.dur}</span>`:''}
-          </div>
+      // move entry
+      const cls=moveCls(e.moveType||'train');
+      const optHtml=MOVE_OPTS.map(o=>`<option value="${o.value}"${e.moveType===o.value?' selected':''}>${o.label}</option>`).join('');
+      html+=`
+      <div class="ve-entry" data-idx="${i}">
+        <div class="ve-tc"></div>
+        <div class="ve-lc"><div class="ve-vl ${cls}"></div></div>
+        <div class="ve-sg">
+          <span class="ve-badge ${cls}">
+            <select class="ve-type-sel" data-idx="${i}" data-field="moveType">${optHtml}</select>
+          </span>
+          <input class="ve-in ve-name-in" data-idx="${i}" data-field="name"
+            value="${esc(e.name||'')}" placeholder="路線・便名（例：JL331）" />
+          <input class="ve-in ve-dur-in" data-idx="${i}" data-field="dur"
+            value="${esc(e.dur||'')}" placeholder="所要時間" />
         </div>
-        <button class="itin-del" onclick="window.itinDel(${i})">×</button>
-      </div>`;
+        <div class="ve-ctrl">
+          <button class="ve-ctrl-btn" onclick="window.veMoveUp(${i})" title="上へ">↑</button>
+          <button class="ve-ctrl-btn" onclick="window.veMoveDown(${i})" title="下へ">↓</button>
+          <button class="ve-ctrl-btn del" onclick="window.veDel(${i})" title="削除">×</button>
+        </div>
+      </div>
+      ${!isLast?insertRow(i):''}`;
     }
   }
-  el.innerHTML=html;
+  container.innerHTML=html;
+
+  // Attach input listeners
+  container.querySelectorAll('.ve-in').forEach(inp=>{
+    inp.addEventListener('input', ()=>scheduleItinSave());
+  });
+  container.querySelectorAll('.ve-type-sel').forEach(sel=>{
+    sel.addEventListener('change', ()=>{ collectAndSave(); renderVE(); });
+  });
 }
 
-/* ── Itinerary add ── */
-function itinTab(t){
-  document.getElementById('tab-loc').classList.toggle('active',t==='loc');
-  document.getElementById('tab-move').classList.toggle('active',t==='move');
-  document.getElementById('form-loc').classList.toggle('active',t==='loc');
-  document.getElementById('form-move').classList.toggle('active',t==='move');
+function insertRow(afterIdx){
+  return `<div class="ve-insert">
+    <button class="ve-insert-btn" onclick="window.veAddLoc(${afterIdx})">＋場所</button>
+    <button class="ve-insert-btn" onclick="window.veAddMove(${afterIdx})">＋移動</button>
+  </div>`;
 }
-function itinAddLoc(){
-  const place=document.getElementById('loc-place').value.trim();
-  if(!place)return;
-  if(!itinerary[activeKey])itinerary[activeKey]=[];
-  itinerary[activeKey].push({
-    kind:'loc',
-    time:document.getElementById('loc-time').value.trim(),
-    place,
-    notes:document.getElementById('loc-notes').value.trim(),
+
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
+
+/* ── Collect current editor values into itinerary ── */
+function collectEntries(){
+  const container=document.getElementById('ve-editor');
+  if(!container) return;
+  const entries=getEntries();
+  container.querySelectorAll('.ve-in, .ve-type-sel').forEach(el=>{
+    const idx=parseInt(el.dataset.idx);
+    const field=el.dataset.field;
+    if(!isNaN(idx)&&field&&entries[idx]!==undefined){
+      entries[idx][field]=el.value;
+    }
   });
-  saveItin();
-  document.getElementById('loc-time').value='';
-  document.getElementById('loc-place').value='';
-  document.getElementById('loc-notes').value='';
-  renderItin();
+  setEntries(entries);
 }
-function itinAddMove(){
-  const name=document.getElementById('move-name').value.trim();
-  if(!name)return;
-  if(!itinerary[activeKey])itinerary[activeKey]=[];
-  itinerary[activeKey].push({
-    kind:'move',
-    moveType:document.getElementById('move-type').value,
-    name,
-    dur:document.getElementById('move-dur').value.trim(),
-  });
-  saveItin();
-  document.getElementById('move-name').value='';
-  document.getElementById('move-dur').value='';
-  renderItin();
+
+function scheduleItinSave(){
+  clearTimeout(itinSaveTimer);
+  itinSaveTimer=setTimeout(()=>{ collectAndSave(); },600);
 }
-function itinDel(idx){
-  const arr=itinerary[activeKey]||[];
+
+function collectAndSave(){
+  collectEntries();
+  saveItin();
+}
+
+/* ── Add / Delete / Reorder ── */
+function veAddLoc(afterIdx){
+  collectEntries();
+  const arr=getEntries();
+  const entry={kind:'loc',time:'',place:'',notes:''};
+  if(afterIdx<0||afterIdx>=arr.length) arr.push(entry);
+  else arr.splice(afterIdx+1,0,entry);
+  setEntries(arr); saveItin(); renderVE();
+  // Focus the new place input
+  setTimeout(()=>{
+    const ins=document.querySelectorAll('.ve-place-in');
+    const newIdx=afterIdx<0?arr.length-1:afterIdx+1;
+    const target=[...ins].find(el=>parseInt(el.dataset.idx)===newIdx);
+    if(target)target.focus();
+  },50);
+}
+function veAddMove(afterIdx){
+  collectEntries();
+  const arr=getEntries();
+  const entry={kind:'move',moveType:'train',name:'',dur:''};
+  if(afterIdx<0||afterIdx>=arr.length) arr.push(entry);
+  else arr.splice(afterIdx+1,0,entry);
+  setEntries(arr); saveItin(); renderVE();
+  setTimeout(()=>{
+    const ins=document.querySelectorAll('.ve-name-in');
+    const newIdx=afterIdx<0?arr.length-1:afterIdx+1;
+    const target=[...ins].find(el=>parseInt(el.dataset.idx)===newIdx);
+    if(target)target.focus();
+  },50);
+}
+function veDel(idx){
+  collectEntries();
+  const arr=getEntries();
   arr.splice(idx,1);
-  itinerary[activeKey]=arr;
-  saveItin();renderItin();
+  setEntries(arr); saveItin(); renderVE();
+}
+function veMoveUp(idx){
+  if(idx===0)return;
+  collectEntries();
+  const arr=getEntries();
+  [arr[idx-1],arr[idx]]=[arr[idx],arr[idx-1]];
+  setEntries(arr); saveItin(); renderVE();
+}
+function veMoveDown(idx){
+  const arr=getEntries();
+  if(idx>=arr.length-1)return;
+  collectEntries();
+  [arr[idx],arr[idx+1]]=[arr[idx+1],arr[idx]];
+  setEntries(arr); saveItin(); renderVE();
+}
+
+/* ── JSON: copy request ── */
+function veCopyRequest(){
+  collectEntries();
+  const entries=getEntries();
+  if(!entries.length){ alert('スケジュールが空です。先に場所や移動を入力してください。'); return; }
+  const lines=entries.map(e=>{
+    if(e.kind==='loc'){
+      return `${e.time||'（時刻未定）'} / 場所: ${e.place||'（未入力）'}${e.notes?' / メモ: '+e.notes:''}`;
+    } else {
+      const nm={train:'電車',bus:'バス',walk:'徒歩',flight:'飛行機',sleep:'夜行・車中泊'};
+      return `移動: ${nm[e.moveType]||e.moveType} / ${e.name||'（未入力）'}${e.dur?' / 所要時間: '+e.dur:''}`;
+    }
+  }).join('\n');
+  const req=`以下の旅行スケジュールデータをJSONに変換してください。
+
+【スケジュールデータ】
+${lines}
+
+【出力形式】
+以下のJSON配列だけを出力してください（説明文・コードブロック不要）：
+[
+  {"kind":"loc","time":"HH:MM（なければ空文字）","place":"場所名","notes":"メモ（複数はカンマ区切り、なければ空文字）"},
+  {"kind":"move","moveType":"train／bus／walk／flight／sleep のいずれか","name":"路線・便名","dur":"所要時間（なければ空文字）"}
+]`;
+  navigator.clipboard.writeText(req).then(()=>{
+    const btn=document.getElementById('json-copy-btn');
+    btn.textContent='✓ コピーしました';
+    btn.classList.add('copied');
+    setTimeout(()=>{ btn.textContent='📋 JSON依頼書をコピー'; btn.classList.remove('copied'); },2500);
+  }).catch(()=>{ alert('コピーに失敗しました。手動でコピーしてください。'); });
+}
+
+/* ── JSON: paste & apply ── */
+function veTogglePaste(){
+  const wrap=document.getElementById('json-paste-wrap');
+  wrap.classList.toggle('open');
+}
+function veApplyJson(){
+  const text=document.getElementById('json-paste-ta').value.trim();
+  const errEl=document.getElementById('json-err');
+  errEl.textContent='';
+  try{
+    const data=JSON.parse(text);
+    if(!Array.isArray(data)) throw new Error('配列ではありません');
+    // Validate entries
+    for(const e of data){
+      if(!e.kind||!['loc','move'].includes(e.kind)) throw new Error('kindはlocまたはmoveである必要があります');
+    }
+    itinerary[activeKey]=data;
+    saveItin(); renderVE();
+    document.getElementById('json-paste-ta').value='';
+    document.getElementById('json-paste-wrap').classList.remove('open');
+  }catch(err){
+    errEl.textContent='エラー：'+err.message+'。JSONの形式を確認してください。';
+  }
 }
 
 /* ── Memo ── */
@@ -559,18 +834,16 @@ memoEl.addEventListener('input',function(){
 
 /* ── Keyboard ── */
 document.addEventListener('keydown',e=>{
-  if(e.key==='Enter'&&!e.isComposing&&isDayOpen()){
-    if(document.activeElement===document.getElementById('dv-evt-input')) dvAddEvt();
-    if(document.activeElement===document.getElementById('loc-place')) itinAddLoc();
-    if(document.activeElement===document.getElementById('move-name')) itinAddMove();
-  }
+  if(e.key==='Enter'&&!e.isComposing&&isDayOpen()&&
+     document.activeElement===document.getElementById('dv-evt-input')) dvAddEvt();
 });
 
 /* ── Expose ── */
 window.showCal=showCal; window.showDay=showDay;
 window.dvAddEvt=dvAddEvt; window.dvDelEvt=dvDelEvt;
-window.itinTab=itinTab; window.itinAddLoc=itinAddLoc;
-window.itinAddMove=itinAddMove; window.itinDel=itinDel;
+window.veAddLoc=veAddLoc; window.veAddMove=veAddMove;
+window.veDel=veDel; window.veMoveUp=veMoveUp; window.veMoveDown=veMoveDown;
+window.veCopyRequest=veCopyRequest; window.veTogglePaste=veTogglePaste; window.veApplyJson=veApplyJson;
 
 /* ── Init ── */
 buildWeekdays(); buildCalendar();
