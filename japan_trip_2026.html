@@ -22,11 +22,10 @@
     --other1-bg:#e8e8f4; --other1-fg:#3a3a6a;
     --other2-bg:#e4ede0; --other2-fg:#2a4a2a;
     --sun:#b83232; --sat:#2c5f8a;
-    --tr-bg:#d6eaf8; --tr-fg:#1a5276;
-    --bu-bg:#fef3cd; --bu-fg:#7d4e00;
-    --wk-bg:#d5f5e3; --wk-fg:#1e5631;
-    --sl-bg:#f2f2f2; --sl-fg:#555;
-    --tr-line:#2471a3; --bu-line:#b7770d; --wk-line:#1e8449; --sl-line:#bbb;
+    --tr-bg:#d6eaf8; --tr-fg:#1a5276; --tr-line:#2471a3;
+    --bu-bg:#fef3cd; --bu-fg:#7d4e00; --bu-line:#b7770d;
+    --wk-bg:#d5f5e3; --wk-fg:#1e5631; --wk-line:#1e8449;
+    --sl-bg:#f2f2f2; --sl-fg:#555;   --sl-line:#bbb;
   }
   body { font-family:'Noto Sans JP',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; }
   .page{display:none;} .page.active{display:block;}
@@ -39,8 +38,6 @@
   .header-dates strong{display:block;font-size:17px;color:var(--text);font-weight:600;margin-bottom:3px;}
   .trip-bar{background:var(--text);color:#fff;font-size:12px;letter-spacing:0.06em;font-weight:300;padding:7px 40px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
   .trip-bar span{opacity:0.4;margin:0 4px;}
-
-  /* ── Legend ── */
   .legend{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:10px 40px;background:var(--surface);border-bottom:1px solid var(--border);font-size:11px;color:var(--muted);}
   .leg{display:flex;align-items:center;gap:4px;}
   .leg-chip{width:20px;height:8px;border-radius:2px;}
@@ -122,185 +119,83 @@
   /* ══════════════════════════════
      VISUAL ITINERARY EDITOR
   ══════════════════════════════ */
+  .ve-empty{font-size:13px;color:var(--faint);font-style:italic;padding:4px 0 12px;}
 
-  /* Ghost input: looks like text until focused */
-  .ve-in {
-    background: transparent;
-    border: none;
-    border-bottom: 1px dashed transparent;
-    font-family: 'Noto Sans JP', sans-serif;
-    color: var(--text);
-    outline: none;
-    padding: 1px 3px;
-    border-radius: 2px 2px 0 0;
-    transition: border-color 0.15s, background 0.15s;
-    min-width: 20px;
+  /* Ghost inputs — look like text, reveal border on focus */
+  .ve-in{
+    background:transparent; border:none;
+    border-bottom:1px dashed transparent;
+    font-family:'Noto Sans JP',sans-serif; color:var(--text);
+    outline:none; padding:1px 3px;
+    border-radius:2px 2px 0 0;
+    transition:border-color 0.12s, background 0.12s;
   }
-  .ve-in:hover { border-bottom-color: var(--faint); }
-  .ve-in:focus { border-bottom-color: var(--muted); background: #f5f1ec; }
+  .ve-in:hover{border-bottom-color:var(--faint);}
+  .ve-in:focus{border-bottom-color:var(--muted);background:#f5f1ec;}
 
-  /* ── Each row wrapper ── */
-  .ve-entry { display:flex; align-items:flex-start; width:100%; }
-  .ve-entry:last-child { margin-bottom:0; }
+  /* Entry wrapper */
+  .ve-entry{display:flex;align-items:flex-start;width:100%;}
 
-  /* ── Controls (↑↓×) on the right ── */
-  .ve-ctrl {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    padding-left: 8px;
-    flex-shrink: 0;
-    opacity: 0;
-    transition: opacity 0.15s;
-  }
-  .ve-entry:hover .ve-ctrl { opacity: 1; }
-  .ve-ctrl-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 12px;
-    color: var(--faint);
-    padding: 1px 3px;
-    line-height: 1.4;
-    border-radius: 3px;
-    transition: color 0.15s, background 0.15s;
-  }
-  .ve-ctrl-btn:hover { color: var(--text); background: #f0ebe4; }
-  .ve-ctrl-btn.del:hover { color: #c0392b; background: #fde8e8; }
+  /* Controls — show on hover */
+  .ve-ctrl{display:flex;flex-direction:column;gap:1px;padding-left:6px;flex-shrink:0;opacity:0;transition:opacity 0.15s;}
+  .ve-entry:hover .ve-ctrl{opacity:1;}
+  .ve-ctrl-btn{background:none;border:none;cursor:pointer;font-size:11px;color:var(--faint);padding:2px 4px;line-height:1.4;border-radius:3px;transition:color 0.12s,background 0.12s;}
+  .ve-ctrl-btn:hover{color:var(--text);background:#f0ebe4;}
+  .ve-ctrl-btn.del:hover{color:#c0392b;background:#fde8e8;}
 
-  /* ── Timeline columns ── */
-  .ve-tc {
-    width: 56px;
-    flex-shrink: 0;
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-end;
-    padding-right: 8px;
-    padding-top: 3px;
-  }
-  .ve-time-in {
-    width: 52px;
-    font-size: 11px;
-    color: var(--muted);
-    text-align: right;
-  }
+  /* Time column — shared by both kinds */
+  .ve-tc{width:58px;flex-shrink:0;display:flex;align-items:flex-start;justify-content:flex-end;padding-right:8px;padding-top:3px;}
+  .ve-time-in{width:52px;font-size:11px;color:var(--muted);text-align:right;}
 
-  .ve-lc {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 20px;
-    flex-shrink: 0;
-  }
-  .ve-dot {
-    width: 10px; height: 10px;
-    border-radius: 50%;
-    background: var(--text);
-    flex-shrink: 0;
-    margin-top: 4px;
-  }
-  .ve-vl { width: 2px; flex: 1; min-height: 14px; }
-  .ve-vl.tr { background: var(--tr-line); }
-  .ve-vl.bu { background: var(--bu-line); }
-  .ve-vl.wk { background: var(--wk-line); }
-  .ve-vl.sl { background: var(--sl-line); }
+  /* Timeline line column */
+  .ve-lc{display:flex;flex-direction:column;align-items:center;width:20px;flex-shrink:0;}
+  .ve-dot{width:10px;height:10px;border-radius:50%;background:var(--text);flex-shrink:0;margin-top:4px;}
+  .ve-vl{width:2px;flex:1;min-height:16px;}
+  .ve-vl.tr{background:var(--tr-line);} .ve-vl.bu{background:var(--bu-line);}
+  .ve-vl.wk{background:var(--wk-line);} .ve-vl.sl{background:var(--sl-line);}
 
-  /* ── Location content ── */
-  .ve-cc { flex: 1; padding: 1px 0 10px 10px; min-width: 0; }
-  .ve-place-in { font-size: 14px; font-weight: 500; width: 100%; display: block; }
-  .ve-notes-in { font-size: 12px; color: var(--muted); width: 100%; display: block; margin-top: 3px; }
-  .ve-notes-hint { font-size: 10px; color: var(--faint); margin-top: 2px; }
+  /* Location content */
+  .ve-cc{flex:1;padding:1px 0 12px 10px;min-width:0;}
+  .ve-place-in{font-size:14px;font-weight:500;width:100%;display:block;}
+  .ve-notes-in{font-size:12px;color:var(--muted);width:100%;display:block;margin-top:4px;}
+  .ve-notes-hint{font-size:10px;color:var(--faint);margin-top:2px;}
 
-  /* ── Transport content ── */
-  .ve-sg { display: flex; align-items: center; gap: 6px; padding: 3px 0 3px 10px; flex: 1; flex-wrap: wrap; }
-  .ve-badge {
-    display: inline-flex; align-items: center; gap: 4px;
-    font-size: 11px; padding: 3px 9px; border-radius: 4px;
-    flex-shrink: 0;
-  }
-  .ve-badge.tr { background: var(--tr-bg); color: var(--tr-fg); }
-  .ve-badge.bu { background: var(--bu-bg); color: var(--bu-fg); }
-  .ve-badge.wk { background: var(--wk-bg); color: var(--wk-fg); }
-  .ve-badge.sl { background: var(--sl-bg); color: var(--sl-fg); border: 0.5px solid #ccc; }
-  .ve-type-sel {
-    background: transparent; border: none; cursor: pointer;
-    font-size: 11px; font-family: 'Noto Sans JP', sans-serif;
-    color: inherit; padding: 0; outline: none;
-    -webkit-appearance: none; appearance: none;
-    max-width: 110px;
-  }
-  .ve-name-in { font-size: 11px; flex: 1; min-width: 60px; color: inherit; }
-  .ve-dur-in  { font-size: 11px; color: var(--muted); width: 70px; }
+  /* Transport content */
+  .ve-sg{display:flex;align-items:center;gap:6px;padding:2px 0 2px 10px;flex:1;flex-wrap:wrap;}
+  .ve-badge{display:inline-flex;align-items:center;gap:3px;font-size:11px;padding:3px 8px;border-radius:4px;flex-shrink:0;}
+  .ve-badge.tr{background:var(--tr-bg);color:var(--tr-fg);}
+  .ve-badge.bu{background:var(--bu-bg);color:var(--bu-fg);}
+  .ve-badge.wk{background:var(--wk-bg);color:var(--wk-fg);}
+  .ve-badge.sl{background:var(--sl-bg);color:var(--sl-fg);border:0.5px solid #ccc;}
+  .ve-type-sel{background:transparent;border:none;cursor:pointer;font-size:11px;font-family:'Noto Sans JP',sans-serif;color:inherit;padding:0;outline:none;-webkit-appearance:none;appearance:none;max-width:100px;}
+  .ve-name-in{font-size:11px;flex:1;min-width:80px;color:var(--text);}
+  .ve-dur-in{font-size:11px;color:var(--muted);min-width:70px;width:70px;}
 
-  /* ── Insert row ── */
-  .ve-insert {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 1px 0 1px 76px;
-    opacity: 0;
-    transition: opacity 0.15s;
-    height: 20px;
-  }
-  .ve-insert:hover { opacity: 1; }
-  .ve-editor:hover .ve-insert { opacity: 0.5; }
-  .ve-editor:hover .ve-insert:hover { opacity: 1; }
-  .ve-insert-btn {
-    background: none; border: 1px dashed var(--faint);
-    border-radius: 4px; font-size: 10px; color: var(--muted);
-    cursor: pointer; padding: 1px 8px;
-    font-family: 'Noto Sans JP', sans-serif;
-    transition: all 0.15s;
-  }
-  .ve-insert-btn:hover { background: var(--bg); border-color: var(--muted); color: var(--text); }
+  /* Insert row between entries */
+  .ve-insert{display:flex;align-items:center;gap:6px;padding:0 0 0 78px;height:18px;opacity:0;transition:opacity 0.15s;}
+  .ve-editor:hover .ve-insert{opacity:0.45;}
+  .ve-insert:hover{opacity:1!important;}
+  .ve-insert-btn{background:none;border:1px dashed var(--faint);border-radius:4px;font-size:10px;color:var(--muted);cursor:pointer;padding:1px 8px;font-family:'Noto Sans JP',sans-serif;transition:all 0.15s;}
+  .ve-insert-btn:hover{background:var(--bg);border-color:var(--muted);color:var(--text);}
 
-  /* ── Add buttons ── */
-  .ve-add-row { display: flex; gap: 10px; margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--border); flex-wrap: wrap; }
-  .ve-add-btn {
-    display: flex; align-items: center; gap: 5px;
-    padding: 7px 14px; border-radius: 7px;
-    border: 1px solid var(--border);
-    background: var(--bg);
-    font-size: 12px; color: var(--muted);
-    font-family: 'Noto Sans JP', sans-serif;
-    cursor: pointer; transition: all 0.15s;
-  }
-  .ve-add-btn:hover { background: #f0ebe4; color: var(--text); border-color: var(--border-mid); }
+  /* Add / bottom buttons */
+  .ve-add-row{display:flex;gap:10px;margin-top:12px;padding-top:12px;border-top:1px dashed var(--border);flex-wrap:wrap;}
+  .ve-add-btn{display:flex;align-items:center;gap:5px;padding:7px 14px;border-radius:7px;border:1px solid var(--border);background:var(--bg);font-size:12px;color:var(--muted);font-family:'Noto Sans JP',sans-serif;cursor:pointer;transition:all 0.15s;}
+  .ve-add-btn:hover{background:#f0ebe4;color:var(--text);border-color:var(--border-mid);}
 
-  /* ── JSON section ── */
-  .ve-json-area { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border); }
-  .ve-json-btns { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
-  .ve-json-btn {
-    display: flex; align-items: center; gap: 5px;
-    padding: 7px 14px; border-radius: 7px;
-    border: 1px solid var(--border);
-    background: var(--bg);
-    font-size: 12px; color: var(--muted);
-    font-family: 'Noto Sans JP', sans-serif;
-    cursor: pointer; transition: all 0.15s;
-  }
-  .ve-json-btn:hover { background: #f0ebe4; color: var(--text); border-color: var(--border-mid); }
-  .ve-json-btn.copied { background: var(--user-bg); color: var(--user-fg); border-color: #aad4ba; }
-  .ve-json-paste-wrap { display: none; flex-direction: column; gap: 8px; }
-  .ve-json-paste-wrap.open { display: flex; }
-  .ve-json-ta {
-    width: 100%; min-height: 100px; padding: 10px;
-    border: 1px solid var(--border); border-radius: 8px;
-    font-size: 12px; font-family: monospace;
-    color: var(--text); background: var(--bg);
-    resize: vertical; outline: none;
-  }
-  .ve-json-ta:focus { border-color: var(--muted); background: #fff; }
-  .ve-apply-btn {
-    padding: 8px 16px; background: var(--text); color: #fff;
-    border: none; border-radius: 7px;
-    font-size: 12px; font-family: 'Noto Sans JP', sans-serif;
-    cursor: pointer; align-self: flex-start;
-    transition: opacity 0.15s;
-  }
-  .ve-apply-btn:hover { opacity: 0.78; }
-  .ve-json-err { font-size: 11px; color: #c0392b; }
-  .ve-empty { font-size: 13px; color: var(--faint); font-style: italic; padding: 4px 0; }
+  /* JSON area */
+  .ve-json-area{margin-top:16px;padding-top:14px;border-top:1px solid var(--border);}
+  .ve-json-btns{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px;}
+  .ve-json-btn{display:flex;align-items:center;gap:5px;padding:7px 14px;border-radius:7px;border:1px solid var(--border);background:var(--bg);font-size:12px;color:var(--muted);font-family:'Noto Sans JP',sans-serif;cursor:pointer;transition:all 0.15s;}
+  .ve-json-btn:hover{background:#f0ebe4;color:var(--text);border-color:var(--border-mid);}
+  .ve-json-btn.copied{background:var(--user-bg);color:var(--user-fg);border-color:#aad4ba;}
+  .ve-json-paste-wrap{display:none;flex-direction:column;gap:8px;}
+  .ve-json-paste-wrap.open{display:flex;}
+  .ve-json-ta{width:100%;min-height:90px;padding:10px;border:1px solid var(--border);border-radius:8px;font-size:12px;font-family:monospace;color:var(--text);background:var(--bg);resize:vertical;outline:none;}
+  .ve-json-ta:focus{border-color:var(--muted);background:#fff;}
+  .ve-apply-btn{padding:8px 16px;background:var(--text);color:#fff;border:none;border-radius:7px;font-size:12px;font-family:'Noto Sans JP',sans-serif;cursor:pointer;align-self:flex-start;transition:opacity 0.15s;}
+  .ve-apply-btn:hover{opacity:0.78;}
+  .ve-json-err{font-size:11px;color:#c0392b;}
 
   @media(max-width:640px){
     .cal-area,.day-body{padding:12px 16px;} .header{padding:18px 18px 14px;} .legend{padding:10px 18px;} .trip-bar{padding:6px 18px;font-size:11px;}
@@ -353,13 +248,11 @@
   </div>
   <div class="day-body">
 
-    <!-- 予定 -->
     <div class="day-section">
       <div class="day-section-head"><div class="day-section-title">予定</div></div>
       <div class="day-section-body"><div id="dv-evts-list"></div></div>
     </div>
 
-    <!-- 予定を追加 -->
     <div class="day-section">
       <div class="day-section-head"><div class="day-section-title">予定を追加</div></div>
       <div class="day-section-body">
@@ -385,21 +278,15 @@
     <div class="day-section">
       <div class="day-section-head"><div class="day-section-title">時系列スケジュール</div></div>
       <div class="day-section-body">
-
-        <!-- Visual editor -->
         <div class="ve-editor" id="ve-editor"></div>
-
-        <!-- Add buttons -->
         <div class="ve-add-row">
-          <button class="ve-add-btn" onclick="window.veAddLoc(-1)">📍 場所を追加</button>
-          <button class="ve-add-btn" onclick="window.veAddMove(-1)">🚃 移動を追加</button>
+          <button class="ve-add-btn" onclick="window.veAdd('loc')">📍 場所を追加</button>
+          <button class="ve-add-btn" onclick="window.veAdd('move')">🚃 移動を追加</button>
         </div>
-
-        <!-- JSON area -->
         <div class="ve-json-area">
           <div class="ve-json-btns">
             <button class="ve-json-btn" id="json-copy-btn" onclick="window.veCopyRequest()">📋 JSON依頼書をコピー</button>
-            <button class="ve-json-btn" id="json-paste-toggle" onclick="window.veTogglePaste()">📥 JSONを貼り付けて適用</button>
+            <button class="ve-json-btn" onclick="window.veTogglePaste()">📥 JSONを貼り付けて適用</button>
           </div>
           <div class="ve-json-paste-wrap" id="json-paste-wrap">
             <textarea class="ve-json-ta" id="json-paste-ta" placeholder='ClaudeのチャットでJSON依頼書を渡してできたJSONをここに貼り付けてください。&#10;例：[{"kind":"loc","time":"15:25","place":"羽田","notes":"JL11にて到着"},...]'></textarea>
@@ -407,11 +294,9 @@
             <button class="ve-apply-btn" onclick="window.veApplyJson()">適用する</button>
           </div>
         </div>
-
       </div>
     </div>
 
-    <!-- メモ -->
     <div class="day-section">
       <div class="day-section-head"><div class="day-section-title">メモ</div></div>
       <div class="day-section-body">
@@ -438,7 +323,6 @@ const app = initializeApp({
 });
 const db = getDatabase(app);
 
-/* ── Constants ── */
 const TRIP_START=new Date(2026,10,15), TRIP_END=new Date(2026,11,15);
 const DOW_JP=['日','月','火','水','木','金','土'];
 const FIXED={
@@ -449,7 +333,6 @@ const FIXED={
   '2026-12-12':[{type:'concert',text:'🎵 BOC マリンメッセ福岡'}],
   '2026-12-15':[{type:'flight',text:'✈ JL12 HND発 10:55'}],
 };
-
 const MOVE_OPTS=[
   {value:'train', label:'🚃 電車',  cls:'tr'},
   {value:'bus',   label:'🚌 バス',  cls:'bu'},
@@ -457,13 +340,11 @@ const MOVE_OPTS=[
   {value:'flight',label:'✈️ 飛行機',cls:'tr'},
   {value:'sleep', label:'🌙 夜行',  cls:'sl'},
 ];
-function moveCls(t){ return (MOVE_OPTS.find(o=>o.value===t)||MOVE_OPTS[0]).cls; }
-function moveLabel(t){ return (MOVE_OPTS.find(o=>o.value===t)||MOVE_OPTS[0]).label; }
+const moveCls  = t=>(MOVE_OPTS.find(o=>o.value===t)||MOVE_OPTS[0]).cls;
 
-/* ── State ── */
 let userEvts={}, memos={}, itinerary={};
 let activeKey=null, memoTimer=null, memoFocused=false;
-let itinSaveTimer=null;
+let itinSaveTimer=null, localItinSave=false;
 
 /* ── Sync UI ── */
 function setSync(s){
@@ -488,13 +369,20 @@ onValue(ref(db,'memo'),snap=>{
 },()=>setSync('offline'));
 onValue(ref(db,'itin'),snap=>{
   try{itinerary=JSON.parse(snap.val()||'{}');}catch(e){itinerary={};}
-  if(activeKey&&isDayOpen()) renderVE();
+  // Only re-render from Firebase if the update came from ANOTHER device
+  if(activeKey&&isDayOpen()&&!localItinSave) renderVE();
   setSync('synced');
 },()=>setSync('offline'));
 
 function saveEvts(){setSync('saving');set(ref(db,'evts'),JSON.stringify(userEvts)).then(()=>setSync('synced')).catch(()=>setSync('offline'));}
 function saveMemos(){setSync('saving');set(ref(db,'memo'),JSON.stringify(memos)).then(()=>{setSync('synced');memoMsg('保存しました');}).catch(()=>{setSync('offline');memoMsg('保存できませんでした');});}
-function saveItin(){setSync('saving');set(ref(db,'itin'),JSON.stringify(itinerary)).then(()=>setSync('synced')).catch(()=>setSync('offline'));}
+function saveItin(rerender=false){
+  localItinSave=true;
+  setSync('saving');
+  set(ref(db,'itin'),JSON.stringify(itinerary))
+    .then(()=>{ setSync('synced'); setTimeout(()=>{localItinSave=false;},1000); if(rerender)renderVE(); })
+    .catch(()=>{ setSync('offline'); localItinSave=false; });
+}
 function memoMsg(m){const el=document.getElementById('memo-status');if(!el)return;el.textContent=m;setTimeout(()=>{el.textContent='';},2000);}
 
 /* ── Helpers ── */
@@ -505,6 +393,7 @@ function hasMemo(k){return !!(memos[k]&&memos[k].trim());}
 function isDayOpen(){return document.getElementById('dayPage').classList.contains('active');}
 function getEntries(){return itinerary[activeKey]||[];}
 function setEntries(arr){itinerary[activeKey]=arr;}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
 
 /* ── Page switching ── */
 function showCal(){
@@ -598,20 +487,53 @@ function dvDelEvt(idx){
    VISUAL EDITOR
 ══════════════════════════════ */
 
+/* Collect current input values into itinerary data (NO re-render) */
+function collectEntries(){
+  const container=document.getElementById('ve-editor');
+  if(!container)return;
+  const entries=getEntries();
+  container.querySelectorAll('[data-idx][data-field]').forEach(el=>{
+    const idx=parseInt(el.dataset.idx);
+    const field=el.dataset.field;
+    if(!isNaN(idx)&&field&&entries[idx]!==undefined){
+      entries[idx][field]=el.value;
+    }
+  });
+  setEntries(entries);
+}
+
+/* Schedule auto-save WITHOUT re-rendering (key fix for typing interruption) */
+function scheduleItinSave(){
+  clearTimeout(itinSaveTimer);
+  itinSaveTimer=setTimeout(()=>{
+    collectEntries();
+    saveItin(false); // false = no re-render
+  },800);
+}
+
+function mkInsertRow(insertAt){
+  return `<div class="ve-insert">
+    <button class="ve-insert-btn" onclick="window.veInsert('loc',${insertAt})">＋場所</button>
+    <button class="ve-insert-btn" onclick="window.veInsert('move',${insertAt})">＋移動</button>
+  </div>`;
+}
+
 function renderVE(){
   const entries=getEntries();
   const container=document.getElementById('ve-editor');
   if(!entries.length){
-    container.innerHTML='<div class="ve-empty">まだ追加されていません。下のボタンから場所や移動を追加してください。</div>';
+    container.innerHTML='<div class="ve-empty">下のボタンから場所や移動を追加してください。</div>';
     return;
   }
 
   let html='';
+  // Insert row at the very top (position 0)
+  html += mkInsertRow(0);
+
   for(let i=0;i<entries.length;i++){
     const e=entries[i];
     const isLast=(i===entries.length-1);
-
-    // Determine line class below this entry
+    // Line color below this entry = next entry's move type (if move), else sl
     let lineClass='sl';
     if(!isLast){
       const next=entries[i+1];
@@ -619,8 +541,7 @@ function renderVE(){
     }
 
     if(e.kind==='loc'){
-      html+=`
-      <div class="ve-entry" data-idx="${i}">
+      html+=`<div class="ve-entry">
         <div class="ve-tc">
           <input class="ve-in ve-time-in" data-idx="${i}" data-field="time"
             value="${esc(e.time||'')}" placeholder="時刻" />
@@ -633,24 +554,23 @@ function renderVE(){
           <input class="ve-in ve-place-in" data-idx="${i}" data-field="place"
             value="${esc(e.place||'')}" placeholder="場所名（例：高松）" />
           <input class="ve-in ve-notes-in" data-idx="${i}" data-field="notes"
-            value="${esc(e.notes||'')}" placeholder="メモ・活動（例：うどん巡り, ランチ）任意" />
+            value="${esc(e.notes||'')}" placeholder="メモ・活動（複数はカンマ区切り）任意" />
           <div class="ve-notes-hint">複数の活動はカンマで区切ってください</div>
         </div>
         <div class="ve-ctrl">
-          <button class="ve-ctrl-btn" onclick="window.veMoveUp(${i})" title="上へ">↑</button>
-          <button class="ve-ctrl-btn" onclick="window.veMoveDown(${i})" title="下へ">↓</button>
-          <button class="ve-ctrl-btn del" onclick="window.veDel(${i})" title="削除">×</button>
+          <button class="ve-ctrl-btn" onclick="window.veMoveUp(${i})">↑</button>
+          <button class="ve-ctrl-btn" onclick="window.veMoveDown(${i})">↓</button>
+          <button class="ve-ctrl-btn del" onclick="window.veDel(${i})">×</button>
         </div>
-      </div>
-      ${!isLast?insertRow(i):''}`;
-
+      </div>`;
     } else {
-      // move entry
       const cls=moveCls(e.moveType||'train');
-      const optHtml=MOVE_OPTS.map(o=>`<option value="${o.value}"${e.moveType===o.value?' selected':''}>${o.label}</option>`).join('');
-      html+=`
-      <div class="ve-entry" data-idx="${i}">
-        <div class="ve-tc"></div>
+      const optHtml=MOVE_OPTS.map(o=>`<option value="${o.value}"${(e.moveType||'train')===o.value?' selected':''}>${o.label}</option>`).join('');
+      html+=`<div class="ve-entry">
+        <div class="ve-tc">
+          <input class="ve-in ve-time-in" data-idx="${i}" data-field="time"
+            value="${esc(e.time||'')}" placeholder="時刻" />
+        </div>
         <div class="ve-lc"><div class="ve-vl ${cls}"></div></div>
         <div class="ve-sg">
           <span class="ve-badge ${cls}">
@@ -662,122 +582,94 @@ function renderVE(){
             value="${esc(e.dur||'')}" placeholder="所要時間" />
         </div>
         <div class="ve-ctrl">
-          <button class="ve-ctrl-btn" onclick="window.veMoveUp(${i})" title="上へ">↑</button>
-          <button class="ve-ctrl-btn" onclick="window.veMoveDown(${i})" title="下へ">↓</button>
-          <button class="ve-ctrl-btn del" onclick="window.veDel(${i})" title="削除">×</button>
+          <button class="ve-ctrl-btn" onclick="window.veMoveUp(${i})">↑</button>
+          <button class="ve-ctrl-btn" onclick="window.veMoveDown(${i})">↓</button>
+          <button class="ve-ctrl-btn del" onclick="window.veDel(${i})">×</button>
         </div>
-      </div>
-      ${!isLast?insertRow(i):''}`;
+      </div>`;
     }
+
+    // Insert row after each entry
+    html += mkInsertRow(i+1);
   }
+
   container.innerHTML=html;
 
-  // Attach input listeners
+  // Attach input listeners — save only, NO re-render
   container.querySelectorAll('.ve-in').forEach(inp=>{
-    inp.addEventListener('input', ()=>scheduleItinSave());
+    inp.addEventListener('input', scheduleItinSave);
   });
+  // Type select: collect, save, AND re-render (line color must update)
   container.querySelectorAll('.ve-type-sel').forEach(sel=>{
-    sel.addEventListener('change', ()=>{ collectAndSave(); renderVE(); });
+    sel.addEventListener('change', ()=>{
+      collectEntries();
+      saveItin(true); // true = re-render after save
+    });
   });
 }
 
-function insertRow(afterIdx){
-  return `<div class="ve-insert">
-    <button class="ve-insert-btn" onclick="window.veAddLoc(${afterIdx})">＋場所</button>
-    <button class="ve-insert-btn" onclick="window.veAddMove(${afterIdx})">＋移動</button>
-  </div>`;
-}
-
-function esc(s){return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
-
-/* ── Collect current editor values into itinerary ── */
-function collectEntries(){
-  const container=document.getElementById('ve-editor');
-  if(!container) return;
-  const entries=getEntries();
-  container.querySelectorAll('.ve-in, .ve-type-sel').forEach(el=>{
-    const idx=parseInt(el.dataset.idx);
-    const field=el.dataset.field;
-    if(!isNaN(idx)&&field&&entries[idx]!==undefined){
-      entries[idx][field]=el.value;
-    }
-  });
-  setEntries(entries);
-}
-
-function scheduleItinSave(){
-  clearTimeout(itinSaveTimer);
-  itinSaveTimer=setTimeout(()=>{ collectAndSave(); },600);
-}
-
-function collectAndSave(){
-  collectEntries();
-  saveItin();
-}
-
-/* ── Add / Delete / Reorder ── */
-function veAddLoc(afterIdx){
+/* ── Add / Insert / Delete / Reorder ── */
+function veAdd(kind){
+  // Append to end
   collectEntries();
   const arr=getEntries();
-  const entry={kind:'loc',time:'',place:'',notes:''};
-  if(afterIdx<0||afterIdx>=arr.length) arr.push(entry);
-  else arr.splice(afterIdx+1,0,entry);
-  setEntries(arr); saveItin(); renderVE();
-  // Focus the new place input
-  setTimeout(()=>{
-    const ins=document.querySelectorAll('.ve-place-in');
-    const newIdx=afterIdx<0?arr.length-1:afterIdx+1;
-    const target=[...ins].find(el=>parseInt(el.dataset.idx)===newIdx);
-    if(target)target.focus();
-  },50);
+  const entry=kind==='loc'
+    ?{kind:'loc',time:'',place:'',notes:''}
+    :{kind:'move',moveType:'train',time:'',name:'',dur:''};
+  arr.push(entry);
+  setEntries(arr); saveItin(true);
 }
-function veAddMove(afterIdx){
+
+function veInsert(kind, insertAt){
+  // Insert at specific position
   collectEntries();
   const arr=getEntries();
-  const entry={kind:'move',moveType:'train',name:'',dur:''};
-  if(afterIdx<0||afterIdx>=arr.length) arr.push(entry);
-  else arr.splice(afterIdx+1,0,entry);
-  setEntries(arr); saveItin(); renderVE();
+  const entry=kind==='loc'
+    ?{kind:'loc',time:'',place:'',notes:''}
+    :{kind:'move',moveType:'train',time:'',name:'',dur:''};
+  arr.splice(insertAt,0,entry);
+  setEntries(arr);
+  saveItin(true);
+  // Focus the new entry's main input after render
   setTimeout(()=>{
-    const ins=document.querySelectorAll('.ve-name-in');
-    const newIdx=afterIdx<0?arr.length-1:afterIdx+1;
-    const target=[...ins].find(el=>parseInt(el.dataset.idx)===newIdx);
+    const inputs=document.querySelectorAll(kind==='loc'?'.ve-place-in':'.ve-name-in');
+    const target=[...inputs].find(el=>parseInt(el.dataset.idx)===insertAt);
     if(target)target.focus();
-  },50);
+  },60);
 }
+
 function veDel(idx){
   collectEntries();
   const arr=getEntries();
   arr.splice(idx,1);
-  setEntries(arr); saveItin(); renderVE();
+  setEntries(arr); saveItin(true);
 }
 function veMoveUp(idx){
   if(idx===0)return;
   collectEntries();
   const arr=getEntries();
   [arr[idx-1],arr[idx]]=[arr[idx],arr[idx-1]];
-  setEntries(arr); saveItin(); renderVE();
+  setEntries(arr); saveItin(true);
 }
 function veMoveDown(idx){
+  collectEntries();
   const arr=getEntries();
   if(idx>=arr.length-1)return;
-  collectEntries();
   [arr[idx],arr[idx+1]]=[arr[idx+1],arr[idx]];
-  setEntries(arr); saveItin(); renderVE();
+  setEntries(arr); saveItin(true);
 }
 
-/* ── JSON: copy request ── */
+/* ── JSON copy request ── */
 function veCopyRequest(){
   collectEntries();
   const entries=getEntries();
-  if(!entries.length){ alert('スケジュールが空です。先に場所や移動を入力してください。'); return; }
+  if(!entries.length){alert('スケジュールが空です。先に場所や移動を追加してください。');return;}
+  const nm={train:'電車',bus:'バス',walk:'徒歩',flight:'飛行機',sleep:'夜行・車中泊'};
   const lines=entries.map(e=>{
-    if(e.kind==='loc'){
+    if(e.kind==='loc')
       return `${e.time||'（時刻未定）'} / 場所: ${e.place||'（未入力）'}${e.notes?' / メモ: '+e.notes:''}`;
-    } else {
-      const nm={train:'電車',bus:'バス',walk:'徒歩',flight:'飛行機',sleep:'夜行・車中泊'};
-      return `移動: ${nm[e.moveType]||e.moveType} / ${e.name||'（未入力）'}${e.dur?' / 所要時間: '+e.dur:''}`;
-    }
+    else
+      return `${e.time?e.time+' / ':''}移動: ${nm[e.moveType]||e.moveType} / ${e.name||'（未入力）'}${e.dur?' / 所要時間: '+e.dur:''}`;
   }).join('\n');
   const req=`以下の旅行スケジュールデータをJSONに変換してください。
 
@@ -788,39 +680,30 @@ ${lines}
 以下のJSON配列だけを出力してください（説明文・コードブロック不要）：
 [
   {"kind":"loc","time":"HH:MM（なければ空文字）","place":"場所名","notes":"メモ（複数はカンマ区切り、なければ空文字）"},
-  {"kind":"move","moveType":"train／bus／walk／flight／sleep のいずれか","name":"路線・便名","dur":"所要時間（なければ空文字）"}
+  {"kind":"move","moveType":"train／bus／walk／flight／sleep のいずれか","time":"出発時刻（なければ空文字）","name":"路線・便名","dur":"所要時間（なければ空文字）"}
 ]`;
   navigator.clipboard.writeText(req).then(()=>{
     const btn=document.getElementById('json-copy-btn');
-    btn.textContent='✓ コピーしました';
-    btn.classList.add('copied');
-    setTimeout(()=>{ btn.textContent='📋 JSON依頼書をコピー'; btn.classList.remove('copied'); },2500);
-  }).catch(()=>{ alert('コピーに失敗しました。手動でコピーしてください。'); });
+    btn.textContent='✓ コピーしました'; btn.classList.add('copied');
+    setTimeout(()=>{btn.textContent='📋 JSON依頼書をコピー';btn.classList.remove('copied');},2500);
+  }).catch(()=>alert('コピーに失敗しました。手動でコピーしてください。'));
 }
 
-/* ── JSON: paste & apply ── */
-function veTogglePaste(){
-  const wrap=document.getElementById('json-paste-wrap');
-  wrap.classList.toggle('open');
-}
+/* ── JSON paste & apply ── */
+function veTogglePaste(){document.getElementById('json-paste-wrap').classList.toggle('open');}
 function veApplyJson(){
   const text=document.getElementById('json-paste-ta').value.trim();
   const errEl=document.getElementById('json-err');
   errEl.textContent='';
   try{
     const data=JSON.parse(text);
-    if(!Array.isArray(data)) throw new Error('配列ではありません');
-    // Validate entries
-    for(const e of data){
-      if(!e.kind||!['loc','move'].includes(e.kind)) throw new Error('kindはlocまたはmoveである必要があります');
-    }
+    if(!Array.isArray(data))throw new Error('配列ではありません');
+    for(const e of data)if(!e.kind||!['loc','move'].includes(e.kind))throw new Error('kindはlocまたはmoveである必要があります');
     itinerary[activeKey]=data;
-    saveItin(); renderVE();
+    saveItin(true);
     document.getElementById('json-paste-ta').value='';
     document.getElementById('json-paste-wrap').classList.remove('open');
-  }catch(err){
-    errEl.textContent='エラー：'+err.message+'。JSONの形式を確認してください。';
-  }
+  }catch(err){errEl.textContent='エラー：'+err.message+'。JSONの形式を確認してください。';}
 }
 
 /* ── Memo ── */
@@ -841,7 +724,7 @@ document.addEventListener('keydown',e=>{
 /* ── Expose ── */
 window.showCal=showCal; window.showDay=showDay;
 window.dvAddEvt=dvAddEvt; window.dvDelEvt=dvDelEvt;
-window.veAddLoc=veAddLoc; window.veAddMove=veAddMove;
+window.veAdd=veAdd; window.veInsert=veInsert;
 window.veDel=veDel; window.veMoveUp=veMoveUp; window.veMoveDown=veMoveDown;
 window.veCopyRequest=veCopyRequest; window.veTogglePaste=veTogglePaste; window.veApplyJson=veApplyJson;
 
