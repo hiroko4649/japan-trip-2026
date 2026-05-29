@@ -31,7 +31,7 @@
   body { font-family:'Noto Sans JP',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; }
   .page { display:none; } .page.active { display:block; }
 
-  /* Header */
+  /* ── Header ── */
   .header { background:var(--surface); border-bottom:1px solid var(--border); padding:28px 40px 24px; display:flex; align-items:flex-end; justify-content:space-between; flex-wrap:wrap; gap:12px; }
   .header-title { font-family:'Noto Serif JP',serif; font-size:26px; font-weight:600; letter-spacing:0.02em; line-height:1; }
   .header-sub { font-size:13px; color:var(--muted); margin-top:6px; letter-spacing:0.05em; font-weight:300; }
@@ -40,22 +40,20 @@
   .trip-bar { background:var(--text); color:#fff; font-size:12px; letter-spacing:0.06em; font-weight:300; padding:7px 40px; display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
   .trip-bar span { opacity:0.4; margin:0 4px; }
 
-  /* Legend */
-  .legend { display:flex; align-items:center; gap:16px; flex-wrap:wrap; padding:10px 40px; background:var(--surface); border-bottom:1px solid var(--border); font-size:12px; color:var(--muted); }
-  .leg { display:flex; align-items:center; gap:5px; }
-  .leg-chip { width:24px; height:9px; border-radius:2px; }
-  .leg-flight  { background:var(--flight-bg); } .leg-concert { background:var(--concert-bg); }
-  .leg-user    { background:var(--user-bg); }   .leg-hotel   { background:var(--hotel-bg); }
-  .leg-hiroko  { background:var(--hiroko-bg); } .leg-ippei   { background:var(--ippei-bg); }
-  .leg-futari  { background:var(--futari-bg); } .leg-other1  { background:var(--other1-bg); }
+  /* ── Legend ── */
+  .legend { display:flex; align-items:center; gap:14px; flex-wrap:wrap; padding:10px 40px; background:var(--surface); border-bottom:1px solid var(--border); font-size:11px; color:var(--muted); }
+  .leg { display:flex; align-items:center; gap:4px; }
+  .leg-chip { width:20px; height:8px; border-radius:2px; }
+  .leg-flight  { background:var(--flight-bg); }  .leg-concert { background:var(--concert-bg); }
+  .leg-user    { background:var(--user-bg); }    .leg-hotel   { background:var(--hotel-bg); }
+  .leg-hiroko  { background:var(--hiroko-bg); }  .leg-ippei   { background:var(--ippei-bg); }
+  .leg-futari  { background:var(--futari-bg); }  .leg-other1  { background:var(--other1-bg); }
   .leg-other2  { background:var(--other2-bg); }
   .sync-badge { margin-left:auto; display:flex; align-items:center; gap:5px; font-size:11px; letter-spacing:0.04em; }
   .sync-dot { width:7px; height:7px; border-radius:50%; background:var(--faint); transition:background 0.4s; }
-  .sync-dot.synced  { background:#52a97a; }
-  .sync-dot.saving  { background:#e6a817; }
-  .sync-dot.offline { background:#c0392b; }
+  .sync-dot.synced  { background:#52a97a; } .sync-dot.saving  { background:#e6a817; } .sync-dot.offline { background:#c0392b; }
 
-  /* Calendar */
+  /* ── Calendar ── */
   .cal-area { padding:28px 40px; max-width:860px; margin:0 auto; }
   .month-card { background:var(--surface); border:1px solid var(--border); border-radius:12px; overflow:hidden; }
   .weekdays { display:grid; grid-template-columns:repeat(7,1fr); background:#f2ede8; border-bottom:1px solid var(--border); }
@@ -87,7 +85,7 @@
   .evt-more { font-size:9px; color:var(--faint); margin-top:1px; }
   .cal-footer { text-align:center; font-size:11px; color:var(--faint); padding:16px 40px 40px; letter-spacing:0.06em; }
 
-  /* Day View */
+  /* ── Day View ── */
   #dayPage { min-height:100vh; background:var(--bg); padding-bottom:60px; }
   .day-header { background:var(--text); color:#fff; padding:0 40px; display:flex; align-items:center; gap:20px; height:64px; position:sticky; top:0; z-index:10; }
   .back-btn { background:none; border:1px solid rgba(255,255,255,0.25); color:rgba(255,255,255,0.8); border-radius:6px; padding:6px 14px; font-size:13px; font-family:'Noto Sans JP',sans-serif; cursor:pointer; display:flex; align-items:center; gap:6px; transition:all 0.15s; flex-shrink:0; }
@@ -98,6 +96,8 @@
   .day-section-head { padding:14px 20px 12px; border-bottom:1px solid var(--border); }
   .day-section-title { font-family:'Noto Serif JP',serif; font-size:14px; font-weight:600; color:var(--text); letter-spacing:0.04em; }
   .day-section-body { padding:16px 20px; }
+
+  /* Events */
   .evt-full-row { display:flex; align-items:center; justify-content:space-between; padding:8px 12px; border-radius:7px; margin-bottom:6px; font-size:14px; gap:8px; }
   .evt-full-row:last-child { margin-bottom:0; }
   .evt-full-row.flight  { background:var(--flight-bg);  color:var(--flight-fg); }
@@ -113,14 +113,57 @@
   .evt-del-btn { background:none; border:none; cursor:pointer; font-size:17px; opacity:0.45; line-height:1; padding:0 2px; color:inherit; flex-shrink:0; transition:opacity 0.15s; }
   .evt-del-btn:hover { opacity:1; }
   .no-evts-msg { font-size:13px; color:var(--faint); font-style:italic; padding:4px 0; }
+
+  /* Add event form */
   .add-evt-form { display:flex; flex-direction:column; gap:10px; }
   .add-evt-form input, .add-evt-form select { width:100%; padding:10px 13px; border:1px solid var(--border); border-radius:8px; font-size:14px; font-family:'Noto Sans JP',sans-serif; color:var(--text); background:var(--bg); outline:none; transition:border 0.15s; }
   .add-evt-form input:focus, .add-evt-form select:focus { border-color:var(--muted); background:#fff; }
   .add-evt-btn { padding:10px 16px; background:var(--text); color:#fff; border:none; border-radius:8px; font-size:14px; font-family:'Noto Sans JP',sans-serif; cursor:pointer; font-weight:400; letter-spacing:0.04em; transition:opacity 0.15s; align-self:flex-start; min-width:100px; }
   .add-evt-btn:hover { opacity:0.78; }
+
+  /* Memo */
   .memo-area { width:100%; min-height:220px; padding:14px; border:1px solid var(--border); border-radius:8px; font-size:14px; font-family:'Noto Sans JP',sans-serif; color:var(--text); background:var(--bg); line-height:1.9; resize:vertical; outline:none; transition:border 0.15s; }
   .memo-area:focus { border-color:var(--muted); background:#fff; }
   .memo-status { font-size:11px; color:var(--faint); margin-top:7px; letter-spacing:0.04em; height:16px; }
+
+  /* ── Itinerary ── */
+  .itin-display { margin-bottom:4px; }
+  .itin-empty { font-size:13px; color:var(--faint); font-style:italic; }
+
+  .itin-r { display:flex; align-items:flex-start; min-height:32px; }
+  .itin-tc { width:52px; text-align:right; padding-right:10px; font-size:11px; color:var(--muted); padding-top:4px; flex-shrink:0; line-height:1.4; }
+  .itin-lc { display:flex; flex-direction:column; align-items:center; width:20px; flex-shrink:0; }
+  .itin-dot { width:10px; height:10px; border-radius:50%; background:var(--text); flex-shrink:0; margin-top:4px; }
+  .itin-vl { width:2px; flex:1; min-height:10px; }
+  .itin-vl.tr { background:#2471a3; } .itin-vl.bu { background:#b7770d; }
+  .itin-vl.wk { background:#1e8449; } .itin-vl.sl { background:#aaa; }
+  .itin-cc { flex:1; padding:2px 0 8px 10px; }
+  .itin-sg { display:flex; align-items:center; gap:6px; padding:4px 0 4px 10px; flex:1; }
+  .itin-sn { font-size:14px; font-weight:500; color:var(--text); line-height:1.4; }
+  .itin-ss { font-size:12px; color:var(--muted); margin-top:1px; }
+  .itin-stay { display:inline-flex; align-items:center; gap:4px; font-size:11px; padding:2px 8px; border-radius:4px; background:#f2f2f2; color:#555; margin-top:3px; }
+  .itin-bd { display:inline-flex; align-items:center; gap:4px; font-size:11px; padding:3px 9px; border-radius:4px; }
+  .itin-bd.tr { background:#d6eaf8; color:#1a5276; }
+  .itin-bd.bu { background:#fef3cd; color:#7d4e00; }
+  .itin-bd.wk { background:#d5f5e3; color:#1e5631; }
+  .itin-bd.sl { background:#f2f2f2; color:#555; border:0.5px solid #ccc; }
+  .itin-bdt { font-size:11px; color:#aaa; }
+  .itin-del { background:none; border:none; cursor:pointer; font-size:15px; opacity:0.25; padding:2px 4px; color:var(--text); margin-left:4px; align-self:center; flex-shrink:0; transition:opacity 0.15s; }
+  .itin-del:hover { opacity:0.8; }
+  .itin-row-wrap { display:flex; align-items:flex-start; width:100%; }
+  .itin-row-wrap > .itin-r { flex:1; }
+
+  /* Itinerary add form */
+  .itin-form { margin-top:16px; padding-top:16px; border-top:1px solid var(--border); display:flex; flex-direction:column; gap:9px; }
+  .itin-form-top { display:flex; gap:8px; }
+  .itin-time-in { width:96px; flex-shrink:0; padding:9px 10px; border:1px solid var(--border); border-radius:8px; font-size:13px; font-family:'Noto Sans JP',sans-serif; color:var(--text); background:var(--bg); outline:none; transition:border 0.15s; }
+  .itin-time-in:focus { border-color:var(--muted); background:#fff; }
+  .itin-type-sel { flex:1; padding:9px 10px; border:1px solid var(--border); border-radius:8px; font-size:13px; font-family:'Noto Sans JP',sans-serif; color:var(--text); background:var(--bg); outline:none; transition:border 0.15s; }
+  .itin-type-sel:focus { border-color:var(--muted); background:#fff; }
+  .itin-text-in { width:100%; padding:9px 12px; border:1px solid var(--border); border-radius:8px; font-size:13px; font-family:'Noto Sans JP',sans-serif; color:var(--text); background:var(--bg); outline:none; transition:border 0.15s; }
+  .itin-text-in:focus { border-color:var(--muted); background:#fff; }
+  .itin-add-btn { padding:9px 16px; background:var(--text); color:#fff; border:none; border-radius:8px; font-size:13px; font-family:'Noto Sans JP',sans-serif; cursor:pointer; font-weight:400; letter-spacing:0.04em; transition:opacity 0.15s; align-self:flex-start; }
+  .itin-add-btn:hover { opacity:0.78; }
 
   @media(max-width:640px){
     .cal-area,.day-body{padding:12px 16px;} .header{padding:18px 18px 14px;} .legend{padding:10px 18px;} .trip-bar{padding:6px 18px;font-size:11px;}
@@ -131,7 +174,7 @@
 </head>
 <body>
 
-<!-- CALENDAR PAGE -->
+<!-- ══════ CALENDAR PAGE ══════ -->
 <div class="page active" id="calPage">
   <header class="header">
     <div>
@@ -166,17 +209,21 @@
   <div class="cal-footer">日付をクリックで詳細ページへ</div>
 </div>
 
-<!-- DAY VIEW PAGE -->
+<!-- ══════ DAY VIEW PAGE ══════ -->
 <div class="page" id="dayPage">
   <div class="day-header">
     <button class="back-btn" onclick="window.showCal()">← カレンダー</button>
     <div class="day-header-date" id="dv-date-label">—</div>
   </div>
   <div class="day-body">
+
+    <!-- 予定 -->
     <div class="day-section">
       <div class="day-section-head"><div class="day-section-title">予定</div></div>
       <div class="day-section-body"><div id="dv-evts-list"></div></div>
     </div>
+
+    <!-- 予定を追加 -->
     <div class="day-section">
       <div class="day-section-head"><div class="day-section-title">予定を追加</div></div>
       <div class="day-section-body">
@@ -197,6 +244,36 @@
         </div>
       </div>
     </div>
+
+    <!-- 時系列スケジュール -->
+    <div class="day-section">
+      <div class="day-section-head"><div class="day-section-title">時系列スケジュール</div></div>
+      <div class="day-section-body">
+        <div class="itin-display" id="dv-itin"></div>
+        <div class="itin-form">
+          <div class="itin-form-top">
+            <input type="text" class="itin-time-in" id="itin-time" placeholder="時刻（例 09:30）" />
+            <select class="itin-type-sel" id="itin-type">
+              <option value="stop">📍 場所・目的地</option>
+              <option value="train">🚃 電車</option>
+              <option value="bus">🚌 バス</option>
+              <option value="walk">🚶 徒歩</option>
+              <option value="flight">✈️ 飛行機</option>
+              <option value="sleep">🌙 夜行・車中泊</option>
+              <option value="hotel">🏨 ホテル着</option>
+              <option value="event">🎵 ライブ・イベント</option>
+              <option value="meal">🍽️ 食事</option>
+              <option value="sight">🗺️ 観光・散策</option>
+            </select>
+          </div>
+          <input type="text" class="itin-text-in" id="itin-text" placeholder="内容（例：京都駅、マリンライナー4号）" />
+          <input type="text" class="itin-text-in" id="itin-sub"  placeholder="補足・所要時間（任意）" />
+          <button class="itin-add-btn" onclick="window.itinAdd()">＋ 追加</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- メモ -->
     <div class="day-section">
       <div class="day-section-head"><div class="day-section-title">メモ</div></div>
       <div class="day-section-body">
@@ -204,6 +281,7 @@
         <div class="memo-status" id="memo-status"></div>
       </div>
     </div>
+
   </div>
 </div>
 
@@ -211,15 +289,14 @@
 import { initializeApp }                  from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
 import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-database.js";
 
-/* ── Firebase ── */
 const app = initializeApp({
-  apiKey:            "AIzaSyB-aGOs10p4N_AOVxVRwzStH8g0AR7hbLo",
-  authDomain:        "japan-trip-2026-7cd55.firebaseapp.com",
-  databaseURL:       "https://japan-trip-2026-7cd55-default-rtdb.firebaseio.com",
-  projectId:         "japan-trip-2026-7cd55",
-  storageBucket:     "japan-trip-2026-7cd55.firebasestorage.app",
-  messagingSenderId: "191639339077",
-  appId:             "1:191639339077:web:99277d8dfa10f446eb232c"
+  apiKey:"AIzaSyB-aGOs10p4N_AOVxVRwzStH8g0AR7hbLo",
+  authDomain:"japan-trip-2026-7cd55.firebaseapp.com",
+  databaseURL:"https://japan-trip-2026-7cd55-default-rtdb.firebaseio.com",
+  projectId:"japan-trip-2026-7cd55",
+  storageBucket:"japan-trip-2026-7cd55.firebasestorage.app",
+  messagingSenderId:"191639339077",
+  appId:"1:191639339077:web:99277d8dfa10f446eb232c"
 });
 const db = getDatabase(app);
 
@@ -236,34 +313,55 @@ const FIXED = {
   '2026-12-15':[{type:'flight',  text:'✈ JL12 HND発 10:55'}],
 };
 
+/* ── Itinerary config ── */
+const ITIN_CFG = {
+  stop:   { icon:'📍', lineClass:'sl',  isTransport:false },
+  train:  { icon:'🚃', lineClass:'tr',  isTransport:true  },
+  bus:    { icon:'🚌', lineClass:'bu',  isTransport:true  },
+  walk:   { icon:'🚶', lineClass:'wk',  isTransport:true  },
+  flight: { icon:'✈️', lineClass:'tr',  isTransport:true  },
+  sleep:  { icon:'🌙', lineClass:'sl',  isTransport:true  },
+  hotel:  { icon:'🏨', lineClass:'sl',  isTransport:false },
+  event:  { icon:'🎵', lineClass:'sl',  isTransport:false },
+  meal:   { icon:'🍽️', lineClass:'sl',  isTransport:false },
+  sight:  { icon:'🗺️', lineClass:'wk',  isTransport:false },
+};
+
 /* ── State ── */
-let userEvts={}, memos={}, activeKey=null, memoTimer=null, memoFocused=false;
+let userEvts={}, memos={}, itinerary={};
+let activeKey=null, memoTimer=null, memoFocused=false;
 
 /* ── Sync UI ── */
-function setSync(s) {
+function setSync(s){
   const dot=document.getElementById('sync-dot'), txt=document.getElementById('sync-text');
   if(!dot||!txt) return;
   dot.className='sync-dot '+s;
-  txt.textContent = s==='synced'?'同期済み': s==='saving'?'保存中...': s==='offline'?'オフライン':'接続中...';
+  txt.textContent=s==='synced'?'同期済み':s==='saving'?'保存中...':s==='offline'?'オフライン':'接続中...';
 }
 
 /* ── Firebase listeners ── */
-onValue(ref(db,'.info/connected'), s=>{ if(s.val()===false) setSync('offline'); });
+onValue(ref(db,'.info/connected'),s=>{ if(s.val()===false) setSync('offline'); });
 
-onValue(ref(db,'evts'), snap=>{
+onValue(ref(db,'evts'),snap=>{
   try{ userEvts=JSON.parse(snap.val()||'{}'); }catch(e){ userEvts={}; }
   buildCalendar();
-  if(activeKey && isDayOpen()) renderEvts();
+  if(activeKey&&isDayOpen()) renderEvts();
   setSync('synced');
-}, ()=>setSync('offline'));
+},()=>setSync('offline'));
 
-onValue(ref(db,'memo'), snap=>{
+onValue(ref(db,'memo'),snap=>{
   try{ memos=JSON.parse(snap.val()||'{}'); }catch(e){ memos={}; }
   buildCalendar();
-  if(activeKey && isDayOpen() && !memoFocused)
-    document.getElementById('dv-memo').value = memos[activeKey]||'';
+  if(activeKey&&isDayOpen()&&!memoFocused)
+    document.getElementById('dv-memo').value=memos[activeKey]||'';
   setSync('synced');
-}, ()=>setSync('offline'));
+},()=>setSync('offline'));
+
+onValue(ref(db,'itin'),snap=>{
+  try{ itinerary=JSON.parse(snap.val()||'{}'); }catch(e){ itinerary={}; }
+  if(activeKey&&isDayOpen()) renderItin();
+  setSync('synced');
+},()=>setSync('offline'));
 
 /* ── Save ── */
 function saveEvts(){
@@ -276,17 +374,20 @@ function saveMemos(){
     .then(()=>{ setSync('synced'); memoMsg('保存しました'); })
     .catch(()=>{ setSync('offline'); memoMsg('保存できませんでした'); });
 }
+function saveItin(){
+  setSync('saving');
+  set(ref(db,'itin'),JSON.stringify(itinerary)).then(()=>setSync('synced')).catch(()=>setSync('offline'));
+}
 function memoMsg(m){
   const el=document.getElementById('memo-status');
   if(!el) return;
-  el.textContent=m;
-  setTimeout(()=>{ el.textContent=''; },2000);
+  el.textContent=m; setTimeout(()=>{ el.textContent=''; },2000);
 }
 
 /* ── Helpers ── */
 function dk(y,m,d){ return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`; }
 function allEvts(k){ return [...(FIXED[k]||[]),(userEvts[k]||[])].flat(); }
-function inTrip(d){ return d>=TRIP_START && d<=TRIP_END; }
+function inTrip(d){ return d>=TRIP_START&&d<=TRIP_END; }
 function hasMemo(k){ return !!(memos[k]&&memos[k].trim()); }
 function isDayOpen(){ return document.getElementById('dayPage').classList.contains('active'); }
 
@@ -302,6 +403,7 @@ function showDay(k,label){
   document.getElementById('dv-evt-input').value='';
   document.getElementById('memo-status').textContent='';
   renderEvts();
+  renderItin();
   document.getElementById('dv-memo').value=memos[k]||'';
   document.getElementById('calPage').classList.remove('active');
   document.getElementById('dayPage').classList.add('active');
@@ -320,16 +422,16 @@ function buildCalendar(){
   const dec1row=Math.floor((nov1dow+30)/7);
   const bs=dec1row*7, be=bs+6;
   let ci=0;
-  const blank=(ci,bs,be)=>{
+  const blank=(ci)=>{
     const el=document.createElement('div');
     el.className='day empty'+(ci>=bs&&ci<=be?' month-boundary':'');
     return el;
   };
-  for(let i=0;i<nov1dow;i++){ grid.appendChild(blank(ci,bs,be)); ci++; }
+  for(let i=0;i<nov1dow;i++){ grid.appendChild(blank(ci)); ci++; }
   for(let d=1;d<=30;d++){ grid.appendChild(mkDay(2026,10,d,ci,bs,be)); ci++; }
   for(let d=1;d<=31;d++){ grid.appendChild(mkDay(2026,11,d,ci,bs,be)); ci++; }
   const rem=ci%7;
-  if(rem>0) for(let i=rem;i<7;i++){ grid.appendChild(blank(ci,bs,be)); ci++; }
+  if(rem>0) for(let i=rem;i<7;i++){ grid.appendChild(blank(ci)); ci++; }
 }
 function mkDay(y,m,d,ci,bs,be){
   const date=new Date(y,m,d), dow=date.getDay(), k=dk(y,m,d);
@@ -388,6 +490,85 @@ function dvDelEvt(idx){
   saveEvts(); renderEvts();
 }
 
+/* ── Itinerary ── */
+function renderItin(){
+  const entries=itinerary[activeKey]||[];
+  const container=document.getElementById('dv-itin');
+  if(!entries.length){
+    container.innerHTML='<div class="itin-empty">まだ予定がありません</div>';
+    return;
+  }
+  let html='';
+  for(let i=0;i<entries.length;i++){
+    const e=entries[i];
+    const cfg=ITIN_CFG[e.type]||ITIN_CFG.stop;
+    const isLast=i===entries.length-1;
+    // Determine line color below this entry
+    let lineClass='sl';
+    if(!isLast){
+      const next=entries[i+1];
+      const nextCfg=ITIN_CFG[next.type]||ITIN_CFG.stop;
+      lineClass=nextCfg.isTransport?nextCfg.lineClass:cfg.lineClass;
+    }
+    if(cfg.isTransport){
+      // Transport row: no dot, badge + duration
+      html+=`<div class="itin-row-wrap">
+        <div class="itin-r">
+          <div class="itin-tc"></div>
+          <div class="itin-lc"><div class="itin-vl ${cfg.lineClass}"></div></div>
+          <div class="itin-sg">
+            <span class="itin-bd ${cfg.lineClass}">${cfg.icon} ${e.text}</span>
+            ${e.sub?`<span class="itin-bdt">${e.sub}</span>`:''}
+          </div>
+        </div>
+        <button class="itin-del" onclick="window.itinDel(${i})">×</button>
+      </div>`;
+    } else {
+      // Location row: dot + text + optional sub as stay badge
+      html+=`<div class="itin-row-wrap">
+        <div class="itin-r">
+          <div class="itin-tc">${e.time||''}</div>
+          <div class="itin-lc">
+            <div class="itin-dot"></div>
+            ${!isLast?`<div class="itin-vl ${lineClass}"></div>`:''}
+          </div>
+          <div class="itin-cc">
+            <div class="itin-sn">${e.text}</div>
+            ${e.sub?`<span class="itin-stay">${cfg.icon} ${e.sub}</span>`:''}
+          </div>
+        </div>
+        <button class="itin-del" onclick="window.itinDel(${i})">×</button>
+      </div>`;
+    }
+  }
+  container.innerHTML=html;
+}
+
+function itinAdd(){
+  const text=document.getElementById('itin-text').value.trim();
+  if(!text) return;
+  const entry={
+    type: document.getElementById('itin-type').value,
+    time: document.getElementById('itin-time').value.trim(),
+    text,
+    sub:  document.getElementById('itin-sub').value.trim(),
+  };
+  if(!itinerary[activeKey]) itinerary[activeKey]=[];
+  itinerary[activeKey].push(entry);
+  saveItin();
+  document.getElementById('itin-time').value='';
+  document.getElementById('itin-text').value='';
+  document.getElementById('itin-sub').value='';
+  renderItin();
+}
+
+function itinDel(idx){
+  const arr=itinerary[activeKey]||[];
+  arr.splice(idx,1);
+  itinerary[activeKey]=arr;
+  saveItin(); renderItin();
+}
+
 /* ── Memo ── */
 const memoEl=document.getElementById('dv-memo');
 memoEl.addEventListener('focus',()=>memoFocused=true);
@@ -401,13 +582,16 @@ memoEl.addEventListener('input',function(){
 /* ── Keyboard ── */
 document.addEventListener('keydown',e=>{
   if(e.key==='Enter'&&!e.isComposing&&isDayOpen()&&document.activeElement===document.getElementById('dv-evt-input')) dvAddEvt();
+  if(e.key==='Enter'&&!e.isComposing&&isDayOpen()&&document.activeElement===document.getElementById('itin-text')) itinAdd();
 });
 
-/* ── Expose to HTML onclick ── */
+/* ── Expose ── */
 window.showCal  = showCal;
 window.showDay  = showDay;
 window.dvAddEvt = dvAddEvt;
 window.dvDelEvt = dvDelEvt;
+window.itinAdd  = itinAdd;
+window.itinDel  = itinDel;
 
 /* ── Init ── */
 buildWeekdays();
