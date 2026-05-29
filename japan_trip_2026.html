@@ -134,17 +134,17 @@
   .ve-in:focus{border-bottom-color:var(--muted);background:#f5f1ec;}
 
   /* Entry wrapper */
-  .ve-entry{display:flex;align-items:flex-start;width:100%;}
+  .ve-entry{display:flex;align-items:stretch;width:100%;}
 
   /* Controls — show on hover */
-  .ve-ctrl{display:flex;flex-direction:column;gap:1px;padding-left:6px;flex-shrink:0;opacity:0;transition:opacity 0.15s;}
+  .ve-ctrl{display:flex;flex-direction:column;gap:1px;padding-left:6px;flex-shrink:0;opacity:0;transition:opacity 0.15s;align-self:flex-start;}
   .ve-entry:hover .ve-ctrl{opacity:1;}
   .ve-ctrl-btn{background:none;border:none;cursor:pointer;font-size:11px;color:var(--faint);padding:2px 4px;line-height:1.4;border-radius:3px;transition:color 0.12s,background 0.12s;}
   .ve-ctrl-btn:hover{color:var(--text);background:#f0ebe4;}
   .ve-ctrl-btn.del:hover{color:#c0392b;background:#fde8e8;}
 
   /* Time column — shared by both kinds */
-  .ve-tc{width:58px;flex-shrink:0;display:flex;align-items:flex-start;justify-content:flex-end;padding-right:8px;padding-top:3px;}
+  .ve-tc{width:58px;flex-shrink:0;display:flex;align-items:flex-start;justify-content:flex-end;padding-right:8px;padding-top:3px;align-self:flex-start;}
   .ve-time-in{width:52px;font-size:11px;color:var(--muted);text-align:right;}
 
   /* Timeline line column */
@@ -172,7 +172,8 @@
   .ve-dur-in{font-size:11px;color:var(--muted);min-width:70px;width:70px;}
 
   /* Insert row between entries */
-  .ve-insert{display:flex;align-items:center;gap:6px;padding:0 0 0 78px;height:18px;opacity:0;transition:opacity 0.15s;}
+  .ve-insert{display:flex;align-items:center;gap:6px;padding:0 0 0 78px;height:20px;opacity:0;transition:opacity 0.15s;position:relative;}
+  .ve-insert::before{content:'';position:absolute;left:67px;top:0;bottom:0;width:2px;background:#ccc;}
   .ve-editor:hover .ve-insert{opacity:0.45;}
   .ve-insert:hover{opacity:1!important;}
   .ve-insert-btn{background:none;border:1px dashed var(--faint);border-radius:4px;font-size:10px;color:var(--muted);cursor:pointer;padding:1px 8px;font-family:'Noto Sans JP',sans-serif;transition:all 0.15s;}
