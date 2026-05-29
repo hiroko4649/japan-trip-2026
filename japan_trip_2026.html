@@ -10,23 +10,18 @@
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
-    --bg:         #faf8f5;
-    --surface:    #ffffff;
-    --border:     #e8e2d9;
-    --border-mid: #c8c0b5;
-    --text:       #2a2520;
-    --muted:      #8c8278;
-    --faint:      #c4bdb4;
-    --flight-bg:  #ddeef8; --flight-fg:  #1a4d70;
-    --concert-bg: #ede8f7; --concert-fg: #3d2a7a;
-    --user-bg:    #daf0e6; --user-fg:    #1a5c3a;
-    --hotel-bg:   #faebd2; --hotel-fg:   #6b3f0a;
-    --hiroko-bg:  #fde8f0; --hiroko-fg:  #8c2252;
-    --ippei-bg:   #d4e4f4; --ippei-fg:   #1a3a6b;
-    --futari-bg:  #f8d8d8; --futari-fg:  #6b1a1a;
-    --other1-bg:  #e8e8f4; --other1-fg:  #3a3a6a;
-    --other2-bg:  #e4ede0; --other2-fg:  #2a4a2a;
-    --sun: #b83232; --sat: #2c5f8a;
+    --bg:#faf8f5; --surface:#ffffff; --border:#e8e2d9; --border-mid:#c8c0b5;
+    --text:#2a2520; --muted:#8c8278; --faint:#c4bdb4;
+    --flight-bg:#ddeef8; --flight-fg:#1a4d70;
+    --concert-bg:#ede8f7; --concert-fg:#3d2a7a;
+    --user-bg:#daf0e6; --user-fg:#1a5c3a;
+    --hotel-bg:#faebd2; --hotel-fg:#6b3f0a;
+    --hiroko-bg:#fde8f0; --hiroko-fg:#8c2252;
+    --ippei-bg:#d4e4f4; --ippei-fg:#1a3a6b;
+    --futari-bg:#f8d8d8; --futari-fg:#6b1a1a;
+    --other1-bg:#e8e8f4; --other1-fg:#3a3a6a;
+    --other2-bg:#e4ede0; --other2-fg:#2a4a2a;
+    --sun:#b83232; --sat:#2c5f8a;
   }
   body { font-family:'Noto Sans JP',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; }
   .page { display:none; } .page.active { display:block; }
@@ -44,126 +39,119 @@
   .legend { display:flex; align-items:center; gap:14px; flex-wrap:wrap; padding:10px 40px; background:var(--surface); border-bottom:1px solid var(--border); font-size:11px; color:var(--muted); }
   .leg { display:flex; align-items:center; gap:4px; }
   .leg-chip { width:20px; height:8px; border-radius:2px; }
-  .leg-flight  { background:var(--flight-bg); }  .leg-concert { background:var(--concert-bg); }
-  .leg-user    { background:var(--user-bg); }    .leg-hotel   { background:var(--hotel-bg); }
-  .leg-hiroko  { background:var(--hiroko-bg); }  .leg-ippei   { background:var(--ippei-bg); }
-  .leg-futari  { background:var(--futari-bg); }  .leg-other1  { background:var(--other1-bg); }
-  .leg-other2  { background:var(--other2-bg); }
+  .leg-flight{background:var(--flight-bg);} .leg-concert{background:var(--concert-bg);}
+  .leg-user{background:var(--user-bg);}    .leg-hotel{background:var(--hotel-bg);}
+  .leg-hiroko{background:var(--hiroko-bg);} .leg-ippei{background:var(--ippei-bg);}
+  .leg-futari{background:var(--futari-bg);} .leg-other1{background:var(--other1-bg);}
+  .leg-other2{background:var(--other2-bg);}
   .sync-badge { margin-left:auto; display:flex; align-items:center; gap:5px; font-size:11px; letter-spacing:0.04em; }
   .sync-dot { width:7px; height:7px; border-radius:50%; background:var(--faint); transition:background 0.4s; }
-  .sync-dot.synced  { background:#52a97a; } .sync-dot.saving  { background:#e6a817; } .sync-dot.offline { background:#c0392b; }
+  .sync-dot.synced{background:#52a97a;} .sync-dot.saving{background:#e6a817;} .sync-dot.offline{background:#c0392b;}
 
   /* ── Calendar ── */
   .cal-area { padding:28px 40px; max-width:860px; margin:0 auto; }
   .month-card { background:var(--surface); border:1px solid var(--border); border-radius:12px; overflow:hidden; }
   .weekdays { display:grid; grid-template-columns:repeat(7,1fr); background:#f2ede8; border-bottom:1px solid var(--border); }
-  .wd { text-align:center; font-size:11px; letter-spacing:0.05em; padding:8px 0; color:var(--muted); }
-  .wd.sun { color:var(--sun); } .wd.sat { color:var(--sat); }
+  .wd { text-align:center; font-size:11px; padding:8px 0; color:var(--muted); letter-spacing:0.05em; }
+  .wd.sun{color:var(--sun);} .wd.sat{color:var(--sat);}
   .days { display:grid; grid-template-columns:repeat(7,1fr); grid-auto-rows:76px; }
   .day { height:76px; overflow:hidden; padding:5px 6px 4px; border-right:1px solid var(--border); border-bottom:1px solid var(--border); cursor:pointer; transition:background 0.12s; position:relative; }
-  .day:hover { background:#f0ebe4; }
-  .day:nth-child(7n) { border-right:none; }
-  .day.month-boundary { border-top:2px solid var(--border-mid); }
-  .day.empty  { background:#f6f3f0; cursor:default; pointer-events:none; }
-  .day.outside { opacity:0.32; cursor:default; pointer-events:none; }
-  .day.has-memo::after { content:''; position:absolute; top:5px; right:5px; width:5px; height:5px; border-radius:50%; background:var(--muted); }
-  .month-label { font-family:'Noto Serif JP',serif; font-size:9px; font-weight:600; letter-spacing:0.05em; color:var(--faint); line-height:1; margin-bottom:1px; }
-  .day.dec-first .month-label { color:var(--muted); }
-  .day-num { font-size:13px; font-weight:300; color:var(--muted); line-height:1; margin-bottom:3px; }
-  .day.sun .day-num { color:var(--sun); font-weight:400; } .day.sat .day-num { color:var(--sat); font-weight:400; }
-  .day.trip .day-num { color:var(--text); font-weight:500; }
-  .evt-chip { font-size:9.5px; border-radius:3px; padding:1px 4px; margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; line-height:1.6; display:block; }
-  .evt-chip.flight  { background:var(--flight-bg);  color:var(--flight-fg); }
-  .evt-chip.concert { background:var(--concert-bg); color:var(--concert-fg); }
-  .evt-chip.user    { background:var(--user-bg);    color:var(--user-fg); }
-  .evt-chip.hotel   { background:var(--hotel-bg);   color:var(--hotel-fg); }
-  .evt-chip.hiroko  { background:var(--hiroko-bg);  color:var(--hiroko-fg); }
-  .evt-chip.ippei   { background:var(--ippei-bg);   color:var(--ippei-fg); }
-  .evt-chip.futari  { background:var(--futari-bg);  color:var(--futari-fg); }
-  .evt-chip.other1  { background:var(--other1-bg);  color:var(--other1-fg); }
-  .evt-chip.other2  { background:var(--other2-bg);  color:var(--other2-fg); }
-  .evt-more { font-size:9px; color:var(--faint); margin-top:1px; }
-  .cal-footer { text-align:center; font-size:11px; color:var(--faint); padding:16px 40px 40px; letter-spacing:0.06em; }
+  .day:hover{background:#f0ebe4;} .day:nth-child(7n){border-right:none;}
+  .day.month-boundary{border-top:2px solid var(--border-mid);}
+  .day.empty{background:#f6f3f0;cursor:default;pointer-events:none;}
+  .day.outside{opacity:0.32;cursor:default;pointer-events:none;}
+  .day.has-memo::after{content:'';position:absolute;top:5px;right:5px;width:5px;height:5px;border-radius:50%;background:var(--muted);}
+  .month-label{font-family:'Noto Serif JP',serif;font-size:9px;font-weight:600;letter-spacing:0.05em;color:var(--faint);line-height:1;margin-bottom:1px;}
+  .day.dec-first .month-label{color:var(--muted);}
+  .day-num{font-size:13px;font-weight:300;color:var(--muted);line-height:1;margin-bottom:3px;}
+  .day.sun .day-num{color:var(--sun);font-weight:400;} .day.sat .day-num{color:var(--sat);font-weight:400;}
+  .day.trip .day-num{color:var(--text);font-weight:500;}
+  .evt-chip{font-size:9.5px;border-radius:3px;padding:1px 4px;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.6;display:block;}
+  .evt-chip.flight{background:var(--flight-bg);color:var(--flight-fg);}
+  .evt-chip.concert{background:var(--concert-bg);color:var(--concert-fg);}
+  .evt-chip.user{background:var(--user-bg);color:var(--user-fg);}
+  .evt-chip.hotel{background:var(--hotel-bg);color:var(--hotel-fg);}
+  .evt-chip.hiroko{background:var(--hiroko-bg);color:var(--hiroko-fg);}
+  .evt-chip.ippei{background:var(--ippei-bg);color:var(--ippei-fg);}
+  .evt-chip.futari{background:var(--futari-bg);color:var(--futari-fg);}
+  .evt-chip.other1{background:var(--other1-bg);color:var(--other1-fg);}
+  .evt-chip.other2{background:var(--other2-bg);color:var(--other2-fg);}
+  .evt-more{font-size:9px;color:var(--faint);margin-top:1px;}
+  .cal-footer{text-align:center;font-size:11px;color:var(--faint);padding:16px 40px 40px;letter-spacing:0.06em;}
 
   /* ── Day View ── */
-  #dayPage { min-height:100vh; background:var(--bg); padding-bottom:60px; }
-  .day-header { background:var(--text); color:#fff; padding:0 40px; display:flex; align-items:center; gap:20px; height:64px; position:sticky; top:0; z-index:10; }
-  .back-btn { background:none; border:1px solid rgba(255,255,255,0.25); color:rgba(255,255,255,0.8); border-radius:6px; padding:6px 14px; font-size:13px; font-family:'Noto Sans JP',sans-serif; cursor:pointer; display:flex; align-items:center; gap:6px; transition:all 0.15s; flex-shrink:0; }
-  .back-btn:hover { border-color:rgba(255,255,255,0.55); color:#fff; }
-  .day-header-date { font-family:'Noto Serif JP',serif; font-size:20px; font-weight:600; letter-spacing:0.03em; }
-  .day-body { max-width:680px; margin:0 auto; padding:32px 40px; display:flex; flex-direction:column; gap:28px; }
-  .day-section { background:var(--surface); border:1px solid var(--border); border-radius:12px; overflow:hidden; }
-  .day-section-head { padding:14px 20px 12px; border-bottom:1px solid var(--border); }
-  .day-section-title { font-family:'Noto Serif JP',serif; font-size:14px; font-weight:600; color:var(--text); letter-spacing:0.04em; }
-  .day-section-body { padding:16px 20px; }
+  #dayPage{min-height:100vh;background:var(--bg);padding-bottom:60px;}
+  .day-header{background:var(--text);color:#fff;padding:0 40px;display:flex;align-items:center;gap:20px;height:64px;position:sticky;top:0;z-index:10;}
+  .back-btn{background:none;border:1px solid rgba(255,255,255,0.25);color:rgba(255,255,255,0.8);border-radius:6px;padding:6px 14px;font-size:13px;font-family:'Noto Sans JP',sans-serif;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all 0.15s;flex-shrink:0;}
+  .back-btn:hover{border-color:rgba(255,255,255,0.55);color:#fff;}
+  .day-header-date{font-family:'Noto Serif JP',serif;font-size:20px;font-weight:600;letter-spacing:0.03em;}
+  .day-body{max-width:680px;margin:0 auto;padding:32px 40px;display:flex;flex-direction:column;gap:28px;}
+  .day-section{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+  .day-section-head{padding:14px 20px 12px;border-bottom:1px solid var(--border);}
+  .day-section-title{font-family:'Noto Serif JP',serif;font-size:14px;font-weight:600;color:var(--text);letter-spacing:0.04em;}
+  .day-section-body{padding:16px 20px;}
+  .evt-full-row{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-radius:7px;margin-bottom:6px;font-size:14px;gap:8px;}
+  .evt-full-row:last-child{margin-bottom:0;}
+  .evt-full-row.flight{background:var(--flight-bg);color:var(--flight-fg);}
+  .evt-full-row.concert{background:var(--concert-bg);color:var(--concert-fg);}
+  .evt-full-row.user{background:var(--user-bg);color:var(--user-fg);}
+  .evt-full-row.hotel{background:var(--hotel-bg);color:var(--hotel-fg);}
+  .evt-full-row.hiroko{background:var(--hiroko-bg);color:var(--hiroko-fg);}
+  .evt-full-row.ippei{background:var(--ippei-bg);color:var(--ippei-fg);}
+  .evt-full-row.futari{background:var(--futari-bg);color:var(--futari-fg);}
+  .evt-full-row.other1{background:var(--other1-bg);color:var(--other1-fg);}
+  .evt-full-row.other2{background:var(--other2-bg);color:var(--other2-fg);}
+  .evt-full-text{flex:1;line-height:1.4;}
+  .evt-del-btn{background:none;border:none;cursor:pointer;font-size:17px;opacity:0.45;line-height:1;padding:0 2px;color:inherit;flex-shrink:0;transition:opacity 0.15s;}
+  .evt-del-btn:hover{opacity:1;}
+  .no-evts-msg{font-size:13px;color:var(--faint);font-style:italic;padding:4px 0;}
+  .add-evt-form{display:flex;flex-direction:column;gap:10px;}
+  .add-evt-form input,.add-evt-form select{width:100%;padding:10px 13px;border:1px solid var(--border);border-radius:8px;font-size:14px;font-family:'Noto Sans JP',sans-serif;color:var(--text);background:var(--bg);outline:none;transition:border 0.15s;}
+  .add-evt-form input:focus,.add-evt-form select:focus{border-color:var(--muted);background:#fff;}
+  .add-evt-btn{padding:10px 16px;background:var(--text);color:#fff;border:none;border-radius:8px;font-size:14px;font-family:'Noto Sans JP',sans-serif;cursor:pointer;font-weight:400;letter-spacing:0.04em;transition:opacity 0.15s;align-self:flex-start;min-width:100px;}
+  .add-evt-btn:hover{opacity:0.78;}
+  .memo-area{width:100%;min-height:220px;padding:14px;border:1px solid var(--border);border-radius:8px;font-size:14px;font-family:'Noto Sans JP',sans-serif;color:var(--text);background:var(--bg);line-height:1.9;resize:vertical;outline:none;transition:border 0.15s;}
+  .memo-area:focus{border-color:var(--muted);background:#fff;}
+  .memo-status{font-size:11px;color:var(--faint);margin-top:7px;letter-spacing:0.04em;height:16px;}
 
-  /* Events */
-  .evt-full-row { display:flex; align-items:center; justify-content:space-between; padding:8px 12px; border-radius:7px; margin-bottom:6px; font-size:14px; gap:8px; }
-  .evt-full-row:last-child { margin-bottom:0; }
-  .evt-full-row.flight  { background:var(--flight-bg);  color:var(--flight-fg); }
-  .evt-full-row.concert { background:var(--concert-bg); color:var(--concert-fg); }
-  .evt-full-row.user    { background:var(--user-bg);    color:var(--user-fg); }
-  .evt-full-row.hotel   { background:var(--hotel-bg);   color:var(--hotel-fg); }
-  .evt-full-row.hiroko  { background:var(--hiroko-bg);  color:var(--hiroko-fg); }
-  .evt-full-row.ippei   { background:var(--ippei-bg);   color:var(--ippei-fg); }
-  .evt-full-row.futari  { background:var(--futari-bg);  color:var(--futari-fg); }
-  .evt-full-row.other1  { background:var(--other1-bg);  color:var(--other1-fg); }
-  .evt-full-row.other2  { background:var(--other2-bg);  color:var(--other2-fg); }
-  .evt-full-text { flex:1; line-height:1.4; }
-  .evt-del-btn { background:none; border:none; cursor:pointer; font-size:17px; opacity:0.45; line-height:1; padding:0 2px; color:inherit; flex-shrink:0; transition:opacity 0.15s; }
-  .evt-del-btn:hover { opacity:1; }
-  .no-evts-msg { font-size:13px; color:var(--faint); font-style:italic; padding:4px 0; }
+  /* ── Itinerary display ── */
+  .itin-empty{font-size:13px;color:var(--faint);font-style:italic;}
+  .itin-wrap{display:flex;align-items:flex-start;width:100%;}
+  .itin-r{display:flex;align-items:flex-start;flex:1;min-height:30px;}
+  .itin-tc{width:52px;text-align:right;padding-right:10px;font-size:11px;color:var(--muted);padding-top:4px;flex-shrink:0;line-height:1.4;}
+  .itin-lc{display:flex;flex-direction:column;align-items:center;width:20px;flex-shrink:0;}
+  .itin-dot{width:10px;height:10px;border-radius:50%;background:var(--text);flex-shrink:0;margin-top:4px;}
+  .itin-vl{width:2px;flex:1;min-height:12px;}
+  .itin-vl.tr{background:#2471a3;} .itin-vl.bu{background:#b7770d;}
+  .itin-vl.wk{background:#1e8449;} .itin-vl.sl{background:#bbb;}
+  .itin-cc{flex:1;padding:2px 0 10px 10px;}
+  .itin-place{font-size:14px;font-weight:500;color:var(--text);line-height:1.4;}
+  .itin-note-line{display:block;font-size:11px;color:#666;margin-top:2px;padding:2px 0;}
+  .itin-sg{display:flex;align-items:center;gap:6px;padding:4px 0 4px 10px;flex:1;}
+  .itin-bd{display:inline-flex;align-items:center;gap:4px;font-size:11px;padding:3px 9px;border-radius:4px;}
+  .itin-bd.tr{background:#d6eaf8;color:#1a5276;}
+  .itin-bd.bu{background:#fef3cd;color:#7d4e00;}
+  .itin-bd.wk{background:#d5f5e3;color:#1e5631;}
+  .itin-bd.sl{background:#f2f2f2;color:#555;border:0.5px solid #ccc;}
+  .itin-dur{font-size:11px;color:#aaa;}
+  .itin-del{background:none;border:none;cursor:pointer;font-size:14px;opacity:0.25;padding:4px 4px 0;color:var(--text);flex-shrink:0;transition:opacity 0.15s;align-self:flex-start;}
+  .itin-del:hover{opacity:0.8;}
 
-  /* Add event form */
-  .add-evt-form { display:flex; flex-direction:column; gap:10px; }
-  .add-evt-form input, .add-evt-form select { width:100%; padding:10px 13px; border:1px solid var(--border); border-radius:8px; font-size:14px; font-family:'Noto Sans JP',sans-serif; color:var(--text); background:var(--bg); outline:none; transition:border 0.15s; }
-  .add-evt-form input:focus, .add-evt-form select:focus { border-color:var(--muted); background:#fff; }
-  .add-evt-btn { padding:10px 16px; background:var(--text); color:#fff; border:none; border-radius:8px; font-size:14px; font-family:'Noto Sans JP',sans-serif; cursor:pointer; font-weight:400; letter-spacing:0.04em; transition:opacity 0.15s; align-self:flex-start; min-width:100px; }
-  .add-evt-btn:hover { opacity:0.78; }
-
-  /* Memo */
-  .memo-area { width:100%; min-height:220px; padding:14px; border:1px solid var(--border); border-radius:8px; font-size:14px; font-family:'Noto Sans JP',sans-serif; color:var(--text); background:var(--bg); line-height:1.9; resize:vertical; outline:none; transition:border 0.15s; }
-  .memo-area:focus { border-color:var(--muted); background:#fff; }
-  .memo-status { font-size:11px; color:var(--faint); margin-top:7px; letter-spacing:0.04em; height:16px; }
-
-  /* ── Itinerary ── */
-  .itin-display { margin-bottom:4px; }
-  .itin-empty { font-size:13px; color:var(--faint); font-style:italic; }
-
-  .itin-r { display:flex; align-items:flex-start; min-height:32px; }
-  .itin-tc { width:52px; text-align:right; padding-right:10px; font-size:11px; color:var(--muted); padding-top:4px; flex-shrink:0; line-height:1.4; }
-  .itin-lc { display:flex; flex-direction:column; align-items:center; width:20px; flex-shrink:0; }
-  .itin-dot { width:10px; height:10px; border-radius:50%; background:var(--text); flex-shrink:0; margin-top:4px; }
-  .itin-vl { width:2px; flex:1; min-height:10px; }
-  .itin-vl.tr { background:#2471a3; } .itin-vl.bu { background:#b7770d; }
-  .itin-vl.wk { background:#1e8449; } .itin-vl.sl { background:#aaa; }
-  .itin-cc { flex:1; padding:2px 0 8px 10px; }
-  .itin-sg { display:flex; align-items:center; gap:6px; padding:4px 0 4px 10px; flex:1; }
-  .itin-sn { font-size:14px; font-weight:500; color:var(--text); line-height:1.4; }
-  .itin-ss { font-size:12px; color:var(--muted); margin-top:1px; }
-  .itin-stay { display:inline-flex; align-items:center; gap:4px; font-size:11px; padding:2px 8px; border-radius:4px; background:#f2f2f2; color:#555; margin-top:3px; }
-  .itin-bd { display:inline-flex; align-items:center; gap:4px; font-size:11px; padding:3px 9px; border-radius:4px; }
-  .itin-bd.tr { background:#d6eaf8; color:#1a5276; }
-  .itin-bd.bu { background:#fef3cd; color:#7d4e00; }
-  .itin-bd.wk { background:#d5f5e3; color:#1e5631; }
-  .itin-bd.sl { background:#f2f2f2; color:#555; border:0.5px solid #ccc; }
-  .itin-bdt { font-size:11px; color:#aaa; }
-  .itin-del { background:none; border:none; cursor:pointer; font-size:15px; opacity:0.25; padding:2px 4px; color:var(--text); margin-left:4px; align-self:center; flex-shrink:0; transition:opacity 0.15s; }
-  .itin-del:hover { opacity:0.8; }
-  .itin-row-wrap { display:flex; align-items:flex-start; width:100%; }
-  .itin-row-wrap > .itin-r { flex:1; }
-
-  /* Itinerary add form */
-  .itin-form { margin-top:16px; padding-top:16px; border-top:1px solid var(--border); display:flex; flex-direction:column; gap:9px; }
-  .itin-form-top { display:flex; gap:8px; }
-  .itin-time-in { width:96px; flex-shrink:0; padding:9px 10px; border:1px solid var(--border); border-radius:8px; font-size:13px; font-family:'Noto Sans JP',sans-serif; color:var(--text); background:var(--bg); outline:none; transition:border 0.15s; }
-  .itin-time-in:focus { border-color:var(--muted); background:#fff; }
-  .itin-type-sel { flex:1; padding:9px 10px; border:1px solid var(--border); border-radius:8px; font-size:13px; font-family:'Noto Sans JP',sans-serif; color:var(--text); background:var(--bg); outline:none; transition:border 0.15s; }
-  .itin-type-sel:focus { border-color:var(--muted); background:#fff; }
-  .itin-text-in { width:100%; padding:9px 12px; border:1px solid var(--border); border-radius:8px; font-size:13px; font-family:'Noto Sans JP',sans-serif; color:var(--text); background:var(--bg); outline:none; transition:border 0.15s; }
-  .itin-text-in:focus { border-color:var(--muted); background:#fff; }
-  .itin-add-btn { padding:9px 16px; background:var(--text); color:#fff; border:none; border-radius:8px; font-size:13px; font-family:'Noto Sans JP',sans-serif; cursor:pointer; font-weight:400; letter-spacing:0.04em; transition:opacity 0.15s; align-self:flex-start; }
-  .itin-add-btn:hover { opacity:0.78; }
+  /* ── Itinerary add forms ── */
+  .itin-add-area{margin-top:16px;padding-top:16px;border-top:1px solid var(--border);}
+  .itin-tabs{display:flex;gap:8px;margin-bottom:14px;}
+  .itin-tab{flex:1;padding:9px 8px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--muted);font-size:13px;font-family:'Noto Sans JP',sans-serif;cursor:pointer;text-align:center;transition:all 0.15s;font-weight:400;}
+  .itin-tab.active{background:var(--text);color:#fff;border-color:var(--text);}
+  .itin-tab:hover:not(.active){background:#f0ebe4;color:var(--text);}
+  .itin-form{display:none;flex-direction:column;gap:9px;}
+  .itin-form.active{display:flex;}
+  .itin-row{display:flex;gap:8px;}
+  .itin-in,.itin-sel{width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:'Noto Sans JP',sans-serif;color:var(--text);background:var(--bg);outline:none;transition:border 0.15s;}
+  .itin-in:focus,.itin-sel:focus{border-color:var(--muted);background:#fff;}
+  .itin-in-sm{flex:0 0 90px;}
+  .itin-hint{font-size:11px;color:var(--faint);margin-top:-4px;}
+  .itin-submit{padding:9px 18px;background:var(--text);color:#fff;border:none;border-radius:8px;font-size:13px;font-family:'Noto Sans JP',sans-serif;cursor:pointer;font-weight:400;letter-spacing:0.04em;transition:opacity 0.15s;align-self:flex-start;}
+  .itin-submit:hover{opacity:0.78;}
 
   @media(max-width:640px){
     .cal-area,.day-body{padding:12px 16px;} .header{padding:18px 18px 14px;} .legend{padding:10px 18px;} .trip-bar{padding:6px 18px;font-size:11px;}
@@ -174,16 +162,14 @@
 </head>
 <body>
 
-<!-- ══════ CALENDAR PAGE ══════ -->
+<!-- ══════ CALENDAR ══════ -->
 <div class="page active" id="calPage">
   <header class="header">
     <div>
       <div class="header-title">日本旅行 2026 秋</div>
       <div class="header-sub">Hiroko &amp; 夫 ／ Travel Journal</div>
     </div>
-    <div class="header-dates">
-      <strong>11月15日 — 12月15日</strong>31 days in Japan
-    </div>
+    <div class="header-dates"><strong>11月15日 — 12月15日</strong>31 days in Japan</div>
   </header>
   <div class="trip-bar">
     ✈ JL11 DFW 10:35 → HND 15:25 <span>|</span> 🎵 Bump of Chicken ×3 <span>|</span> ✈ JL12 HND 10:55 → DFW 07:35
@@ -209,7 +195,7 @@
   <div class="cal-footer">日付をクリックで詳細ページへ</div>
 </div>
 
-<!-- ══════ DAY VIEW PAGE ══════ -->
+<!-- ══════ DAY VIEW ══════ -->
 <div class="page" id="dayPage">
   <div class="day-header">
     <button class="back-btn" onclick="window.showCal()">← カレンダー</button>
@@ -249,27 +235,44 @@
     <div class="day-section">
       <div class="day-section-head"><div class="day-section-title">時系列スケジュール</div></div>
       <div class="day-section-body">
-        <div class="itin-display" id="dv-itin"></div>
-        <div class="itin-form">
-          <div class="itin-form-top">
-            <input type="text" class="itin-time-in" id="itin-time" placeholder="時刻（例 09:30）" />
-            <select class="itin-type-sel" id="itin-type">
-              <option value="stop">📍 場所・目的地</option>
+
+        <!-- 表示エリア -->
+        <div id="dv-itin"></div>
+
+        <!-- 追加フォーム -->
+        <div class="itin-add-area">
+          <!-- タブ切り替え -->
+          <div class="itin-tabs">
+            <button class="itin-tab active" id="tab-loc"  onclick="window.itinTab('loc')">📍 場所を追加</button>
+            <button class="itin-tab"        id="tab-move" onclick="window.itinTab('move')">🚃 移動を追加</button>
+          </div>
+
+          <!-- 場所フォーム -->
+          <div class="itin-form active" id="form-loc">
+            <div class="itin-row">
+              <input class="itin-in itin-in-sm" type="text" id="loc-time" placeholder="時刻" />
+              <input class="itin-in" type="text" id="loc-place" placeholder="場所名（例：高松、境港）" />
+            </div>
+            <input class="itin-in" type="text" id="loc-notes" placeholder="メモ・活動内容（例：うどん巡り、朝市散策）任意" />
+            <div class="itin-hint">複数の活動はカンマで区切ると複数行で表示されます</div>
+            <button class="itin-submit" onclick="window.itinAddLoc()">＋ 場所を追加</button>
+          </div>
+
+          <!-- 移動フォーム -->
+          <div class="itin-form" id="form-move">
+            <select class="itin-sel" id="move-type">
               <option value="train">🚃 電車</option>
               <option value="bus">🚌 バス</option>
               <option value="walk">🚶 徒歩</option>
               <option value="flight">✈️ 飛行機</option>
               <option value="sleep">🌙 夜行・車中泊</option>
-              <option value="hotel">🏨 ホテル着</option>
-              <option value="event">🎵 ライブ・イベント</option>
-              <option value="meal">🍽️ 食事</option>
-              <option value="sight">🗺️ 観光・散策</option>
             </select>
+            <input class="itin-in" type="text" id="move-name" placeholder="路線・便名（例：マリンライナー4号）" />
+            <input class="itin-in" type="text" id="move-dur"  placeholder="所要時間（例：約53分）任意" />
+            <button class="itin-submit" onclick="window.itinAddMove()">＋ 移動を追加</button>
           </div>
-          <input type="text" class="itin-text-in" id="itin-text" placeholder="内容（例：京都駅、マリンライナー4号）" />
-          <input type="text" class="itin-text-in" id="itin-sub"  placeholder="補足・所要時間（任意）" />
-          <button class="itin-add-btn" onclick="window.itinAdd()">＋ 追加</button>
         </div>
+
       </div>
     </div>
 
@@ -301,95 +304,65 @@ const app = initializeApp({
 const db = getDatabase(app);
 
 /* ── Constants ── */
-const TRIP_START = new Date(2026,10,15);
-const TRIP_END   = new Date(2026,11,15);
-const DOW_JP     = ['日','月','火','水','木','金','土'];
-const FIXED = {
-  '2026-11-15':[{type:'flight',  text:'✈ JL11 DFW発 10:35'}],
-  '2026-11-16':[{type:'flight',  text:'✈ HND着 15:25'}],
-  '2026-11-21':[{type:'concert', text:'🎵 BOC あなぶきAR香川'}],
-  '2026-11-29':[{type:'concert', text:'🎵 BOC 広島グリーンAR'}],
-  '2026-12-12':[{type:'concert', text:'🎵 BOC マリンメッセ福岡'}],
-  '2026-12-15':[{type:'flight',  text:'✈ JL12 HND発 10:55'}],
+const TRIP_START=new Date(2026,10,15), TRIP_END=new Date(2026,11,15);
+const DOW_JP=['日','月','火','水','木','金','土'];
+const FIXED={
+  '2026-11-15':[{type:'flight',text:'✈ JL11 DFW発 10:35'}],
+  '2026-11-16':[{type:'flight',text:'✈ HND着 15:25'}],
+  '2026-11-21':[{type:'concert',text:'🎵 BOC あなぶきAR香川'}],
+  '2026-11-29':[{type:'concert',text:'🎵 BOC 広島グリーンAR'}],
+  '2026-12-12':[{type:'concert',text:'🎵 BOC マリンメッセ福岡'}],
+  '2026-12-15':[{type:'flight',text:'✈ JL12 HND発 10:55'}],
 };
 
-/* ── Itinerary config ── */
-const ITIN_CFG = {
-  stop:   { icon:'📍', lineClass:'sl',  isTransport:false },
-  train:  { icon:'🚃', lineClass:'tr',  isTransport:true  },
-  bus:    { icon:'🚌', lineClass:'bu',  isTransport:true  },
-  walk:   { icon:'🚶', lineClass:'wk',  isTransport:true  },
-  flight: { icon:'✈️', lineClass:'tr',  isTransport:true  },
-  sleep:  { icon:'🌙', lineClass:'sl',  isTransport:true  },
-  hotel:  { icon:'🏨', lineClass:'sl',  isTransport:false },
-  event:  { icon:'🎵', lineClass:'sl',  isTransport:false },
-  meal:   { icon:'🍽️', lineClass:'sl',  isTransport:false },
-  sight:  { icon:'🗺️', lineClass:'wk',  isTransport:false },
+// Transport type → line/badge class
+const MOVE_CFG={
+  train:{icon:'🚃',cls:'tr'}, bus:{icon:'🚌',cls:'bu'},
+  walk:{icon:'🚶',cls:'wk'},  flight:{icon:'✈️',cls:'tr'},
+  sleep:{icon:'🌙',cls:'sl'},
 };
 
 /* ── State ── */
-let userEvts={}, memos={}, itinerary={};
-let activeKey=null, memoTimer=null, memoFocused=false;
+let userEvts={},memos={},itinerary={};
+let activeKey=null,memoTimer=null,memoFocused=false;
 
 /* ── Sync UI ── */
 function setSync(s){
-  const dot=document.getElementById('sync-dot'), txt=document.getElementById('sync-text');
-  if(!dot||!txt) return;
+  const dot=document.getElementById('sync-dot'),txt=document.getElementById('sync-text');
+  if(!dot||!txt)return;
   dot.className='sync-dot '+s;
   txt.textContent=s==='synced'?'同期済み':s==='saving'?'保存中...':s==='offline'?'オフライン':'接続中...';
 }
 
-/* ── Firebase listeners ── */
-onValue(ref(db,'.info/connected'),s=>{ if(s.val()===false) setSync('offline'); });
-
+/* ── Firebase ── */
+onValue(ref(db,'.info/connected'),s=>{if(s.val()===false)setSync('offline');});
 onValue(ref(db,'evts'),snap=>{
-  try{ userEvts=JSON.parse(snap.val()||'{}'); }catch(e){ userEvts={}; }
-  buildCalendar();
-  if(activeKey&&isDayOpen()) renderEvts();
-  setSync('synced');
+  try{userEvts=JSON.parse(snap.val()||'{}');}catch(e){userEvts={};}
+  buildCalendar(); if(activeKey&&isDayOpen())renderEvts(); setSync('synced');
 },()=>setSync('offline'));
-
 onValue(ref(db,'memo'),snap=>{
-  try{ memos=JSON.parse(snap.val()||'{}'); }catch(e){ memos={}; }
+  try{memos=JSON.parse(snap.val()||'{}');}catch(e){memos={};}
   buildCalendar();
   if(activeKey&&isDayOpen()&&!memoFocused)
     document.getElementById('dv-memo').value=memos[activeKey]||'';
   setSync('synced');
 },()=>setSync('offline'));
-
 onValue(ref(db,'itin'),snap=>{
-  try{ itinerary=JSON.parse(snap.val()||'{}'); }catch(e){ itinerary={}; }
-  if(activeKey&&isDayOpen()) renderItin();
-  setSync('synced');
+  try{itinerary=JSON.parse(snap.val()||'{}');}catch(e){itinerary={};}
+  if(activeKey&&isDayOpen())renderItin(); setSync('synced');
 },()=>setSync('offline'));
 
-/* ── Save ── */
-function saveEvts(){
-  setSync('saving');
-  set(ref(db,'evts'),JSON.stringify(userEvts)).then(()=>setSync('synced')).catch(()=>setSync('offline'));
-}
-function saveMemos(){
-  setSync('saving');
-  set(ref(db,'memo'),JSON.stringify(memos))
-    .then(()=>{ setSync('synced'); memoMsg('保存しました'); })
-    .catch(()=>{ setSync('offline'); memoMsg('保存できませんでした'); });
-}
-function saveItin(){
-  setSync('saving');
-  set(ref(db,'itin'),JSON.stringify(itinerary)).then(()=>setSync('synced')).catch(()=>setSync('offline'));
-}
-function memoMsg(m){
-  const el=document.getElementById('memo-status');
-  if(!el) return;
-  el.textContent=m; setTimeout(()=>{ el.textContent=''; },2000);
-}
+function saveEvts(){setSync('saving');set(ref(db,'evts'),JSON.stringify(userEvts)).then(()=>setSync('synced')).catch(()=>setSync('offline'));}
+function saveMemos(){setSync('saving');set(ref(db,'memo'),JSON.stringify(memos)).then(()=>{setSync('synced');memoMsg('保存しました');}).catch(()=>{setSync('offline');memoMsg('保存できませんでした');});}
+function saveItin(){setSync('saving');set(ref(db,'itin'),JSON.stringify(itinerary)).then(()=>setSync('synced')).catch(()=>setSync('offline'));}
+function memoMsg(m){const el=document.getElementById('memo-status');if(!el)return;el.textContent=m;setTimeout(()=>{el.textContent='';},2000);}
 
 /* ── Helpers ── */
-function dk(y,m,d){ return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`; }
-function allEvts(k){ return [...(FIXED[k]||[]),(userEvts[k]||[])].flat(); }
-function inTrip(d){ return d>=TRIP_START&&d<=TRIP_END; }
-function hasMemo(k){ return !!(memos[k]&&memos[k].trim()); }
-function isDayOpen(){ return document.getElementById('dayPage').classList.contains('active'); }
+function dk(y,m,d){return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;}
+function allEvts(k){return [...(FIXED[k]||[]),(userEvts[k]||[])].flat();}
+function inTrip(d){return d>=TRIP_START&&d<=TRIP_END;}
+function hasMemo(k){return !!(memos[k]&&memos[k].trim());}
+function isDayOpen(){return document.getElementById('dayPage').classList.contains('active');}
 
 /* ── Page switching ── */
 function showCal(){
@@ -402,8 +375,7 @@ function showDay(k,label){
   document.getElementById('dv-date-label').textContent=label;
   document.getElementById('dv-evt-input').value='';
   document.getElementById('memo-status').textContent='';
-  renderEvts();
-  renderItin();
+  renderEvts(); renderItin();
   document.getElementById('dv-memo').value=memos[k]||'';
   document.getElementById('calPage').classList.remove('active');
   document.getElementById('dayPage').classList.add('active');
@@ -412,49 +384,41 @@ function showDay(k,label){
 
 /* ── Calendar ── */
 function buildWeekdays(){
-  document.getElementById('weekdays').innerHTML=
-    DOW_JP.map((d,i)=>`<div class="wd ${i===0?'sun':i===6?'sat':''}">${d}</div>`).join('');
+  document.getElementById('weekdays').innerHTML=DOW_JP.map((d,i)=>`<div class="wd ${i===0?'sun':i===6?'sat':''}">${d}</div>`).join('');
 }
 function buildCalendar(){
   const grid=document.getElementById('days-grid');
   grid.innerHTML='';
   const nov1dow=new Date(2026,10,1).getDay();
   const dec1row=Math.floor((nov1dow+30)/7);
-  const bs=dec1row*7, be=bs+6;
+  const bs=dec1row*7,be=bs+6;
   let ci=0;
-  const blank=(ci)=>{
-    const el=document.createElement('div');
-    el.className='day empty'+(ci>=bs&&ci<=be?' month-boundary':'');
-    return el;
-  };
-  for(let i=0;i<nov1dow;i++){ grid.appendChild(blank(ci)); ci++; }
-  for(let d=1;d<=30;d++){ grid.appendChild(mkDay(2026,10,d,ci,bs,be)); ci++; }
-  for(let d=1;d<=31;d++){ grid.appendChild(mkDay(2026,11,d,ci,bs,be)); ci++; }
+  const blank=ci=>{const el=document.createElement('div');el.className='day empty'+(ci>=bs&&ci<=be?' month-boundary':'');return el;};
+  for(let i=0;i<nov1dow;i++){grid.appendChild(blank(ci));ci++;}
+  for(let d=1;d<=30;d++){grid.appendChild(mkDay(2026,10,d,ci,bs,be));ci++;}
+  for(let d=1;d<=31;d++){grid.appendChild(mkDay(2026,11,d,ci,bs,be));ci++;}
   const rem=ci%7;
-  if(rem>0) for(let i=rem;i<7;i++){ grid.appendChild(blank(ci)); ci++; }
+  if(rem>0)for(let i=rem;i<7;i++){grid.appendChild(blank(ci));ci++;}
 }
 function mkDay(y,m,d,ci,bs,be){
-  const date=new Date(y,m,d), dow=date.getDay(), k=dk(y,m,d);
-  const trip=inTrip(date), isNov1=(m===10&&d===1), isDec1=(m===11&&d===1);
+  const date=new Date(y,m,d),dow=date.getDay(),k=dk(y,m,d);
+  const trip=inTrip(date),isNov1=(m===10&&d===1),isDec1=(m===11&&d===1);
   const evts=allEvts(k);
   const cell=document.createElement('div');
   let cls='day';
-  if(dow===0)cls+=' sun'; if(dow===6)cls+=' sat';
+  if(dow===0)cls+=' sun';if(dow===6)cls+=' sat';
   cls+=trip?' trip':' outside';
   if(isDec1)cls+=' dec-first';
   if(ci>=bs&&ci<=be)cls+=' month-boundary';
   if(trip&&hasMemo(k))cls+=' has-memo';
   cell.className=cls;
   let html='';
-  if(isNov1||isDec1) html+=`<div class="month-label">${m===10?'11月':'12月'}</div>`;
+  if(isNov1||isDec1)html+=`<div class="month-label">${m===10?'11月':'12月'}</div>`;
   html+=`<div class="day-num">${d}</div>`;
-  evts.slice(0,2).forEach(e=>{ html+=`<span class="evt-chip ${e.type}">${e.text}</span>`; });
-  if(evts.length>2) html+=`<div class="evt-more">+${evts.length-2}件</div>`;
+  evts.slice(0,2).forEach(e=>{html+=`<span class="evt-chip ${e.type}">${e.text}</span>`;});
+  if(evts.length>2)html+=`<div class="evt-more">+${evts.length-2}件</div>`;
   cell.innerHTML=html;
-  if(trip){
-    const label=`${y}年${m+1}月${d}日（${DOW_JP[dow]}）`;
-    cell.addEventListener('click',()=>showDay(k,label));
-  }
+  if(trip){const label=`${y}年${m+1}月${d}日（${DOW_JP[dow]}）`;cell.addEventListener('click',()=>showDay(k,label));}
   return cell;
 }
 
@@ -462,70 +426,50 @@ function mkDay(y,m,d,ci,bs,be){
 function renderEvts(){
   const evts=allEvts(activeKey);
   const el=document.getElementById('dv-evts-list');
-  if(!evts.length){ el.innerHTML='<div class="no-evts-msg">予定なし</div>'; return; }
+  if(!evts.length){el.innerHTML='<div class="no-evts-msg">予定なし</div>';return;}
   el.innerHTML=evts.map((e,i)=>{
     const fixed=(FIXED[activeKey]||[]).some(f=>f.text===e.text&&f.type===e.type);
-    return `<div class="evt-full-row ${e.type}">
-      <span class="evt-full-text">${e.text}</span>
-      ${fixed?'':`<button class="evt-del-btn" onclick="window.dvDelEvt(${i})">×</button>`}
-    </div>`;
+    return `<div class="evt-full-row ${e.type}"><span class="evt-full-text">${e.text}</span>${fixed?'':`<button class="evt-del-btn" onclick="window.dvDelEvt(${i})">×</button>`}</div>`;
   }).join('');
 }
 function dvAddEvt(){
   const name=document.getElementById('dv-evt-input').value.trim();
-  if(!name) return;
+  if(!name)return;
   const type=document.getElementById('dv-evt-type').value;
-  if(!userEvts[activeKey]) userEvts[activeKey]=[];
+  if(!userEvts[activeKey])userEvts[activeKey]=[];
   userEvts[activeKey].push({type,text:name});
-  saveEvts();
-  document.getElementById('dv-evt-input').value='';
-  renderEvts();
+  saveEvts();document.getElementById('dv-evt-input').value='';renderEvts();
 }
 function dvDelEvt(idx){
   const e=allEvts(activeKey)[idx];
-  if((FIXED[activeKey]||[]).some(f=>f.text===e.text&&f.type===e.type)) return;
+  if((FIXED[activeKey]||[]).some(f=>f.text===e.text&&f.type===e.type))return;
   const ue=userEvts[activeKey]||[];
   const pos=ue.findIndex(f=>f.text===e.text&&f.type===e.type);
-  if(pos>-1){ ue.splice(pos,1); userEvts[activeKey]=ue; }
-  saveEvts(); renderEvts();
+  if(pos>-1){ue.splice(pos,1);userEvts[activeKey]=ue;}
+  saveEvts();renderEvts();
 }
 
-/* ── Itinerary ── */
+/* ── Itinerary render ── */
 function renderItin(){
   const entries=itinerary[activeKey]||[];
-  const container=document.getElementById('dv-itin');
-  if(!entries.length){
-    container.innerHTML='<div class="itin-empty">まだ予定がありません</div>';
-    return;
-  }
+  const el=document.getElementById('dv-itin');
+  if(!entries.length){el.innerHTML='<div class="itin-empty">まだ追加されていません</div>';return;}
+
   let html='';
   for(let i=0;i<entries.length;i++){
     const e=entries[i];
-    const cfg=ITIN_CFG[e.type]||ITIN_CFG.stop;
     const isLast=i===entries.length-1;
-    // Determine line color below this entry
-    let lineClass='sl';
-    if(!isLast){
-      const next=entries[i+1];
-      const nextCfg=ITIN_CFG[next.type]||ITIN_CFG.stop;
-      lineClass=nextCfg.isTransport?nextCfg.lineClass:cfg.lineClass;
-    }
-    if(cfg.isTransport){
-      // Transport row: no dot, badge + duration
-      html+=`<div class="itin-row-wrap">
-        <div class="itin-r">
-          <div class="itin-tc"></div>
-          <div class="itin-lc"><div class="itin-vl ${cfg.lineClass}"></div></div>
-          <div class="itin-sg">
-            <span class="itin-bd ${cfg.lineClass}">${cfg.icon} ${e.text}</span>
-            ${e.sub?`<span class="itin-bdt">${e.sub}</span>`:''}
-          </div>
-        </div>
-        <button class="itin-del" onclick="window.itinDel(${i})">×</button>
-      </div>`;
-    } else {
-      // Location row: dot + text + optional sub as stay badge
-      html+=`<div class="itin-row-wrap">
+
+    if(e.kind==='loc'){
+      // 場所の点：次の移動の色で縦線を描く
+      let lineClass='sl';
+      if(!isLast){
+        const next=entries[i+1];
+        if(next.kind==='move') lineClass=(MOVE_CFG[next.moveType]||{cls:'sl'}).cls;
+      }
+      // notes をカンマで分割して複数行表示
+      const noteLines=e.notes?e.notes.split(',').map(s=>s.trim()).filter(s=>s):[];
+      html+=`<div class="itin-wrap">
         <div class="itin-r">
           <div class="itin-tc">${e.time||''}</div>
           <div class="itin-lc">
@@ -533,69 +477,103 @@ function renderItin(){
             ${!isLast?`<div class="itin-vl ${lineClass}"></div>`:''}
           </div>
           <div class="itin-cc">
-            <div class="itin-sn">${e.text}</div>
-            ${e.sub?`<span class="itin-stay">${cfg.icon} ${e.sub}</span>`:''}
+            <div class="itin-place">${e.place}</div>
+            ${noteLines.map(n=>`<span class="itin-note-line">— ${n}</span>`).join('')}
+          </div>
+        </div>
+        <button class="itin-del" onclick="window.itinDel(${i})">×</button>
+      </div>`;
+
+    } else {
+      // 移動の線：badge表示
+      const cfg=MOVE_CFG[e.moveType]||MOVE_CFG.train;
+      html+=`<div class="itin-wrap">
+        <div class="itin-r">
+          <div class="itin-tc"></div>
+          <div class="itin-lc"><div class="itin-vl ${cfg.cls}"></div></div>
+          <div class="itin-sg">
+            <span class="itin-bd ${cfg.cls}">${cfg.icon} ${e.name}</span>
+            ${e.dur?`<span class="itin-dur">${e.dur}</span>`:''}
           </div>
         </div>
         <button class="itin-del" onclick="window.itinDel(${i})">×</button>
       </div>`;
     }
   }
-  container.innerHTML=html;
+  el.innerHTML=html;
 }
 
-function itinAdd(){
-  const text=document.getElementById('itin-text').value.trim();
-  if(!text) return;
-  const entry={
-    type: document.getElementById('itin-type').value,
-    time: document.getElementById('itin-time').value.trim(),
-    text,
-    sub:  document.getElementById('itin-sub').value.trim(),
-  };
-  if(!itinerary[activeKey]) itinerary[activeKey]=[];
-  itinerary[activeKey].push(entry);
+/* ── Itinerary add ── */
+function itinTab(t){
+  document.getElementById('tab-loc').classList.toggle('active',t==='loc');
+  document.getElementById('tab-move').classList.toggle('active',t==='move');
+  document.getElementById('form-loc').classList.toggle('active',t==='loc');
+  document.getElementById('form-move').classList.toggle('active',t==='move');
+}
+function itinAddLoc(){
+  const place=document.getElementById('loc-place').value.trim();
+  if(!place)return;
+  if(!itinerary[activeKey])itinerary[activeKey]=[];
+  itinerary[activeKey].push({
+    kind:'loc',
+    time:document.getElementById('loc-time').value.trim(),
+    place,
+    notes:document.getElementById('loc-notes').value.trim(),
+  });
   saveItin();
-  document.getElementById('itin-time').value='';
-  document.getElementById('itin-text').value='';
-  document.getElementById('itin-sub').value='';
+  document.getElementById('loc-time').value='';
+  document.getElementById('loc-place').value='';
+  document.getElementById('loc-notes').value='';
   renderItin();
 }
-
+function itinAddMove(){
+  const name=document.getElementById('move-name').value.trim();
+  if(!name)return;
+  if(!itinerary[activeKey])itinerary[activeKey]=[];
+  itinerary[activeKey].push({
+    kind:'move',
+    moveType:document.getElementById('move-type').value,
+    name,
+    dur:document.getElementById('move-dur').value.trim(),
+  });
+  saveItin();
+  document.getElementById('move-name').value='';
+  document.getElementById('move-dur').value='';
+  renderItin();
+}
 function itinDel(idx){
   const arr=itinerary[activeKey]||[];
   arr.splice(idx,1);
   itinerary[activeKey]=arr;
-  saveItin(); renderItin();
+  saveItin();renderItin();
 }
 
 /* ── Memo ── */
 const memoEl=document.getElementById('dv-memo');
 memoEl.addEventListener('focus',()=>memoFocused=true);
-memoEl.addEventListener('blur', ()=>memoFocused=false);
+memoEl.addEventListener('blur',()=>memoFocused=false);
 memoEl.addEventListener('input',function(){
-  clearTimeout(memoTimer);
-  memoMsg('入力中...');
-  memoTimer=setTimeout(()=>{ memos[activeKey]=this.value; saveMemos(); },900);
+  clearTimeout(memoTimer);memoMsg('入力中...');
+  memoTimer=setTimeout(()=>{memos[activeKey]=this.value;saveMemos();},900);
 });
 
 /* ── Keyboard ── */
 document.addEventListener('keydown',e=>{
-  if(e.key==='Enter'&&!e.isComposing&&isDayOpen()&&document.activeElement===document.getElementById('dv-evt-input')) dvAddEvt();
-  if(e.key==='Enter'&&!e.isComposing&&isDayOpen()&&document.activeElement===document.getElementById('itin-text')) itinAdd();
+  if(e.key==='Enter'&&!e.isComposing&&isDayOpen()){
+    if(document.activeElement===document.getElementById('dv-evt-input')) dvAddEvt();
+    if(document.activeElement===document.getElementById('loc-place')) itinAddLoc();
+    if(document.activeElement===document.getElementById('move-name')) itinAddMove();
+  }
 });
 
 /* ── Expose ── */
-window.showCal  = showCal;
-window.showDay  = showDay;
-window.dvAddEvt = dvAddEvt;
-window.dvDelEvt = dvDelEvt;
-window.itinAdd  = itinAdd;
-window.itinDel  = itinDel;
+window.showCal=showCal; window.showDay=showDay;
+window.dvAddEvt=dvAddEvt; window.dvDelEvt=dvDelEvt;
+window.itinTab=itinTab; window.itinAddLoc=itinAddLoc;
+window.itinAddMove=itinAddMove; window.itinDel=itinDel;
 
 /* ── Init ── */
-buildWeekdays();
-buildCalendar();
+buildWeekdays(); buildCalendar();
 </script>
 </body>
 </html>
