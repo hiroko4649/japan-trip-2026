@@ -22,10 +22,6 @@
     --other1-bg:#e8e8f4; --other1-fg:#3a3a6a;
     --other2-bg:#e4ede0; --other2-fg:#2a4a2a;
     --sun:#b83232; --sat:#2c5f8a;
-    --tr-bg:#d6eaf8; --tr-fg:#1a5276; --tr-line:#2471a3;
-    --bu-bg:#fef3cd; --bu-fg:#7d4e00; --bu-line:#b7770d;
-    --wk-bg:#d5f5e3; --wk-fg:#1e5631; --wk-line:#1e8449;
-    --sl-bg:#f2f2f2; --sl-fg:#555;   --sl-line:#bbb;
   }
   body { font-family:'Noto Sans JP',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; }
   .page{display:none;} .page.active{display:block;}
@@ -92,6 +88,8 @@
   .day-section-head{padding:14px 20px 12px;border-bottom:1px solid var(--border);}
   .day-section-title{font-family:'Noto Serif JP',serif;font-size:14px;font-weight:600;color:var(--text);letter-spacing:0.04em;}
   .day-section-body{padding:16px 20px;}
+
+  /* Events */
   .evt-full-row{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-radius:7px;margin-bottom:6px;font-size:14px;gap:8px;}
   .evt-full-row:last-child{margin-bottom:0;}
   .evt-full-row.flight{background:var(--flight-bg);color:var(--flight-fg);}
@@ -112,97 +110,28 @@
   .add-evt-form input:focus,.add-evt-form select:focus{border-color:var(--muted);background:#fff;}
   .add-evt-btn{padding:10px 16px;background:var(--text);color:#fff;border:none;border-radius:8px;font-size:14px;font-family:'Noto Sans JP',sans-serif;cursor:pointer;font-weight:400;letter-spacing:0.04em;transition:opacity 0.15s;align-self:flex-start;min-width:100px;}
   .add-evt-btn:hover{opacity:0.78;}
+
+  /* Schedule embed */
+  .sched-input-row{display:flex;gap:8px;}
+  .sched-url-in{flex:1;padding:10px 13px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:'Noto Sans JP',sans-serif;color:var(--text);background:var(--bg);outline:none;transition:border 0.15s;}
+  .sched-url-in:focus{border-color:var(--muted);background:#fff;}
+  .sched-set-btn{padding:10px 16px;background:var(--text);color:#fff;border:none;border-radius:8px;font-size:13px;font-family:'Noto Sans JP',sans-serif;cursor:pointer;font-weight:400;transition:opacity 0.15s;flex-shrink:0;}
+  .sched-set-btn:hover{opacity:0.78;}
+  .sched-hint{font-size:11px;color:var(--faint);margin-top:8px;line-height:1.6;}
+  .sched-frame-wrap{margin-top:2px;}
+  .sched-frame{width:100%;height:620px;border:1px solid var(--border);border-radius:10px;display:block;}
+  .sched-clear-btn{margin-top:10px;background:none;border:1px solid var(--border);border-radius:7px;padding:6px 14px;font-size:12px;color:var(--muted);font-family:'Noto Sans JP',sans-serif;cursor:pointer;transition:all 0.15s;}
+  .sched-clear-btn:hover{border-color:var(--muted);color:var(--text);}
+
+  /* Memo */
   .memo-area{width:100%;min-height:220px;padding:14px;border:1px solid var(--border);border-radius:8px;font-size:14px;font-family:'Noto Sans JP',sans-serif;color:var(--text);background:var(--bg);line-height:1.9;resize:vertical;outline:none;transition:border 0.15s;}
   .memo-area:focus{border-color:var(--muted);background:#fff;}
   .memo-status{font-size:11px;color:var(--faint);margin-top:7px;letter-spacing:0.04em;height:16px;}
-
-  /* ══════════════════════════════
-     VISUAL ITINERARY EDITOR
-  ══════════════════════════════ */
-  .ve-empty{font-size:13px;color:var(--faint);font-style:italic;padding:4px 0 12px;}
-
-  /* Ghost inputs — look like text, reveal border on focus */
-  .ve-in{
-    background:transparent; border:none;
-    border-bottom:1px dashed transparent;
-    font-family:'Noto Sans JP',sans-serif; color:var(--text);
-    outline:none; padding:1px 3px;
-    border-radius:2px 2px 0 0;
-    transition:border-color 0.12s, background 0.12s;
-  }
-  .ve-in:hover{border-bottom-color:var(--faint);}
-  .ve-in:focus{border-bottom-color:var(--muted);background:#f5f1ec;}
-
-  /* Entry wrapper */
-  .ve-entry{display:flex;align-items:stretch;width:100%;}
-
-  /* Controls — show on hover */
-  .ve-ctrl{display:flex;flex-direction:column;gap:1px;padding-left:6px;flex-shrink:0;opacity:0;transition:opacity 0.15s;align-self:flex-start;}
-  .ve-entry:hover .ve-ctrl{opacity:1;}
-  .ve-ctrl-btn{background:none;border:none;cursor:pointer;font-size:11px;color:var(--faint);padding:2px 4px;line-height:1.4;border-radius:3px;transition:color 0.12s,background 0.12s;}
-  .ve-ctrl-btn:hover{color:var(--text);background:#f0ebe4;}
-  .ve-ctrl-btn.del:hover{color:#c0392b;background:#fde8e8;}
-
-  /* Time column — shared by both kinds */
-  .ve-tc{width:58px;flex-shrink:0;display:flex;align-items:flex-start;justify-content:flex-end;padding-right:8px;padding-top:3px;align-self:flex-start;}
-  .ve-time-in{width:52px;font-size:11px;color:var(--muted);text-align:right;}
-
-  /* Timeline line column */
-  .ve-lc{display:flex;flex-direction:column;align-items:center;width:20px;flex-shrink:0;}
-  .ve-dot{width:10px;height:10px;border-radius:50%;background:var(--text);flex-shrink:0;margin-top:4px;}
-  .ve-vl{width:2px;flex:1;min-height:16px;}
-  .ve-vl.tr{background:var(--tr-line);} .ve-vl.bu{background:var(--bu-line);}
-  .ve-vl.wk{background:var(--wk-line);} .ve-vl.sl{background:var(--sl-line);}
-
-  /* Location content */
-  .ve-cc{flex:1;padding:1px 0 12px 10px;min-width:0;}
-  .ve-place-in{font-size:14px;font-weight:500;width:100%;display:block;}
-  .ve-notes-in{font-size:12px;color:var(--muted);width:100%;display:block;margin-top:4px;}
-  .ve-notes-hint{font-size:10px;color:var(--faint);margin-top:2px;}
-
-  /* Transport content */
-  .ve-sg{display:flex;align-items:center;gap:6px;padding:2px 0 2px 10px;flex:1;flex-wrap:wrap;}
-  .ve-badge{display:inline-flex;align-items:center;gap:3px;font-size:11px;padding:3px 8px;border-radius:4px;flex-shrink:0;}
-  .ve-badge.tr{background:var(--tr-bg);color:var(--tr-fg);}
-  .ve-badge.bu{background:var(--bu-bg);color:var(--bu-fg);}
-  .ve-badge.wk{background:var(--wk-bg);color:var(--wk-fg);}
-  .ve-badge.sl{background:var(--sl-bg);color:var(--sl-fg);border:0.5px solid #ccc;}
-  .ve-type-sel{background:transparent;border:none;cursor:pointer;font-size:11px;font-family:'Noto Sans JP',sans-serif;color:inherit;padding:0;outline:none;-webkit-appearance:none;appearance:none;max-width:100px;}
-  .ve-name-in{font-size:11px;flex:1;min-width:80px;color:var(--text);}
-  .ve-dur-in{font-size:11px;color:var(--muted);min-width:70px;width:70px;}
-
-  /* Insert row between entries */
-  .ve-insert{display:flex;align-items:center;gap:6px;padding:0 0 0 78px;height:20px;opacity:0;transition:opacity 0.15s;position:relative;}
-  .ve-insert::before{content:'';position:absolute;left:67px;top:0;bottom:0;width:2px;background:#ccc;}
-  .ve-editor:hover .ve-insert{opacity:0.45;}
-  .ve-insert:hover{opacity:1!important;}
-  .ve-insert-btn{background:none;border:1px dashed var(--faint);border-radius:4px;font-size:10px;color:var(--muted);cursor:pointer;padding:1px 8px;font-family:'Noto Sans JP',sans-serif;transition:all 0.15s;}
-  .ve-insert-btn:hover{background:var(--bg);border-color:var(--muted);color:var(--text);}
-
-  /* Add / bottom buttons */
-  .ve-add-row{display:flex;gap:10px;margin-top:12px;padding-top:12px;border-top:1px dashed var(--border);flex-wrap:wrap;}
-  .ve-add-btn{display:flex;align-items:center;gap:5px;padding:7px 14px;border-radius:7px;border:1px solid var(--border);background:var(--bg);font-size:12px;color:var(--muted);font-family:'Noto Sans JP',sans-serif;cursor:pointer;transition:all 0.15s;}
-  .ve-add-btn:hover{background:#f0ebe4;color:var(--text);border-color:var(--border-mid);}
-
-  /* JSON area */
-  .ve-json-area{margin-top:16px;padding-top:14px;border-top:1px solid var(--border);}
-  .ve-json-btns{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px;}
-  .ve-json-btn{display:flex;align-items:center;gap:5px;padding:7px 14px;border-radius:7px;border:1px solid var(--border);background:var(--bg);font-size:12px;color:var(--muted);font-family:'Noto Sans JP',sans-serif;cursor:pointer;transition:all 0.15s;}
-  .ve-json-btn:hover{background:#f0ebe4;color:var(--text);border-color:var(--border-mid);}
-  .ve-json-btn.copied{background:var(--user-bg);color:var(--user-fg);border-color:#aad4ba;}
-  .ve-json-paste-wrap{display:none;flex-direction:column;gap:8px;}
-  .ve-json-paste-wrap.open{display:flex;}
-  .ve-json-ta{width:100%;min-height:90px;padding:10px;border:1px solid var(--border);border-radius:8px;font-size:12px;font-family:monospace;color:var(--text);background:var(--bg);resize:vertical;outline:none;}
-  .ve-json-ta:focus{border-color:var(--muted);background:#fff;}
-  .ve-apply-btn{padding:8px 16px;background:var(--text);color:#fff;border:none;border-radius:7px;font-size:12px;font-family:'Noto Sans JP',sans-serif;cursor:pointer;align-self:flex-start;transition:opacity 0.15s;}
-  .ve-apply-btn:hover{opacity:0.78;}
-  .ve-json-err{font-size:11px;color:#c0392b;}
 
   @media(max-width:640px){
     .cal-area,.day-body{padding:12px 16px;} .header{padding:18px 18px 14px;} .legend{padding:10px 18px;} .trip-bar{padding:6px 18px;font-size:11px;}
     .days{grid-auto-rows:60px;} .day{height:60px;padding:4px 3px;} .day-num{font-size:11px;} .evt-chip{font-size:8px;}
     .day-header{padding:0 16px;} .day-header-date{font-size:17px;}
-    .ve-ctrl{opacity:1;}
   }
 </style>
 </head>
@@ -249,11 +178,13 @@
   </div>
   <div class="day-body">
 
+    <!-- 予定 -->
     <div class="day-section">
       <div class="day-section-head"><div class="day-section-title">予定</div></div>
       <div class="day-section-body"><div id="dv-evts-list"></div></div>
     </div>
 
+    <!-- 予定を追加 -->
     <div class="day-section">
       <div class="day-section-head"><div class="day-section-title">予定を追加</div></div>
       <div class="day-section-body">
@@ -275,29 +206,30 @@
       </div>
     </div>
 
-    <!-- 時系列スケジュール -->
+    <!-- スケジュール表 -->
     <div class="day-section">
-      <div class="day-section-head"><div class="day-section-title">時系列スケジュール</div></div>
+      <div class="day-section-head"><div class="day-section-title">スケジュール表</div></div>
       <div class="day-section-body">
-        <div class="ve-editor" id="ve-editor"></div>
-        <div class="ve-add-row">
-          <button class="ve-add-btn" onclick="window.veAdd('loc')">📍 場所を追加</button>
-          <button class="ve-add-btn" onclick="window.veAdd('move')">🚃 移動を追加</button>
+        <div id="sched-input-area">
+          <div class="sched-input-row">
+            <input type="url" class="sched-url-in" id="sched-url-in"
+              placeholder="GitHubのスケジュールHTMLのURLを貼り付けてください" />
+            <button class="sched-set-btn" onclick="window.schedSetUrl()">表示</button>
+          </div>
+          <div class="sched-hint">
+            例：https://hiroko4649.github.io/japan-trip-2026/itinerary_nov20.html
+          </div>
         </div>
-        <div class="ve-json-area">
-          <div class="ve-json-btns">
-            <button class="ve-json-btn" id="json-copy-btn" onclick="window.veCopyRequest()">📋 JSON依頼書をコピー</button>
-            <button class="ve-json-btn" onclick="window.veTogglePaste()">📥 JSONを貼り付けて適用</button>
+        <div id="sched-frame-area" style="display:none">
+          <div class="sched-frame-wrap">
+            <iframe class="sched-frame" id="sched-frame" src="" frameborder="0"></iframe>
           </div>
-          <div class="ve-json-paste-wrap" id="json-paste-wrap">
-            <textarea class="ve-json-ta" id="json-paste-ta" placeholder='ClaudeのチャットでJSON依頼書を渡してできたJSONをここに貼り付けてください。&#10;例：[{"kind":"loc","time":"15:25","place":"羽田","notes":"JL11にて到着"},...]'></textarea>
-            <div class="ve-json-err" id="json-err"></div>
-            <button class="ve-apply-btn" onclick="window.veApplyJson()">適用する</button>
-          </div>
+          <button class="sched-clear-btn" onclick="window.schedClearUrl()">URLを変更する</button>
         </div>
       </div>
     </div>
 
+    <!-- メモ -->
     <div class="day-section">
       <div class="day-section-head"><div class="day-section-title">メモ</div></div>
       <div class="day-section-body">
@@ -334,20 +266,10 @@ const FIXED={
   '2026-12-12':[{type:'concert',text:'🎵 BOC マリンメッセ福岡'}],
   '2026-12-15':[{type:'flight',text:'✈ JL12 HND発 10:55'}],
 };
-const MOVE_OPTS=[
-  {value:'train', label:'🚃 電車',  cls:'tr'},
-  {value:'bus',   label:'🚌 バス',  cls:'bu'},
-  {value:'walk',  label:'🚶 徒歩',  cls:'wk'},
-  {value:'flight',label:'✈️ 飛行機',cls:'tr'},
-  {value:'sleep', label:'🌙 夜行',  cls:'sl'},
-];
-const moveCls  = t=>(MOVE_OPTS.find(o=>o.value===t)||MOVE_OPTS[0]).cls;
 
-let userEvts={}, memos={}, itinerary={};
+let userEvts={}, memos={}, schedUrls={};
 let activeKey=null, memoTimer=null, memoFocused=false;
-let itinSaveTimer=null, localItinSave=false;
 
-/* ── Sync UI ── */
 function setSync(s){
   const dot=document.getElementById('sync-dot'),txt=document.getElementById('sync-text');
   if(!dot||!txt)return;
@@ -368,35 +290,23 @@ onValue(ref(db,'memo'),snap=>{
     document.getElementById('dv-memo').value=memos[activeKey]||'';
   setSync('synced');
 },()=>setSync('offline'));
-onValue(ref(db,'itin'),snap=>{
-  try{itinerary=JSON.parse(snap.val()||'{}');}catch(e){itinerary={};}
-  // Only re-render from Firebase if the update came from ANOTHER device
-  if(activeKey&&isDayOpen()&&!localItinSave) renderVE();
+onValue(ref(db,'schedUrls'),snap=>{
+  try{schedUrls=JSON.parse(snap.val()||'{}');}catch(e){schedUrls={};}
+  if(activeKey&&isDayOpen()) renderSchedUrl();
   setSync('synced');
 },()=>setSync('offline'));
 
 function saveEvts(){setSync('saving');set(ref(db,'evts'),JSON.stringify(userEvts)).then(()=>setSync('synced')).catch(()=>setSync('offline'));}
 function saveMemos(){setSync('saving');set(ref(db,'memo'),JSON.stringify(memos)).then(()=>{setSync('synced');memoMsg('保存しました');}).catch(()=>{setSync('offline');memoMsg('保存できませんでした');});}
-function saveItin(rerender=false){
-  localItinSave=true;
-  setSync('saving');
-  set(ref(db,'itin'),JSON.stringify(itinerary))
-    .then(()=>{ setSync('synced'); setTimeout(()=>{localItinSave=false;},1000); if(rerender)renderVE(); })
-    .catch(()=>{ setSync('offline'); localItinSave=false; });
-}
+function saveSchedUrls(){setSync('saving');set(ref(db,'schedUrls'),JSON.stringify(schedUrls)).then(()=>setSync('synced')).catch(()=>setSync('offline'));}
 function memoMsg(m){const el=document.getElementById('memo-status');if(!el)return;el.textContent=m;setTimeout(()=>{el.textContent='';},2000);}
 
-/* ── Helpers ── */
 function dk(y,m,d){return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;}
 function allEvts(k){return [...(FIXED[k]||[]),(userEvts[k]||[])].flat();}
 function inTrip(d){return d>=TRIP_START&&d<=TRIP_END;}
 function hasMemo(k){return !!(memos[k]&&memos[k].trim());}
 function isDayOpen(){return document.getElementById('dayPage').classList.contains('active');}
-function getEntries(){return itinerary[activeKey]||[];}
-function setEntries(arr){itinerary[activeKey]=arr;}
-function esc(s){return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
 
-/* ── Page switching ── */
 function showCal(){
   document.getElementById('calPage').classList.add('active');
   document.getElementById('dayPage').classList.remove('active');
@@ -407,10 +317,7 @@ function showDay(k,label){
   document.getElementById('dv-date-label').textContent=label;
   document.getElementById('dv-evt-input').value='';
   document.getElementById('memo-status').textContent='';
-  document.getElementById('json-err').textContent='';
-  document.getElementById('json-paste-ta').value='';
-  document.getElementById('json-paste-wrap').classList.remove('open');
-  renderEvts(); renderVE();
+  renderEvts(); renderSchedUrl();
   document.getElementById('dv-memo').value=memos[k]||'';
   document.getElementById('calPage').classList.remove('active');
   document.getElementById('dayPage').classList.add('active');
@@ -484,227 +391,34 @@ function dvDelEvt(idx){
   saveEvts();renderEvts();
 }
 
-/* ══════════════════════════════
-   VISUAL EDITOR
-══════════════════════════════ */
-
-/* Collect current input values into itinerary data (NO re-render) */
-function collectEntries(){
-  const container=document.getElementById('ve-editor');
-  if(!container)return;
-  const entries=getEntries();
-  container.querySelectorAll('[data-idx][data-field]').forEach(el=>{
-    const idx=parseInt(el.dataset.idx);
-    const field=el.dataset.field;
-    if(!isNaN(idx)&&field&&entries[idx]!==undefined){
-      entries[idx][field]=el.value;
-    }
-  });
-  setEntries(entries);
-}
-
-/* Schedule auto-save WITHOUT re-rendering (key fix for typing interruption) */
-function scheduleItinSave(){
-  clearTimeout(itinSaveTimer);
-  itinSaveTimer=setTimeout(()=>{
-    collectEntries();
-    saveItin(false); // false = no re-render
-  },800);
-}
-
-function mkInsertRow(insertAt){
-  return `<div class="ve-insert">
-    <button class="ve-insert-btn" onclick="window.veInsert('loc',${insertAt})">＋場所</button>
-    <button class="ve-insert-btn" onclick="window.veInsert('move',${insertAt})">＋移動</button>
-  </div>`;
-}
-
-function renderVE(){
-  const entries=getEntries();
-  const container=document.getElementById('ve-editor');
-  if(!entries.length){
-    container.innerHTML='<div class="ve-empty">下のボタンから場所や移動を追加してください。</div>';
-    return;
+/* ── Schedule URL embed ── */
+function renderSchedUrl(){
+  const url=schedUrls[activeKey];
+  const inputArea=document.getElementById('sched-input-area');
+  const frameArea=document.getElementById('sched-frame-area');
+  if(url){
+    document.getElementById('sched-url-in').value=url;
+    document.getElementById('sched-frame').src=url;
+    inputArea.style.display='none';
+    frameArea.style.display='block';
+  } else {
+    document.getElementById('sched-url-in').value='';
+    document.getElementById('sched-frame').src='';
+    inputArea.style.display='block';
+    frameArea.style.display='none';
   }
-
-  let html='';
-  // Insert row at the very top (position 0)
-  html += mkInsertRow(0);
-
-  for(let i=0;i<entries.length;i++){
-    const e=entries[i];
-    const isLast=(i===entries.length-1);
-    // Line color below this entry = next entry's move type (if move), else sl
-    let lineClass='sl';
-    if(!isLast){
-      const next=entries[i+1];
-      lineClass=next.kind==='move'?moveCls(next.moveType):'sl';
-    }
-
-    if(e.kind==='loc'){
-      html+=`<div class="ve-entry">
-        <div class="ve-tc">
-          <input class="ve-in ve-time-in" data-idx="${i}" data-field="time"
-            value="${esc(e.time||'')}" placeholder="時刻" />
-        </div>
-        <div class="ve-lc">
-          <div class="ve-dot"></div>
-          ${!isLast?`<div class="ve-vl ${lineClass}"></div>`:''}
-        </div>
-        <div class="ve-cc">
-          <input class="ve-in ve-place-in" data-idx="${i}" data-field="place"
-            value="${esc(e.place||'')}" placeholder="場所名（例：高松）" />
-          <input class="ve-in ve-notes-in" data-idx="${i}" data-field="notes"
-            value="${esc(e.notes||'')}" placeholder="メモ・活動（複数はカンマ区切り）任意" />
-          <div class="ve-notes-hint">複数の活動はカンマで区切ってください</div>
-        </div>
-        <div class="ve-ctrl">
-          <button class="ve-ctrl-btn" onclick="window.veMoveUp(${i})">↑</button>
-          <button class="ve-ctrl-btn" onclick="window.veMoveDown(${i})">↓</button>
-          <button class="ve-ctrl-btn del" onclick="window.veDel(${i})">×</button>
-        </div>
-      </div>`;
-    } else {
-      const cls=moveCls(e.moveType||'train');
-      const optHtml=MOVE_OPTS.map(o=>`<option value="${o.value}"${(e.moveType||'train')===o.value?' selected':''}>${o.label}</option>`).join('');
-      html+=`<div class="ve-entry">
-        <div class="ve-tc">
-          <input class="ve-in ve-time-in" data-idx="${i}" data-field="time"
-            value="${esc(e.time||'')}" placeholder="時刻" />
-        </div>
-        <div class="ve-lc"><div class="ve-vl ${cls}"></div></div>
-        <div class="ve-sg">
-          <span class="ve-badge ${cls}">
-            <select class="ve-type-sel" data-idx="${i}" data-field="moveType">${optHtml}</select>
-          </span>
-          <input class="ve-in ve-name-in" data-idx="${i}" data-field="name"
-            value="${esc(e.name||'')}" placeholder="路線・便名（例：JL331）" />
-          <input class="ve-in ve-dur-in" data-idx="${i}" data-field="dur"
-            value="${esc(e.dur||'')}" placeholder="所要時間" />
-        </div>
-        <div class="ve-ctrl">
-          <button class="ve-ctrl-btn" onclick="window.veMoveUp(${i})">↑</button>
-          <button class="ve-ctrl-btn" onclick="window.veMoveDown(${i})">↓</button>
-          <button class="ve-ctrl-btn del" onclick="window.veDel(${i})">×</button>
-        </div>
-      </div>`;
-    }
-
-    // Insert row after each entry
-    html += mkInsertRow(i+1);
-  }
-
-  container.innerHTML=html;
-
-  // Attach input listeners — save only, NO re-render
-  container.querySelectorAll('.ve-in').forEach(inp=>{
-    inp.addEventListener('input', scheduleItinSave);
-  });
-  // Type select: collect, save, AND re-render (line color must update)
-  container.querySelectorAll('.ve-type-sel').forEach(sel=>{
-    sel.addEventListener('change', ()=>{
-      collectEntries();
-      saveItin(true); // true = re-render after save
-    });
-  });
 }
-
-/* ── Add / Insert / Delete / Reorder ── */
-function veAdd(kind){
-  // Append to end
-  collectEntries();
-  const arr=getEntries();
-  const entry=kind==='loc'
-    ?{kind:'loc',time:'',place:'',notes:''}
-    :{kind:'move',moveType:'train',time:'',name:'',dur:''};
-  arr.push(entry);
-  setEntries(arr); saveItin(true);
+function schedSetUrl(){
+  const url=document.getElementById('sched-url-in').value.trim();
+  if(!url)return;
+  schedUrls[activeKey]=url;
+  saveSchedUrls();
+  renderSchedUrl();
 }
-
-function veInsert(kind, insertAt){
-  // Insert at specific position
-  collectEntries();
-  const arr=getEntries();
-  const entry=kind==='loc'
-    ?{kind:'loc',time:'',place:'',notes:''}
-    :{kind:'move',moveType:'train',time:'',name:'',dur:''};
-  arr.splice(insertAt,0,entry);
-  setEntries(arr);
-  saveItin(true);
-  // Focus the new entry's main input after render
-  setTimeout(()=>{
-    const inputs=document.querySelectorAll(kind==='loc'?'.ve-place-in':'.ve-name-in');
-    const target=[...inputs].find(el=>parseInt(el.dataset.idx)===insertAt);
-    if(target)target.focus();
-  },60);
-}
-
-function veDel(idx){
-  collectEntries();
-  const arr=getEntries();
-  arr.splice(idx,1);
-  setEntries(arr); saveItin(true);
-}
-function veMoveUp(idx){
-  if(idx===0)return;
-  collectEntries();
-  const arr=getEntries();
-  [arr[idx-1],arr[idx]]=[arr[idx],arr[idx-1]];
-  setEntries(arr); saveItin(true);
-}
-function veMoveDown(idx){
-  collectEntries();
-  const arr=getEntries();
-  if(idx>=arr.length-1)return;
-  [arr[idx],arr[idx+1]]=[arr[idx+1],arr[idx]];
-  setEntries(arr); saveItin(true);
-}
-
-/* ── JSON copy request ── */
-function veCopyRequest(){
-  collectEntries();
-  const entries=getEntries();
-  if(!entries.length){alert('スケジュールが空です。先に場所や移動を追加してください。');return;}
-  const nm={train:'電車',bus:'バス',walk:'徒歩',flight:'飛行機',sleep:'夜行・車中泊'};
-  const lines=entries.map(e=>{
-    if(e.kind==='loc')
-      return `${e.time||'（時刻未定）'} / 場所: ${e.place||'（未入力）'}${e.notes?' / メモ: '+e.notes:''}`;
-    else
-      return `${e.time?e.time+' / ':''}移動: ${nm[e.moveType]||e.moveType} / ${e.name||'（未入力）'}${e.dur?' / 所要時間: '+e.dur:''}`;
-  }).join('\n');
-  const req=`以下の旅行スケジュールデータをJSONに変換してください。
-
-【スケジュールデータ】
-${lines}
-
-【出力形式】
-以下のJSON配列だけを出力してください（説明文・コードブロック不要）：
-[
-  {"kind":"loc","time":"HH:MM（なければ空文字）","place":"場所名","notes":"メモ（複数はカンマ区切り、なければ空文字）"},
-  {"kind":"move","moveType":"train／bus／walk／flight／sleep のいずれか","time":"出発時刻（なければ空文字）","name":"路線・便名","dur":"所要時間（なければ空文字）"}
-]`;
-  navigator.clipboard.writeText(req).then(()=>{
-    const btn=document.getElementById('json-copy-btn');
-    btn.textContent='✓ コピーしました'; btn.classList.add('copied');
-    setTimeout(()=>{btn.textContent='📋 JSON依頼書をコピー';btn.classList.remove('copied');},2500);
-  }).catch(()=>alert('コピーに失敗しました。手動でコピーしてください。'));
-}
-
-/* ── JSON paste & apply ── */
-function veTogglePaste(){document.getElementById('json-paste-wrap').classList.toggle('open');}
-function veApplyJson(){
-  const text=document.getElementById('json-paste-ta').value.trim();
-  const errEl=document.getElementById('json-err');
-  errEl.textContent='';
-  try{
-    const data=JSON.parse(text);
-    if(!Array.isArray(data))throw new Error('配列ではありません');
-    for(const e of data)if(!e.kind||!['loc','move'].includes(e.kind))throw new Error('kindはlocまたはmoveである必要があります');
-    itinerary[activeKey]=data;
-    saveItin(true);
-    document.getElementById('json-paste-ta').value='';
-    document.getElementById('json-paste-wrap').classList.remove('open');
-  }catch(err){errEl.textContent='エラー：'+err.message+'。JSONの形式を確認してください。';}
+function schedClearUrl(){
+  delete schedUrls[activeKey];
+  saveSchedUrls();
+  renderSchedUrl();
 }
 
 /* ── Memo ── */
@@ -720,14 +434,14 @@ memoEl.addEventListener('input',function(){
 document.addEventListener('keydown',e=>{
   if(e.key==='Enter'&&!e.isComposing&&isDayOpen()&&
      document.activeElement===document.getElementById('dv-evt-input')) dvAddEvt();
+  if(e.key==='Enter'&&!e.isComposing&&isDayOpen()&&
+     document.activeElement===document.getElementById('sched-url-in')) schedSetUrl();
 });
 
 /* ── Expose ── */
 window.showCal=showCal; window.showDay=showDay;
 window.dvAddEvt=dvAddEvt; window.dvDelEvt=dvDelEvt;
-window.veAdd=veAdd; window.veInsert=veInsert;
-window.veDel=veDel; window.veMoveUp=veMoveUp; window.veMoveDown=veMoveDown;
-window.veCopyRequest=veCopyRequest; window.veTogglePaste=veTogglePaste; window.veApplyJson=veApplyJson;
+window.schedSetUrl=schedSetUrl; window.schedClearUrl=schedClearUrl;
 
 /* ── Init ── */
 buildWeekdays(); buildCalendar();
