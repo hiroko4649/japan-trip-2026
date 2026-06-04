@@ -6,38 +6,29 @@
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&display=swap');
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Noto Sans JP', sans-serif; background: #fff; color: #1a1a1a; padding: 2cm; }
+  body { font-family: 'Noto Sans JP', sans-serif; background: #fff; color: #1a1a1a; padding: 0.5cm 2cm 2cm; }
 
   .it { padding: 0.5rem 0 1rem; font-size: 14px; }
   .dh { display: flex; align-items: center; gap: 10px; margin: 0 0 14px; }
   .db { font-size: 11px; font-weight: 500; padding: 3px 12px; border-radius: 4px; background: #1a1a1a; color: #fff; letter-spacing: 0.05em; }
   .dt { font-size: 12px; color: #888; }
 
-  /* Arrival section */
-  .arrivals {
-    display: flex; gap: 16px; margin: 0 0 18px 76px; flex-wrap: wrap;
-  }
-  .arrival-card {
-    border: 1px solid #e8e2d9; border-radius: 8px;
-    padding: 10px 14px; font-size: 11px; flex: 1; min-width: 180px;
-  }
-  .arrival-name {
-    font-size: 12px; font-weight: 500; margin-bottom: 6px; color: #1a1a1a;
-  }
+  .arrivals { display: flex; gap: 16px; margin: 0 0 18px 76px; flex-wrap: wrap; }
+  .arrival-card { border: 1px solid #e8e2d9; border-radius: 8px; padding: 10px 14px; font-size: 11px; flex: 1; min-width: 180px; }
+  .arrival-name { font-size: 12px; font-weight: 500; margin-bottom: 6px; color: #1a1a1a; }
   .arrival-row { color: #666; line-height: 1.8; }
   .arr-arrow { color: #bbb; margin: 0 3px; }
 
-  /* Timeline */
   .r { display: flex; min-height: 36px; }
   .tc { width: 58px; text-align: right; padding-right: 10px; font-size: 12px; color: #888; padding-top: 3px; flex-shrink: 0; line-height: 1.3; }
   .lc { display: flex; flex-direction: column; align-items: center; width: 18px; flex-shrink: 0; }
   .dot { width: 10px; height: 10px; border-radius: 50%; background: #1a1a1a; flex-shrink: 0; margin-top: 4px; }
   .vl { width: 2px; flex: 1; min-height: 8px; }
   .vl.tr { background: #2471a3; }
-  .vl.bu { background: #b7770d; }
+  .vl.kt { background: #e05a2b; }
   .vl.wk { background: #1e8449; }
-  .vl.sl { background: #aaa; }
   .vl.nt { background: transparent; }
+
   .cc { flex: 1; padding: 2px 0 6px 10px; }
   .sn { font-size: 14px; font-weight: 500; color: #1a1a1a; line-height: 1.4; }
   .ss { font-size: 12px; color: #666; margin-top: 1px; }
@@ -45,9 +36,8 @@
 
   .bd { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; padding: 3px 9px; border-radius: 4px; }
   .bd.tr { background: #d6eaf8; color: #1a5276; }
-  .bd.bu { background: #fef3cd; color: #7d4e00; }
+  .bd.kt { background: #fde8d8; color: #8c3010; }
   .bd.wk { background: #d5f5e3; color: #1e5631; }
-  .bd.sl { background: #f2f2f2; color: #555; border: 0.5px solid #ccc; }
 
   .bdt { font-size: 11px; color: #aaa; }
   .stay { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; padding: 3px 9px; border-radius: 4px; background: #f5f5f5; color: #555; margin-top: 3px; }
@@ -56,13 +46,10 @@
 
   .section-label {
     font-size: 10px; font-weight: 500; letter-spacing: 0.08em;
-    color: #bbb; text-transform: uppercase;
-    margin: 16px 0 8px 76px;
+    color: #bbb; margin: 16px 0 8px 76px;
     display: flex; align-items: center; gap: 8px;
   }
-  .section-label::after {
-    content: ''; flex: 1; height: 1px; background: #eee;
-  }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: #eee; }
 
   .print-btn { display: inline-flex; align-items: center; gap: 6px; margin-top: 1.5rem; cursor: pointer; font-size: 13px; font-family: 'Noto Sans JP', sans-serif; color: #555; border: 1px solid #ccc; background: #fff; border-radius: 6px; padding: 8px 20px; }
   .print-btn:hover { background: #f5f5f5; }
@@ -79,10 +66,9 @@
 
   <div class="dh">
     <span class="db">11月20日</span>
-    <span class="dt">金曜　高松着・丸亀城・栗林公園・骨付き鳥</span>
+    <span class="dt">金曜　高松着・丸亀城・ことでん・栗林公園・骨付き鳥</span>
   </div>
 
-  <!-- Arrivals -->
   <div class="section-label">それぞれの到着ルート</div>
   <div class="arrivals">
     <div class="arrival-card">
@@ -103,8 +89,7 @@
     </div>
   </div>
 
-  <!-- Morning -->
-  <div class="section-label">午前 — 高松・丸亀</div>
+  <div class="section-label">午前 — 高松・丸亀城</div>
 
   <div class="r">
     <div class="tc">10:00</div>
@@ -113,7 +98,6 @@
       <div class="sn">高松駅 合流 🤝</div>
     </div>
   </div>
-
   <div class="r">
     <div class="tc"></div>
     <div class="lc"><div class="vl wk"></div></div>
@@ -128,7 +112,6 @@
       <span class="stay"><span class="icon">🧳</span>荷物預け</span>
     </div>
   </div>
-
   <div class="r">
     <div class="tc"></div>
     <div class="lc"><div class="vl wk"></div></div>
@@ -144,7 +127,6 @@
       <div class="note">サクッと一杯 — ホテルから徒歩圏内</div>
     </div>
   </div>
-
   <div class="r">
     <div class="tc"></div>
     <div class="lc"><div class="vl wk"></div></div>
@@ -154,9 +136,7 @@
   <div class="r">
     <div class="tc">11:10</div>
     <div class="lc"><div class="dot"></div><div class="vl tr"></div></div>
-    <div class="cc">
-      <div class="sn">高松駅</div>
-    </div>
+    <div class="cc"><div class="sn">高松駅</div></div>
   </div>
   <div class="r">
     <div class="tc"></div>
@@ -170,9 +150,7 @@
   <div class="r">
     <div class="tc">11:45</div>
     <div class="lc"><div class="dot"></div><div class="vl wk"></div></div>
-    <div class="cc">
-      <div class="sn">丸亀駅</div>
-    </div>
+    <div class="cc"><div class="sn">丸亀駅</div></div>
   </div>
   <div class="r">
     <div class="tc"></div>
@@ -186,10 +164,10 @@
     <div class="cc">
       <div class="sn">丸亀城</div>
       <span class="stay"><span class="icon">🏯</span>天守・石垣散策</span>
-      <div class="note">現存天守12城のひとつ、石垣が見事</div>
+      <span class="stay"><span class="icon">🌊</span>天守から瀬戸大橋・瀬戸内海を望む</span>
+      <div class="note">現存天守12城のひとつ。天守頂上から瀬戸大橋が見渡せる</div>
     </div>
   </div>
-
   <div class="r">
     <div class="tc"></div>
     <div class="lc"><div class="vl wk"></div></div>
@@ -199,9 +177,7 @@
   <div class="r">
     <div class="tc">13:30</div>
     <div class="lc"><div class="dot"></div><div class="vl tr"></div></div>
-    <div class="cc">
-      <div class="sn">丸亀駅</div>
-    </div>
+    <div class="cc"><div class="sn">丸亀駅</div></div>
   </div>
   <div class="r">
     <div class="tc"></div>
@@ -212,24 +188,54 @@
     </div>
   </div>
 
-  <!-- Afternoon -->
-  <div class="section-label">午後 — 栗林公園・高松市内</div>
-
   <div class="r">
     <div class="tc">14:05</div>
     <div class="lc"><div class="dot"></div><div class="vl wk"></div></div>
     <div class="cc">
-      <div class="sn">栗林公園前 / 栗林公園北口</div>
+      <div class="sn">高松駅</div>
+      <div class="ss">← ここからことでんに乗り換え</div>
     </div>
   </div>
   <div class="r">
     <div class="tc"></div>
     <div class="lc"><div class="vl wk"></div></div>
-    <div class="sg"><span class="bd wk"><span class="icon">🍽️</span>遅めのランチ</span><span class="bdt">栗林公園付近の食事処</span></div>
+    <div class="sg"><span class="bd wk"><span class="icon">🚶</span>徒歩</span><span class="bdt">瓦町駅まで約5分</span></div>
+  </div>
+
+  <div class="section-label">午後 — ことでん・栗林公園</div>
+
+  <div class="r">
+    <div class="tc">14:15</div>
+    <div class="lc"><div class="dot"></div><div class="vl kt"></div></div>
+    <div class="cc">
+      <div class="sn">瓦町駅（ことでん）</div>
+    </div>
+  </div>
+  <div class="r">
+    <div class="tc"></div>
+    <div class="lc"><div class="vl kt"></div></div>
+    <div class="sg">
+      <span class="bd kt"><span class="icon">🚃</span>ことでん琴平線</span>
+      <span class="bdt">約7分</span>
+    </div>
   </div>
 
   <div class="r">
-    <div class="tc">15:00</div>
+    <div class="tc">14:25</div>
+    <div class="lc"><div class="dot"></div><div class="vl wk"></div></div>
+    <div class="cc">
+      <div class="sn">栗林公園駅（ことでん）</div>
+      <div class="ss">公園北口まで徒歩すぐ</div>
+    </div>
+  </div>
+  <div class="r">
+    <div class="tc"></div>
+    <div class="lc"><div class="vl wk"></div></div>
+    <div class="sg"><span class="bd wk"><span class="icon">🍽️</span>遅めのランチ</span><span class="bdt">公園付近の食事処</span></div>
+  </div>
+
+  <div class="r">
+    <div class="tc">15:15</div>
     <div class="lc"><div class="dot"></div><div class="vl wk"></div></div>
     <div class="cc">
       <div class="sn">栗林公園</div>
@@ -237,15 +243,17 @@
       <div class="note">特別名勝。ざっと一周 約1〜1.5時間</div>
     </div>
   </div>
-
   <div class="r">
     <div class="tc"></div>
-    <div class="lc"><div class="vl wk"></div></div>
-    <div class="sg"><span class="bd wk"><span class="icon">🚶</span>徒歩 または ことでん</span><span class="bdt">高松駅方面へ</span></div>
+    <div class="lc"><div class="vl kt"></div></div>
+    <div class="sg">
+      <span class="bd kt"><span class="icon">🚃</span>ことでん琴平線</span>
+      <span class="bdt">栗林公園駅 → 瓦町駅 約7分</span>
+    </div>
   </div>
 
   <div class="r">
-    <div class="tc">16:30</div>
+    <div class="tc">16:45</div>
     <div class="lc"><div class="dot"></div><div class="vl wk"></div></div>
     <div class="cc">
       <div class="sn">高松駅・アリーナ周辺 散歩</div>
@@ -254,7 +262,6 @@
     </div>
   </div>
 
-  <!-- Dinner -->
   <div class="section-label">夕食</div>
 
   <div class="r">
@@ -269,10 +276,9 @@
     <div class="cc">
       <div class="sn">夕食 — 骨付き鳥</div>
       <span class="stay"><span class="icon">🍗</span>骨付鳥 一鶴 高松店 など</span>
-      <div class="note">丸亀名物・骨付き鶏もも肉。「おや鳥」か「ひな鳥」かで味が変わる</div>
+      <div class="note">丸亀名物。「おや鳥」か「ひな鳥」かで味が変わる</div>
     </div>
   </div>
-
   <div class="r">
     <div class="tc"></div>
     <div class="lc"><div class="vl wk"></div></div>
