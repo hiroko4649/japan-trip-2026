@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>2026年11月23日 プランA / プランB</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Noto Sans JP', sans-serif; background: #fff; color: #1a1a1a; padding: 0.6cm 1.2cm 1.5cm; }
+
+  /* ── ページタイトル ── */
+  .page-head { text-align: center; margin-bottom: 14px; }
+  .page-title { font-size: 13px; font-weight: 500; color: #1a1a1a; letter-spacing: 0.06em; }
+  .page-sub   { font-size: 11px; color: #aaa; margin-top: 3px; }
+
+  /* ── 横並びレイアウト ── */
+  .plans { display: flex; gap: 18px; align-items: flex-start; }
+  .plan  { flex: 1; min-width: 0; }
+
+  /* ── プランヘッダー ── */
+  .plan-head {
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 10px; padding-bottom: 8px;
+    border-bottom: 2px solid #1a1a1a;
+  }
+  .plan-badge {
+    font-size: 10px; font-weight: 500; padding: 2px 10px;
+    border-radius: 3px; letter-spacing: 0.05em; white-space: nowrap;
+  }
+  .badge-a { background: #1a1a1a; color: #fff; }
+  .badge-b { background: #888; color: #fff; }
+  .plan-desc { font-size: 11px; color: #555; line-height: 1.4; }
+
+  /* ── タイムライン共通 ── */
+  .it { font-size: 13px; }
+
+  .r { display: flex; min-height: 32px; }
+  .tc { width: 48px; text-align: right; padding-right: 8px; font-size: 10.5px; color: #888; padding-top: 3px; flex-shrink: 0; line-height: 1.3; }
+  .lc { display: flex; flex-direction: column; align-items: center; width: 16px; flex-shrink: 0; }
+  .dot { width: 9px; height: 9px; border-radius: 50%; background: #1a1a1a; flex-shrink: 0; margin-top: 4px; }
+  .dot-lg { width: 11px; height: 11px; border-radius: 50%; background: #1a1a1a; flex-shrink: 0; margin-top: 3px; }
+  .vl { width: 2px; flex: 1; min-height: 8px; }
+  .vl.tr { background: #2471a3; }
+  .vl.sl { background: #aaa; }
+  .vl.wk { background: #1e8449; }
+  .vl.nt { background: transparent; }
+
+  .cc { flex: 1; padding: 1px 0 6px 8px; }
+  .sg { display: flex; align-items: center; gap: 5px; padding: 3px 0 3px 8px; flex: 1; flex-wrap: wrap; }
+  .sn { font-size: 13px; font-weight: 500; color: #1a1a1a; line-height: 1.4; }
+  .ss { font-size: 11px; color: #666; margin-top: 1px; }
+
+  .bd { display: inline-flex; align-items: center; gap: 4px; font-size: 10px; padding: 2px 7px; border-radius: 4px; }
+  .bd.tr { background: #d6eaf8; color: #1a5276; }
+  .bd.sl { background: #f2f2f2; color: #555; border: 0.5px solid #ccc; }
+  .bd.wk { background: #d5f5e3; color: #1e5631; }
+  .bdt  { font-size: 10px; color: #aaa; }
+
+  .stay { display: inline-flex; align-items: center; gap: 4px; font-size: 10px; padding: 2px 7px; border-radius: 4px; background: #f5f5f5; color: #555; margin-top: 2px; }
+  .note { font-size: 9.5px; color: #aaa; margin-top: 2px; font-style: italic; }
+  .info { font-size: 10px; color: #1a5276; background: #ebf5fb; border-left: 3px solid #7fb3d3; padding: 5px 8px; margin-top: 3px; border-radius: 0 4px 4px 0; line-height: 1.5; }
+
+  .section-label {
+    font-size: 9px; font-weight: 500; letter-spacing: 0.08em;
+    color: #bbb; margin: 12px 0 7px 64px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: #eee; }
+
+  /* 仕切り */
+  .plan-divider {
+    width: 1px; background: #e8e8e8; flex-shrink: 0; align-self: stretch; margin-top: 36px;
+  }
+
+  .print-btn { display: inline-flex; align-items: center; gap: 6px; margin-top: 1.2rem; cursor: pointer; font-size: 12px; font-family: 'Noto Sans JP', sans-serif; color: #555; border: 1px solid #ccc; background: #fff; border-radius: 6px; padding: 7px 16px; }
+  .print-btn:hover { background: #f5f5f5; }
+
+  @media print {
+    @page { size: A4 landscape; margin: 1cm 1.2cm; }
+    body { padding: 0; }
+    .print-btn { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-head">
+  <div class="page-title">2026年11月23日（月・祝）　サンライズ出雲 予約結果別プラン</div>
+  <div class="page-sub">プランA：サンライズ出雲 確保できた場合　／　プランB：確保できなかった場合</div>
+</div>
+
+<div class="plans">
+
+  <!-- ══════ PLAN A ══════ -->
+  <div class="plan">
+    <div class="plan-head">
+      <span class="plan-badge badge-a">プランA</span>
+      <span class="plan-desc">サンライズ出雲 確保 ✅<br>出雲市 → 車中泊 → 東京</span>
+    </div>
+    <div class="it">
+
+      <div class="section-label">早朝 — 出雲大社</div>
+      <div class="r">
+        <div class="tc">06:00</div>
+        <div class="lc"><div class="dot"></div><div class="vl wk"></div></div>
+        <div class="cc">
+          <div class="sn">出雲大社</div>
+          <span class="stay"><span>⛩️</span>早朝参拝・周辺散策</span>
+        </div>
+      </div>
+      <div class="r">
+        <div class="tc"></div>
+        <div class="lc"><div class="vl wk"></div></div>
+        <div class="sg"><span class="bd wk"><span>🚶</span>徒歩 または バス</span><span class="bdt">出雲市駅まで約20分</span></div>
+      </div>
+
+      <div class="section-label">午前〜夕方 — 出雲・松江</div>
+      <div class="r">
+        <div class="tc">08:00</div>
+        <div class="lc"><div class="dot"></div><div class="vl wk"></div></div>
+        <div class="cc">
+          <div class="sn">出雲市内・松江</div>
+          <span class="stay"><span>🍜</span>出雲そば 朝食</span>
+          <span class="stay"><span>🗺️</span>松江城・宍道湖 散策</span>
+          <div class="note">夜行まで時間があるのでゆっくり過ごせる</div>
+        </div>
+      </div>
+      <div class="r">
+        <div class="tc">夕方</div>
+        <div class="lc"><div class="dot"></div><div class="vl wk"></div></div>
+        <div class="cc">
+          <div class="sn">出雲市内</div>
+          <span class="stay"><span>🍽️</span>夕食</span>
+          <span class="stay"><span>🛁</span>出雲駅前温泉 らんぷの湯（乗車前に）</span>
+          <div class="info">💡 駅南口から徒歩1分。地下1800mの褐色にごり湯。檜の内湯＋竹林を眺める露天風呂。ランプの灯りの和の雰囲気。サンライズ乗車前の定番スポット。平日700円。</div>
+        </div>
+      </div>
+
+      <div class="section-label">夜行 — サンライズ出雲</div>
+      <div class="r">
+        <div class="tc">18:57</div>
+        <div class="lc"><div class="dot-lg"></div><div class="vl sl"></div></div>
+        <div class="cc">
+          <div class="sn">出雲市駅</div>
+          <div class="ss">サンライズ出雲 乗車</div>
+        </div>
+      </div>
+      <div class="r">
+        <div class="tc"></div>
+        <div class="lc"><div class="vl sl"></div></div>
+        <div class="sg"><span class="bd sl"><span>🌙</span>サンライズ出雲（車中泊）</span><span class="bdt">約12時間</span></div>
+      </div>
+      <div class="r">
+        <div class="tc" style="color:#bbb;font-size:10px;">翌<br>07:08</div>
+        <div class="lc"><div class="dot"></div></div>
+        <div class="cc">
+          <div class="sn">東京駅 着</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="plan-divider"></div>
+
+  <!-- ══════ PLAN B ══════ -->
+  <div class="plan">
+    <div class="plan-head">
+      <span class="plan-badge badge-b">プランB</span>
+      <span class="plan-desc">サンライズ出雲 取れなかった場合 ❌<br>出雲市 → 鳥取 → 姫路 → 神戸/大阪/京都</span>
+    </div>
+    <div class="it">
+
+      <div class="section-label">早朝 — 出雲大社</div>
+      <div class="r">
+        <div class="tc">06:00</div>
+        <div class="lc"><div class="dot"></div><div class="vl wk"></div></div>
+        <div class="cc">
+          <div class="sn">出雲大社</div>
+          <span class="stay"><span>⛩️</span>早朝参拝・周辺散策</span>
+          <div class="note">早朝は人も少なく静か</div>
+        </div>
+      </div>
+      <div class="r">
+        <div class="tc"></div>
+        <div class="lc"><div class="vl wk"></div></div>
+        <div class="sg"><span class="bd wk"><span>🚶</span>バス</span><span class="bdt">出雲市駅まで約20分</span></div>
+      </div>
+
+      <div class="section-label">午前 — 出雲市</div>
+      <div class="r">
+        <div class="tc">08:00</div>
+        <div class="lc"><div class="dot"></div><div class="vl wk"></div></div>
+        <div class="cc">
+          <div class="sn">出雲市内</div>
+          <span class="stay"><span>🍜</span>朝食・出雲そば</span>
+          <span class="stay"><span>🗺️</span>出雲周辺 自由散策</span>
+          <div class="note">出発まで4時間以上あるのでゆっくり</div>
+        </div>
+      </div>
+
+      <div class="section-label">移動 — 出雲市 → 鳥取</div>
+      <div class="r">
+        <div class="tc">12:51</div>
+        <div class="lc"><div class="dot"></div><div class="vl tr"></div></div>
+        <div class="cc"><div class="sn">出雲市駅 発</div></div>
+      </div>
+      <div class="r">
+        <div class="tc"></div>
+        <div class="lc"><div class="vl tr"></div></div>
+        <div class="sg"><span class="bd tr"><span>🚃</span>スーパーまつかぜ8号</span><span class="bdt">約2時間4分</span></div>
+      </div>
+      <div class="r">
+        <div class="tc">14:55<br><span style="font-size:9px;color:#bbb">16:11発</span></div>
+        <div class="lc"><div class="dot"></div><div class="vl tr"></div></div>
+        <div class="cc">
+          <div class="sn">鳥取</div>
+          <div class="ss">乗り換え（76分）</div>
+          <span class="stay"><span>🦀</span>駅周辺・カニ料理</span>
+          <div class="note">11月は松葉ガニ解禁直後</div>
+        </div>
+      </div>
+      <div class="r">
+        <div class="tc"></div>
+        <div class="lc"><div class="vl tr"></div></div>
+        <div class="sg"><span class="bd tr"><span>🚃</span>スーパーはくと12号</span><span class="bdt">約1時間33分</span></div>
+      </div>
+
+      <div class="section-label">姫路・宿泊地</div>
+      <div class="r">
+        <div class="tc">17:44</div>
+        <div class="lc"><div class="dot"></div><div class="vl tr"></div></div>
+        <div class="cc">
+          <div class="sn">姫路</div>
+          <span class="stay"><span>🏯</span>姫路城 外観・城下町散策</span>
+          <div class="info">💡 夕暮れ〜ライトアップの時間帯。駅から徒歩約15分。</div>
+        </div>
+      </div>
+      <div class="r">
+        <div class="tc"></div>
+        <div class="lc"><div class="vl tr"></div></div>
+        <div class="sg"><span class="bd tr"><span>🚃</span>山陽本線 / 新幹線</span><span class="bdt">神戸・大阪・京都方面</span></div>
+      </div>
+      <div class="r">
+        <div class="tc">夜</div>
+        <div class="lc"><div class="dot"></div><div class="vl nt"></div></div>
+        <div class="cc">
+          <div class="sn">神戸 / 大阪 / 京都（未定）</div>
+          <span class="stay"><span>🚄</span>神戸 約30分</span>
+          <span class="stay"><span>🚄</span>大阪 約50分</span>
+          <span class="stay"><span>🚄</span>京都 約60分</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- /plans -->
+
+<button class="print-btn" onclick="window.print()">印刷する（横向きA4推奨）</button>
+
+</body>
+</html>
