@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>11月19日 合流後の岡山プラン</title>
+<style>
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    padding:36px 24px 90px;
+    background:#ffffff;
+    font-family:-apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", "Segoe UI", sans-serif;
+    color:#1a1a1a;
+  }
+  .wrap{ max-width:600px; margin:0 auto; }
+
+  .head{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    margin-bottom:40px;
+    flex-wrap:wrap;
+  }
+  .date-badge{
+    background:#1a1a1a;
+    color:#ffffff;
+    font-weight:700;
+    font-size:15px;
+    padding:7px 14px;
+    border-radius:6px;
+    white-space:nowrap;
+  }
+  .head-sub{
+    color:#8a8a8a;
+    font-size:14.5px;
+  }
+
+  .divider{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin:38px 0 18px;
+    color:#9a9a9a;
+    font-size:12.5px;
+    letter-spacing:.02em;
+  }
+  .timeline > .divider:first-child{ margin-top:0; }
+  .divider::after{
+    content:"";
+    flex:1;
+    height:1px;
+    background:#e6e6e6;
+  }
+
+  .stop{
+    position:relative;
+    padding-left:26px;
+    border-left:3px solid #1a1a1a;
+    margin-left:9px;
+    padding-bottom:26px;
+  }
+  .stop:last-child{ border-left-color:transparent; padding-bottom:0; }
+  .stop.seg-walk{ border-left-color:#3fa66a; }
+  .stop.seg-bus{ border-left-color:#3d7cb8; }
+  .stop.seg-tram{ border-left-color:#3d7cb8; }
+
+  .stop .dot{
+    position:absolute;
+    left:-9px;
+    top:1px;
+    width:15px;
+    height:15px;
+    border-radius:50%;
+    background:#1a1a1a;
+    border:3px solid #ffffff;
+  }
+
+  .row-top{
+    display:flex;
+    align-items:baseline;
+    gap:14px;
+    margin-bottom:2px;
+  }
+  .time{
+    font-weight:700;
+    font-size:15.5px;
+    color:#1a1a1a;
+    min-width:44px;
+  }
+  .stop h3{
+    margin:0;
+    font-size:17px;
+    font-weight:700;
+    color:#1a1a1a;
+  }
+
+  .badge-row{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:10px;
+    margin-left:58px;
+  }
+  .badge{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    padding:6px 12px;
+    border-radius:7px;
+    font-size:13px;
+    font-weight:600;
+    white-space:nowrap;
+  }
+  .badge .emo{ font-size:14px; }
+  .badge-note{
+    color:#9a9a9a;
+    font-size:12.5px;
+    font-weight:400;
+  }
+
+  .badge.walk{ background:#e2f4e8; color:#2f7d4f; }
+  .badge.bus{ background:#dcebf9; color:#2c5f8a; }
+  .badge.tram{ background:#dcebf9; color:#2c5f8a; }
+  .badge.stay{ background:#f4ead9; color:#8a6a3c; }
+  .badge.shop{ background:#efece3; color:#6b6558; }
+  .badge.view{ background:#efece3; color:#6b6558; }
+  .badge.food{ background:#f6e3ea; color:#8a3f57; }
+  .badge.sleep{ background:#faf3d0; color:#8a7a2a; }
+
+  .note{
+    margin:8px 0 0 58px;
+    font-size:12.5px;
+    font-style:italic;
+    color:#9a9a9a;
+    line-height:1.7;
+  }
+
+  .tip{
+    margin:12px 0 0 58px;
+    display:flex;
+    gap:9px;
+    align-items:flex-start;
+    background:#eaf2fb;
+    border-radius:6px;
+    padding:11px 14px;
+    font-size:12.5px;
+    line-height:1.7;
+    color:#3a5570;
+    max-width:460px;
+  }
+  .tip .emo{ font-size:14px; flex:0 0 auto; }
+
+  @media (max-width:420px){
+    .badge-row, .note, .tip{ margin-left:0; }
+    .head-sub{ font-size:13px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="head">
+    <span class="date-badge">11月19日</span>
+    <span class="head-sub">木曜　合流後〜　岡山市内</span>
+  </div>
+
+  <div class="timeline">
+
+
+    <div class="stop seg-bus">
+      <span class="dot"></span>
+      <div class="row-top"><span class="time">15:45</span><h3>岡山空港で合流</h3></div>
+      <div class="note" style="margin-left:0">JL237到着後、手荷物受け取りを終えて二人合流</div>
+      <div class="badge-row">
+        <span class="badge bus"><span class="emo">🚌</span>空港リムジンバス</span>
+        <span class="badge-note">約30分</span>
+      </div>
+    </div>
+
+    <div class="stop">
+      <span class="dot"></span>
+      <div class="row-top"><span class="time">16:25</span><h3>岡山駅 西口 着</h3></div>
+    </div>
+
+
+    <div class="stop">
+      <span class="dot"></span>
+      <div class="row-top"><span class="time">16:35</span><h3>ANAクラウンプラザ岡山</h3></div>
+      <div class="badge-row">
+        <span class="badge stay"><span class="emo">🏨</span>チェックイン・荷物を置く</span>
+        <span class="badge-note">IHG系列・駅から徒歩5分</span>
+      </div>
+    </div>
+
+    <div class="stop">
+      <span class="dot"></span>
+      <div class="row-top"><span class="time">17:00</span><h3>岡山フルーツパフェ</h3></div>
+      <div class="badge-row">
+        <span class="badge food"><span class="emo">🍑</span>ホテル1F／さんすて岡山</span>
+      </div>
+      <div class="note">白桃、シャインマスカットなど岡山名物のフルーツを使ったパフェ</div>
+    </div>
+
+
+    <div class="stop seg-tram">
+      <span class="dot"></span>
+      <div class="row-top"><span class="time">17:45</span><h3>路面電車で城下へ</h3></div>
+      <div class="badge-row">
+        <span class="badge tram"><span class="emo">🚋</span>路面電車（東山線）</span>
+        <span class="badge-note">約8分</span>
+      </div>
+    </div>
+
+    <div class="stop seg-walk">
+      <span class="dot"></span>
+      <div class="row-top"><span class="time">18:00</span><h3>岡山城・後楽園</h3></div>
+      <div class="badge-row">
+        <span class="badge view"><span class="emo">🏯</span>外観・旭川沿いを散策</span>
+      </div>
+      <div class="tip"><span class="emo">💡</span>後楽園は通常17時閉園のため中には入れないが、天守のライトアップは外から十分楽しめる。</div>
+      <div class="badge-row" style="margin-top:12px">
+        <span class="badge-note">表町まで徒歩約15分</span>
+      </div>
+    </div>
+
+
+    <div class="stop">
+      <span class="dot"></span>
+      <div class="row-top"><span class="time">18:30</span><h3>表町商店街</h3></div>
+      <div class="note" style="margin-left:0">福岡でいう天神にあたる、岡山最大の繁華街</div>
+    </div>
+
+    <div class="stop">
+      <span class="dot"></span>
+      <div class="row-top"><span class="time">19:00</span><h3>天満屋 岡山本店</h3></div>
+      <div class="badge-row">
+        <span class="badge shop"><span class="emo">🛍</span>地元老舗百貨店を見学</span>
+      </div>
+      <div class="note">岡山発祥、福岡でいう岩田屋にあたる地元デパート</div>
+    </div>
+
+    <div class="stop">
+      <span class="dot"></span>
+      <div class="row-top"><span class="time">19:30</span><h3>割烹 ままかり</h3></div>
+      <div class="badge-row">
+        <span class="badge food"><span class="emo">🍶</span>夕食・郷土料理</span>
+      </div>
+      <div class="note">魚島横丁内。ままかり、岡山ばら寿司など瀬戸内の郷土料理</div>
+    </div>
+
+
+    <div class="stop seg-walk">
+      <span class="dot"></span>
+      <div class="row-top"><span class="time">21:00</span><h3>岡山駅方面へ</h3></div>
+      <div class="badge-row">
+        <span class="badge walk"><span class="emo">🚶</span>徒歩 または 路面電車・バス</span>
+        <span class="badge-note">約20分</span>
+      </div>
+    </div>
+
+    <div class="stop">
+      <span class="dot"></span>
+      <div class="row-top"><span class="time">21:30</span><h3>ANAクラウンプラザ岡山</h3></div>
+      <div class="badge-row">
+        <span class="badge sleep"><span class="emo">🌙</span>帰館・就寝</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>
