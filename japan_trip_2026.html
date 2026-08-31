@@ -111,10 +111,16 @@
   .add-evt-btn{padding:10px 16px;background:var(--text);color:#fff;border:none;border-radius:8px;font-size:14px;font-family:'Noto Sans JP',sans-serif;cursor:pointer;font-weight:400;letter-spacing:0.04em;transition:opacity 0.15s;align-self:flex-start;min-width:100px;}
   .add-evt-btn:hover{opacity:0.78;}
 
-  /* Schedule embed */
+  /* Schedule embed (multi) */
+  .sched-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;}
+  .sched-tab-btn{padding:6px 12px;border-radius:20px;border:1px solid var(--border);background:var(--bg);font-size:12px;font-family:'Noto Sans JP',sans-serif;color:var(--muted);cursor:pointer;transition:all 0.15s;}
+  .sched-tab-btn:hover{border-color:var(--muted);color:var(--text);}
+  .sched-tab-btn.active{background:var(--text);color:#fff;border-color:var(--text);}
   .sched-input-row{display:flex;gap:8px;}
   .sched-url-in{flex:1;padding:10px 13px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:'Noto Sans JP',sans-serif;color:var(--text);background:var(--bg);outline:none;transition:border 0.15s;}
   .sched-url-in:focus{border-color:var(--muted);background:#fff;}
+  .sched-label-in{width:100%;padding:10px 13px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:'Noto Sans JP',sans-serif;color:var(--text);background:var(--bg);outline:none;transition:border 0.15s;margin-bottom:8px;}
+  .sched-label-in:focus{border-color:var(--muted);background:#fff;}
   .sched-set-btn{padding:10px 16px;background:var(--text);color:#fff;border:none;border-radius:8px;font-size:13px;font-family:'Noto Sans JP',sans-serif;cursor:pointer;font-weight:400;transition:opacity 0.15s;flex-shrink:0;}
   .sched-set-btn:hover{opacity:0.78;}
   .sched-hint{font-size:11px;color:var(--faint);margin-top:8px;line-height:1.6;}
@@ -122,6 +128,7 @@
   .sched-frame{width:100%;height:620px;border:1px solid var(--border);border-radius:10px;display:block;}
   .sched-clear-btn{margin-top:10px;background:none;border:1px solid var(--border);border-radius:7px;padding:6px 14px;font-size:12px;color:var(--muted);font-family:'Noto Sans JP',sans-serif;cursor:pointer;transition:all 0.15s;}
   .sched-clear-btn:hover{border-color:var(--muted);color:var(--text);}
+  .sched-add-form{margin-top:16px;padding-top:16px;border-top:1px dashed var(--border);}
 
   /* Memo */
   .memo-area{width:100%;min-height:220px;padding:14px;border:1px solid var(--border);border-radius:8px;font-size:14px;font-family:'Noto Sans JP',sans-serif;color:var(--text);background:var(--bg);line-height:1.9;resize:vertical;outline:none;transition:border 0.15s;}
@@ -206,25 +213,28 @@
       </div>
     </div>
 
-    <!-- スケジュール表 -->
+    <!-- スケジュール表（複数可） -->
     <div class="day-section">
       <div class="day-section-head"><div class="day-section-title">スケジュール表</div></div>
       <div class="day-section-body">
-        <div id="sched-input-area">
-          <div class="sched-input-row">
-            <input type="url" class="sched-url-in" id="sched-url-in"
-              placeholder="GitHubのスケジュールHTMLのURLを貼り付けてください" />
-            <button class="sched-set-btn" onclick="window.schedSetUrl()">表示</button>
-          </div>
-          <div class="sched-hint">
-            例：https://hiroko4649.github.io/japan-trip-2026/itinerary_nov20.html
-          </div>
-        </div>
+        <div class="sched-tabs" id="sched-tabs"></div>
         <div id="sched-frame-area" style="display:none">
           <div class="sched-frame-wrap">
             <iframe class="sched-frame" id="sched-frame" src="" frameborder="0"></iframe>
           </div>
-          <button class="sched-clear-btn" onclick="window.schedClearUrl()">URLを変更する</button>
+          <button class="sched-clear-btn" onclick="window.schedDelActive()">この旅程を削除</button>
+        </div>
+        <div class="sched-add-form">
+          <input type="text" class="sched-label-in" id="sched-label-in" placeholder="ラベル（例：合流まで／合流後、候補A など）任意" />
+          <div class="sched-input-row">
+            <input type="url" class="sched-url-in" id="sched-url-in"
+              placeholder="GitHubのスケジュールHTMLのURLを貼り付けてください" />
+            <button class="sched-set-btn" onclick="window.schedAddUrl()">＋ 追加</button>
+          </div>
+          <div class="sched-hint">
+            例：https://hiroko4649.github.io/japan-trip-2026/itinerary_nov20.html<br>
+            この日に複数の旅程（合流前／合流後、候補違いなど）を追加すると、上にタブで切り替えられます。
+          </div>
         </div>
       </div>
     </div>
@@ -269,6 +279,7 @@ const FIXED={
 
 let userEvts={}, memos={}, schedUrls={};
 let activeKey=null, memoTimer=null, memoFocused=false;
+let schedActiveIdx=0;
 
 function setSync(s){
   const dot=document.getElementById('sync-dot'),txt=document.getElementById('sync-text');
@@ -292,7 +303,7 @@ onValue(ref(db,'memo'),snap=>{
 },()=>setSync('offline'));
 onValue(ref(db,'schedUrls'),snap=>{
   try{schedUrls=JSON.parse(snap.val()||'{}');}catch(e){schedUrls={};}
-  if(activeKey&&isDayOpen()) renderSchedUrl();
+  if(activeKey&&isDayOpen()) renderSchedList();
   setSync('synced');
 },()=>setSync('offline'));
 
@@ -307,6 +318,15 @@ function inTrip(d){return d>=TRIP_START&&d<=TRIP_END;}
 function hasMemo(k){return !!(memos[k]&&memos[k].trim());}
 function isDayOpen(){return document.getElementById('dayPage').classList.contains('active');}
 
+/* Schedule list helper — accepts legacy single-URL string format from before
+   this update, and always returns an array of {label,url} entries. */
+function schedList(k){
+  const v=schedUrls[k];
+  if(Array.isArray(v))return v;
+  if(typeof v==='string'&&v)return [{label:'',url:v}];
+  return [];
+}
+
 function showCal(){
   document.getElementById('calPage').classList.add('active');
   document.getElementById('dayPage').classList.remove('active');
@@ -314,10 +334,11 @@ function showCal(){
 }
 function showDay(k,label){
   activeKey=k;
+  schedActiveIdx=0;
   document.getElementById('dv-date-label').textContent=label;
   document.getElementById('dv-evt-input').value='';
   document.getElementById('memo-status').textContent='';
-  renderEvts(); renderSchedUrl();
+  renderEvts(); renderSchedList();
   document.getElementById('dv-memo').value=memos[k]||'';
   document.getElementById('calPage').classList.remove('active');
   document.getElementById('dayPage').classList.add('active');
@@ -391,34 +412,50 @@ function dvDelEvt(idx){
   saveEvts();renderEvts();
 }
 
-/* ── Schedule URL embed ── */
-function renderSchedUrl(){
-  const url=schedUrls[activeKey];
-  const inputArea=document.getElementById('sched-input-area');
+/* ── Schedule URLs (multiple, tabbed) ── */
+function renderSchedList(){
+  const list=schedList(activeKey);
+  const tabsEl=document.getElementById('sched-tabs');
   const frameArea=document.getElementById('sched-frame-area');
-  if(url){
-    document.getElementById('sched-url-in').value=url;
-    document.getElementById('sched-frame').src=url;
-    inputArea.style.display='none';
-    frameArea.style.display='block';
-  } else {
-    document.getElementById('sched-url-in').value='';
-    document.getElementById('sched-frame').src='';
-    inputArea.style.display='block';
+  if(schedActiveIdx>=list.length)schedActiveIdx=Math.max(0,list.length-1);
+  if(!list.length){
+    tabsEl.innerHTML='';
     frameArea.style.display='none';
+    document.getElementById('sched-frame').src='';
+    return;
   }
+  tabsEl.innerHTML=list.map((e,i)=>{
+    const label=(e.label&&e.label.trim())?e.label:`旅程${i+1}`;
+    return `<button class="sched-tab-btn ${i===schedActiveIdx?'active':''}" onclick="window.schedSelectTab(${i})">${label}</button>`;
+  }).join('');
+  frameArea.style.display='block';
+  document.getElementById('sched-frame').src=list[schedActiveIdx].url;
 }
-function schedSetUrl(){
+function schedSelectTab(i){
+  schedActiveIdx=i;
+  renderSchedList();
+}
+function schedAddUrl(){
+  const label=document.getElementById('sched-label-in').value.trim();
   const url=document.getElementById('sched-url-in').value.trim();
   if(!url)return;
-  schedUrls[activeKey]=url;
+  const list=schedList(activeKey);
+  list.push({label,url});
+  schedUrls[activeKey]=list;
   saveSchedUrls();
-  renderSchedUrl();
+  document.getElementById('sched-label-in').value='';
+  document.getElementById('sched-url-in').value='';
+  schedActiveIdx=list.length-1;
+  renderSchedList();
 }
-function schedClearUrl(){
-  delete schedUrls[activeKey];
+function schedDelActive(){
+  const list=schedList(activeKey);
+  if(!list.length)return;
+  list.splice(schedActiveIdx,1);
+  schedUrls[activeKey]=list;
   saveSchedUrls();
-  renderSchedUrl();
+  if(schedActiveIdx>=list.length)schedActiveIdx=Math.max(0,list.length-1);
+  renderSchedList();
 }
 
 /* ── Memo ── */
@@ -435,13 +472,14 @@ document.addEventListener('keydown',e=>{
   if(e.key==='Enter'&&!e.isComposing&&isDayOpen()&&
      document.activeElement===document.getElementById('dv-evt-input')) dvAddEvt();
   if(e.key==='Enter'&&!e.isComposing&&isDayOpen()&&
-     document.activeElement===document.getElementById('sched-url-in')) schedSetUrl();
+     (document.activeElement===document.getElementById('sched-url-in')||
+      document.activeElement===document.getElementById('sched-label-in'))) schedAddUrl();
 });
 
 /* ── Expose ── */
 window.showCal=showCal; window.showDay=showDay;
 window.dvAddEvt=dvAddEvt; window.dvDelEvt=dvDelEvt;
-window.schedSetUrl=schedSetUrl; window.schedClearUrl=schedClearUrl;
+window.schedSelectTab=schedSelectTab; window.schedAddUrl=schedAddUrl; window.schedDelActive=schedDelActive;
 
 /* ── Init ── */
 buildWeekdays(); buildCalendar();
