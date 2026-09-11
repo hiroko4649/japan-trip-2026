@@ -103,6 +103,10 @@
   .evt-full-row.other2{background:var(--other2-bg);color:var(--other2-fg);}
   .no-evts-msg{font-size:13px;color:var(--faint);font-style:italic;padding:4px 0;}
 
+  /* Schedule tabs */
+  .sched-tabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;}
+  .sched-tab{padding:5px 14px;border-radius:6px;border:1px solid var(--border);background:var(--bg);font-size:12px;font-family:'Noto Sans JP',sans-serif;color:var(--muted);cursor:pointer;transition:all 0.15s;}
+  .sched-tab.active{background:var(--text);color:#fff;border-color:var(--text);}
   .sched-frame{width:100%;height:620px;border:1px solid var(--border);border-radius:10px;display:block;}
   .sched-none{font-size:13px;color:var(--faint);font-style:italic;padding:4px 0;}
 
@@ -300,12 +304,49 @@ function renderEvts(){
 }
 
 function renderSchedUrl(){
-  const url=schedUrls[activeKey];
-  const body=document.getElementById('sched-body');
-  body.innerHTML=url
-    ?`<iframe class="sched-frame" src="${url}" frameborder="0"></iframe>`
-    :'<div class="sched-none">スケジュール表はありません</div>';
+  const raw = schedUrls[activeKey];
+  const body = document.getElementById('sched-body');
+
+  // Parse: could be a plain string URL (old format) or JSON array [{label,url},...] (new format)
+  let entries = [];
+  if(!raw){ body.innerHTML='<div class="sched-none">スケジュール表はありません</div>'; return; }
+  if(typeof raw === 'string'){
+    try{
+      const parsed = JSON.parse(raw);
+      if(Array.isArray(parsed)) entries = parsed.map(e=>typeof e==='string'?{label:'',url:e}:e);
+      else entries = [{label:'',url:raw}];
+    } catch(e){ entries = [{label:'',url:raw}]; }
+  } else if(Array.isArray(raw)){
+    entries = raw.map(e=>typeof e==='string'?{label:'',url:e}:e);
+  }
+
+  entries = entries.filter(e=>e.url);
+  if(!entries.length){ body.innerHTML='<div class="sched-none">スケジュール表はありません</div>'; return; }
+
+  if(entries.length===1){
+    body.innerHTML=`<iframe class="sched-frame" src="${entries[0].url}" frameborder="0"></iframe>`;
+    return;
+  }
+
+  // Multiple: show tabs
+  let tabsHtml = '<div class="sched-tabs">';
+  entries.forEach((e,i)=>{
+    const label = e.label || `旅程${i+1}`;
+    tabsHtml += `<button class="sched-tab${i===0?' active':''}" onclick="window.switchSchedTab(${i})">${label}</button>`;
+  });
+  tabsHtml += '</div>';
+  tabsHtml += `<iframe class="sched-frame" id="sched-frame" src="${entries[0].url}" frameborder="0"></iframe>`;
+  body.innerHTML = tabsHtml;
+
+  window._schedEntries = entries;
 }
+
+window.switchSchedTab = function(idx){
+  const entries = window._schedEntries||[];
+  document.querySelectorAll('.sched-tab').forEach((t,i)=>t.classList.toggle('active',i===idx));
+  const frame = document.getElementById('sched-frame');
+  if(frame && entries[idx]) frame.src = entries[idx].url;
+};
 
 function renderMemo(){
   const text=memos[activeKey]||'';
