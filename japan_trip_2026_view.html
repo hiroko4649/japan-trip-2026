@@ -49,24 +49,27 @@
   .sync-dot{width:7px;height:7px;border-radius:50%;background:var(--faint);transition:background 0.4s;}
   .sync-dot.synced{background:#52a97a;} .sync-dot.offline{background:#c0392b;}
 
-  .cal-area{padding:28px 40px;max-width:860px;margin:0 auto;}
+  .cal-area{padding:28px 32px;max-width:1100px;margin:0 auto;}
   .month-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
   .weekdays{display:grid;grid-template-columns:repeat(7,1fr);background:#f2ede8;border-bottom:1px solid var(--border);}
   .wd{text-align:center;font-size:11px;padding:8px 0;color:var(--muted);letter-spacing:0.05em;}
   .wd.sun{color:var(--sun);} .wd.sat{color:var(--sat);}
-  .days{display:grid;grid-template-columns:repeat(7,1fr);grid-auto-rows:76px;}
-  .day{height:76px;overflow:hidden;padding:5px 6px 4px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);cursor:pointer;transition:background 0.12s;position:relative;}
+  .days{display:grid;grid-template-columns:repeat(7,1fr);grid-auto-rows:140px;}
+  .day{height:140px;overflow:hidden;padding:6px 7px 4px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);cursor:pointer;transition:background 0.12s;position:relative;}
   .day:hover{background:#f0ebe4;} .day:nth-child(7n){border-right:none;}
   .day.month-boundary{border-top:2px solid var(--border-mid);}
   .day.empty{background:#f6f3f0;cursor:default;pointer-events:none;}
   .day.outside{opacity:0.32;cursor:default;pointer-events:none;}
-  .day.has-memo::after{content:'';position:absolute;top:5px;right:5px;width:5px;height:5px;border-radius:50%;background:var(--muted);}
+  .day-badges{position:absolute;top:4px;right:4px;display:flex;flex-direction:row;gap:2px;align-items:flex-start;}
+  .day-badge{font-size:8px;padding:1px 5px;border-radius:3px;line-height:1.5;font-weight:600;letter-spacing:0.03em;}
+  .day-badge.tl{background:#d6eaf8;color:#1a5276;}
+  .day-badge.memo{background:#e8e4df;color:#5a5248;}
   .month-label{font-family:'Noto Serif JP',serif;font-size:9px;font-weight:600;letter-spacing:0.05em;color:var(--faint);line-height:1;margin-bottom:1px;}
   .day.dec-first .month-label{color:var(--muted);}
-  .day-num{font-size:13px;font-weight:300;color:var(--muted);line-height:1;margin-bottom:3px;}
+  .day-num{font-size:14px;font-weight:300;color:var(--muted);line-height:1;margin-bottom:4px;}
   .day.sun .day-num{color:var(--sun);font-weight:400;} .day.sat .day-num{color:var(--sat);font-weight:400;}
   .day.trip .day-num{color:var(--text);font-weight:500;}
-  .evt-chip{font-size:9.5px;border-radius:3px;padding:1px 4px;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.6;display:block;}
+  .evt-chip{font-size:10.5px;border-radius:3px;padding:1px 5px;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.6;display:block;}
   .evt-chip.flight{background:var(--flight-bg);color:var(--flight-fg);}
   .evt-chip.concert{background:var(--concert-bg);color:var(--concert-fg);}
   .evt-chip.user{background:var(--user-bg);color:var(--user-fg);}
@@ -115,7 +118,7 @@
 
   @media(max-width:640px){
     .cal-area,.day-body{padding:12px 16px;} .header{padding:18px 18px 14px;} .legend{padding:10px 18px;} .trip-bar{padding:6px 18px;font-size:11px;}
-    .days{grid-auto-rows:60px;} .day{height:60px;padding:4px 3px;} .day-num{font-size:11px;} .evt-chip{font-size:8px;}
+    .days{grid-auto-rows:95px;} .day{height:95px;padding:4px 4px;} .day-num{font-size:12px;} .evt-chip{font-size:8.5px;padding:1px 3px;}
     .day-header{padding:0 16px;} .day-header-date{font-size:17px;}
   }
 </style>
@@ -234,13 +237,14 @@ onValue(ref(db,'memo'),snap=>{
 },()=>setSync('offline'));
 onValue(ref(db,'schedUrls'),snap=>{
   try{schedUrls=JSON.parse(snap.val()||'{}');}catch(e){schedUrls={};}
-  if(activeKey&&isDayOpen())renderSchedUrl();
+  buildCalendar(); if(activeKey&&isDayOpen())renderSchedUrl();
 },()=>setSync('offline'));
 
 function dk(y,m,d){return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;}
 function allEvts(k){return [...(FIXED[k]||[]),(userEvts[k]||[])].flat();}
 function inTrip(d){return d>=TRIP_START&&d<=TRIP_END;}
 function hasMemo(k){return !!(memos[k]&&memos[k].trim());}
+function hasSchedUrl(k){return !!(schedUrls[k]);}
 function isDayOpen(){return document.getElementById('dayPage').classList.contains('active');}
 
 function showCal(){
@@ -263,20 +267,17 @@ function buildWeekdays(){
 function buildCalendar(){
   const grid=document.getElementById('days-grid');
   grid.innerHTML='';
-  const nov1dow=new Date(2026,10,1).getDay();
-  const dec1row=Math.floor((nov1dow+30)/7);
-  const bs=dec1row*7,be=bs+6;
+  const bs=14,be=20;
   let ci=0;
   const blank=ci=>{const el=document.createElement('div');el.className='day empty'+(ci>=bs&&ci<=be?' month-boundary':'');return el;};
-  for(let i=0;i<nov1dow;i++){grid.appendChild(blank(ci));ci++;}
-  for(let d=1;d<=30;d++){grid.appendChild(mkDay(2026,10,d,ci,bs,be));ci++;}
-  for(let d=1;d<=31;d++){grid.appendChild(mkDay(2026,11,d,ci,bs,be));ci++;}
+  for(let d=15;d<=30;d++){grid.appendChild(mkDay(2026,10,d,ci,bs,be));ci++;}
+  for(let d=1;d<=15;d++){grid.appendChild(mkDay(2026,11,d,ci,bs,be));ci++;}
   const rem=ci%7;
   if(rem>0)for(let i=rem;i<7;i++){grid.appendChild(blank(ci));ci++;}
 }
 function mkDay(y,m,d,ci,bs,be){
   const date=new Date(y,m,d),dow=date.getDay(),k=dk(y,m,d);
-  const trip=inTrip(date),isNov1=(m===10&&d===1),isDec1=(m===11&&d===1);
+  const trip=inTrip(date),isNov15=(m===10&&d===15),isDec1=(m===11&&d===1);
   const evts=allEvts(k);
   const cell=document.createElement('div');
   let cls='day';
@@ -287,10 +288,12 @@ function mkDay(y,m,d,ci,bs,be){
   if(trip&&hasMemo(k))cls+=' has-memo';
   cell.className=cls;
   let html='';
-  if(isNov1||isDec1)html+=`<div class="month-label">${m===10?'11月':'12月'}</div>`;
+  if(isNov15||isDec1)html+=`<div class="month-label">${m===10?'11月':'12月'}</div>`;
+  const hasTL=trip&&hasSchedUrl(k),hasM=trip&&hasMemo(k);
+  if(hasTL||hasM){html+=`<div class="day-badges">`;if(hasTL)html+=`<span class="day-badge tl">TL</span>`;if(hasM)html+=`<span class="day-badge memo">メモ</span>`;html+=`</div>`;}
   html+=`<div class="day-num">${d}</div>`;
-  evts.slice(0,2).forEach(e=>{html+=`<span class="evt-chip ${e.type}">${e.text}</span>`;});
-  if(evts.length>2)html+=`<div class="evt-more">+${evts.length-2}件</div>`;
+  evts.slice(0,6).forEach(e=>{html+=`<span class="evt-chip ${e.type}">${e.text}</span>`;});
+  if(evts.length>6)html+=`<div class="evt-more">+${evts.length-6}件</div>`;
   cell.innerHTML=html;
   if(trip){const label=`${y}年${m+1}月${d}日（${DOW_JP[dow]}）`;cell.addEventListener('click',()=>showDay(k,label));}
   return cell;
