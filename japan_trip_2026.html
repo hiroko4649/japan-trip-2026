@@ -47,13 +47,13 @@
   .sync-dot.synced{background:#52a97a;} .sync-dot.saving{background:#e6a817;} .sync-dot.offline{background:#c0392b;}
 
   /* ── Calendar ── */
-  .cal-area{padding:28px 40px;max-width:860px;margin:0 auto;}
+  .cal-area{padding:28px 32px;max-width:1100px;margin:0 auto;}
   .month-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
   .weekdays{display:grid;grid-template-columns:repeat(7,1fr);background:#f2ede8;border-bottom:1px solid var(--border);}
   .wd{text-align:center;font-size:11px;padding:8px 0;color:var(--muted);letter-spacing:0.05em;}
   .wd.sun{color:var(--sun);} .wd.sat{color:var(--sat);}
-  .days{display:grid;grid-template-columns:repeat(7,1fr);grid-auto-rows:76px;}
-  .day{height:76px;overflow:hidden;padding:5px 6px 4px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);cursor:pointer;transition:background 0.12s;position:relative;}
+  .days{display:grid;grid-template-columns:repeat(7,1fr);grid-auto-rows:140px;}
+  .day{height:140px;overflow:hidden;padding:6px 7px 4px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);cursor:pointer;transition:background 0.12s;position:relative;}
   .day:hover{background:#f0ebe4;} .day:nth-child(7n){border-right:none;}
   .day.month-boundary{border-top:2px solid var(--border-mid);}
   .day.empty{background:#f6f3f0;cursor:default;pointer-events:none;}
@@ -61,10 +61,10 @@
   .day.has-memo::after{content:'';position:absolute;top:5px;right:5px;width:5px;height:5px;border-radius:50%;background:var(--muted);}
   .month-label{font-family:'Noto Serif JP',serif;font-size:9px;font-weight:600;letter-spacing:0.05em;color:var(--faint);line-height:1;margin-bottom:1px;}
   .day.dec-first .month-label{color:var(--muted);}
-  .day-num{font-size:13px;font-weight:300;color:var(--muted);line-height:1;margin-bottom:3px;}
+  .day-num{font-size:14px;font-weight:300;color:var(--muted);line-height:1;margin-bottom:4px;}
   .day.sun .day-num{color:var(--sun);font-weight:400;} .day.sat .day-num{color:var(--sat);font-weight:400;}
   .day.trip .day-num{color:var(--text);font-weight:500;}
-  .evt-chip{font-size:9.5px;border-radius:3px;padding:1px 4px;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.6;display:block;}
+  .evt-chip{font-size:10.5px;border-radius:3px;padding:1px 5px;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.6;display:block;}
   .evt-chip.flight{background:var(--flight-bg);color:var(--flight-fg);}
   .evt-chip.concert{background:var(--concert-bg);color:var(--concert-fg);}
   .evt-chip.user{background:var(--user-bg);color:var(--user-fg);}
@@ -111,16 +111,10 @@
   .add-evt-btn{padding:10px 16px;background:var(--text);color:#fff;border:none;border-radius:8px;font-size:14px;font-family:'Noto Sans JP',sans-serif;cursor:pointer;font-weight:400;letter-spacing:0.04em;transition:opacity 0.15s;align-self:flex-start;min-width:100px;}
   .add-evt-btn:hover{opacity:0.78;}
 
-  /* Schedule embed (multi) */
-  .sched-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;}
-  .sched-tab-btn{padding:6px 12px;border-radius:20px;border:1px solid var(--border);background:var(--bg);font-size:12px;font-family:'Noto Sans JP',sans-serif;color:var(--muted);cursor:pointer;transition:all 0.15s;}
-  .sched-tab-btn:hover{border-color:var(--muted);color:var(--text);}
-  .sched-tab-btn.active{background:var(--text);color:#fff;border-color:var(--text);}
+  /* Schedule embed */
   .sched-input-row{display:flex;gap:8px;}
   .sched-url-in{flex:1;padding:10px 13px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:'Noto Sans JP',sans-serif;color:var(--text);background:var(--bg);outline:none;transition:border 0.15s;}
   .sched-url-in:focus{border-color:var(--muted);background:#fff;}
-  .sched-label-in{width:100%;padding:10px 13px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:'Noto Sans JP',sans-serif;color:var(--text);background:var(--bg);outline:none;transition:border 0.15s;margin-bottom:8px;}
-  .sched-label-in:focus{border-color:var(--muted);background:#fff;}
   .sched-set-btn{padding:10px 16px;background:var(--text);color:#fff;border:none;border-radius:8px;font-size:13px;font-family:'Noto Sans JP',sans-serif;cursor:pointer;font-weight:400;transition:opacity 0.15s;flex-shrink:0;}
   .sched-set-btn:hover{opacity:0.78;}
   .sched-hint{font-size:11px;color:var(--faint);margin-top:8px;line-height:1.6;}
@@ -128,7 +122,6 @@
   .sched-frame{width:100%;height:620px;border:1px solid var(--border);border-radius:10px;display:block;}
   .sched-clear-btn{margin-top:10px;background:none;border:1px solid var(--border);border-radius:7px;padding:6px 14px;font-size:12px;color:var(--muted);font-family:'Noto Sans JP',sans-serif;cursor:pointer;transition:all 0.15s;}
   .sched-clear-btn:hover{border-color:var(--muted);color:var(--text);}
-  .sched-add-form{margin-top:16px;padding-top:16px;border-top:1px dashed var(--border);}
 
   /* Memo */
   .memo-area{width:100%;min-height:220px;padding:14px;border:1px solid var(--border);border-radius:8px;font-size:14px;font-family:'Noto Sans JP',sans-serif;color:var(--text);background:var(--bg);line-height:1.9;resize:vertical;outline:none;transition:border 0.15s;}
@@ -136,8 +129,8 @@
   .memo-status{font-size:11px;color:var(--faint);margin-top:7px;letter-spacing:0.04em;height:16px;}
 
   @media(max-width:640px){
-    .cal-area,.day-body{padding:12px 16px;} .header{padding:18px 18px 14px;} .legend{padding:10px 18px;} .trip-bar{padding:6px 18px;font-size:11px;}
-    .days{grid-auto-rows:60px;} .day{height:60px;padding:4px 3px;} .day-num{font-size:11px;} .evt-chip{font-size:8px;}
+    .cal-area,.day-body{padding:10px 12px;} .header{padding:18px 18px 14px;} .legend{padding:10px 18px;} .trip-bar{padding:6px 18px;font-size:11px;}
+    .days{grid-auto-rows:95px;} .day{height:95px;padding:4px 4px;} .day-num{font-size:12px;} .evt-chip{font-size:8.5px;padding:1px 3px;}
     .day-header{padding:0 16px;} .day-header-date{font-size:17px;}
   }
 </style>
@@ -213,28 +206,25 @@
       </div>
     </div>
 
-    <!-- スケジュール表（複数可） -->
+    <!-- スケジュール表 -->
     <div class="day-section">
       <div class="day-section-head"><div class="day-section-title">スケジュール表</div></div>
       <div class="day-section-body">
-        <div class="sched-tabs" id="sched-tabs"></div>
+        <div id="sched-input-area">
+          <div class="sched-input-row">
+            <input type="url" class="sched-url-in" id="sched-url-in"
+              placeholder="GitHubのスケジュールHTMLのURLを貼り付けてください" />
+            <button class="sched-set-btn" onclick="window.schedSetUrl()">表示</button>
+          </div>
+          <div class="sched-hint">
+            例：https://hiroko4649.github.io/japan-trip-2026/itinerary_nov20.html
+          </div>
+        </div>
         <div id="sched-frame-area" style="display:none">
           <div class="sched-frame-wrap">
             <iframe class="sched-frame" id="sched-frame" src="" frameborder="0"></iframe>
           </div>
-          <button class="sched-clear-btn" onclick="window.schedDelActive()">この旅程を削除</button>
-        </div>
-        <div class="sched-add-form">
-          <input type="text" class="sched-label-in" id="sched-label-in" placeholder="ラベル（例：合流まで／合流後、候補A など）任意" />
-          <div class="sched-input-row">
-            <input type="url" class="sched-url-in" id="sched-url-in"
-              placeholder="GitHubのスケジュールHTMLのURLを貼り付けてください" />
-            <button class="sched-set-btn" onclick="window.schedAddUrl()">＋ 追加</button>
-          </div>
-          <div class="sched-hint">
-            例：https://hiroko4649.github.io/japan-trip-2026/itinerary_nov20.html<br>
-            この日に複数の旅程（合流前／合流後、候補違いなど）を追加すると、上にタブで切り替えられます。
-          </div>
+          <button class="sched-clear-btn" onclick="window.schedClearUrl()">URLを変更する</button>
         </div>
       </div>
     </div>
@@ -279,7 +269,6 @@ const FIXED={
 
 let userEvts={}, memos={}, schedUrls={};
 let activeKey=null, memoTimer=null, memoFocused=false;
-let schedActiveIdx=0;
 
 function setSync(s){
   const dot=document.getElementById('sync-dot'),txt=document.getElementById('sync-text');
@@ -303,7 +292,7 @@ onValue(ref(db,'memo'),snap=>{
 },()=>setSync('offline'));
 onValue(ref(db,'schedUrls'),snap=>{
   try{schedUrls=JSON.parse(snap.val()||'{}');}catch(e){schedUrls={};}
-  if(activeKey&&isDayOpen()) renderSchedList();
+  if(activeKey&&isDayOpen()) renderSchedUrl();
   setSync('synced');
 },()=>setSync('offline'));
 
@@ -318,15 +307,6 @@ function inTrip(d){return d>=TRIP_START&&d<=TRIP_END;}
 function hasMemo(k){return !!(memos[k]&&memos[k].trim());}
 function isDayOpen(){return document.getElementById('dayPage').classList.contains('active');}
 
-/* Schedule list helper — accepts legacy single-URL string format from before
-   this update, and always returns an array of {label,url} entries. */
-function schedList(k){
-  const v=schedUrls[k];
-  if(Array.isArray(v))return v;
-  if(typeof v==='string'&&v)return [{label:'',url:v}];
-  return [];
-}
-
 function showCal(){
   document.getElementById('calPage').classList.add('active');
   document.getElementById('dayPage').classList.remove('active');
@@ -334,11 +314,10 @@ function showCal(){
 }
 function showDay(k,label){
   activeKey=k;
-  schedActiveIdx=0;
   document.getElementById('dv-date-label').textContent=label;
   document.getElementById('dv-evt-input').value='';
   document.getElementById('memo-status').textContent='';
-  renderEvts(); renderSchedList();
+  renderEvts(); renderSchedUrl();
   document.getElementById('dv-memo').value=memos[k]||'';
   document.getElementById('calPage').classList.remove('active');
   document.getElementById('dayPage').classList.add('active');
@@ -378,8 +357,8 @@ function mkDay(y,m,d,ci,bs,be){
   let html='';
   if(isNov1||isDec1)html+=`<div class="month-label">${m===10?'11月':'12月'}</div>`;
   html+=`<div class="day-num">${d}</div>`;
-  evts.slice(0,2).forEach(e=>{html+=`<span class="evt-chip ${e.type}">${e.text}</span>`;});
-  if(evts.length>2)html+=`<div class="evt-more">+${evts.length-2}件</div>`;
+  evts.slice(0,5).forEach(e=>{html+=`<span class="evt-chip ${e.type}">${e.text}</span>`;});
+  if(evts.length>5)html+=`<div class="evt-more">+${evts.length-5}件</div>`;
   cell.innerHTML=html;
   if(trip){const label=`${y}年${m+1}月${d}日（${DOW_JP[dow]}）`;cell.addEventListener('click',()=>showDay(k,label));}
   return cell;
@@ -412,50 +391,34 @@ function dvDelEvt(idx){
   saveEvts();renderEvts();
 }
 
-/* ── Schedule URLs (multiple, tabbed) ── */
-function renderSchedList(){
-  const list=schedList(activeKey);
-  const tabsEl=document.getElementById('sched-tabs');
+/* ── Schedule URL embed ── */
+function renderSchedUrl(){
+  const url=schedUrls[activeKey];
+  const inputArea=document.getElementById('sched-input-area');
   const frameArea=document.getElementById('sched-frame-area');
-  if(schedActiveIdx>=list.length)schedActiveIdx=Math.max(0,list.length-1);
-  if(!list.length){
-    tabsEl.innerHTML='';
-    frameArea.style.display='none';
+  if(url){
+    document.getElementById('sched-url-in').value=url;
+    document.getElementById('sched-frame').src=url;
+    inputArea.style.display='none';
+    frameArea.style.display='block';
+  } else {
+    document.getElementById('sched-url-in').value='';
     document.getElementById('sched-frame').src='';
-    return;
+    inputArea.style.display='block';
+    frameArea.style.display='none';
   }
-  tabsEl.innerHTML=list.map((e,i)=>{
-    const label=(e.label&&e.label.trim())?e.label:`旅程${i+1}`;
-    return `<button class="sched-tab-btn ${i===schedActiveIdx?'active':''}" onclick="window.schedSelectTab(${i})">${label}</button>`;
-  }).join('');
-  frameArea.style.display='block';
-  document.getElementById('sched-frame').src=list[schedActiveIdx].url;
 }
-function schedSelectTab(i){
-  schedActiveIdx=i;
-  renderSchedList();
-}
-function schedAddUrl(){
-  const label=document.getElementById('sched-label-in').value.trim();
+function schedSetUrl(){
   const url=document.getElementById('sched-url-in').value.trim();
   if(!url)return;
-  const list=schedList(activeKey);
-  list.push({label,url});
-  schedUrls[activeKey]=list;
+  schedUrls[activeKey]=url;
   saveSchedUrls();
-  document.getElementById('sched-label-in').value='';
-  document.getElementById('sched-url-in').value='';
-  schedActiveIdx=list.length-1;
-  renderSchedList();
+  renderSchedUrl();
 }
-function schedDelActive(){
-  const list=schedList(activeKey);
-  if(!list.length)return;
-  list.splice(schedActiveIdx,1);
-  schedUrls[activeKey]=list;
+function schedClearUrl(){
+  delete schedUrls[activeKey];
   saveSchedUrls();
-  if(schedActiveIdx>=list.length)schedActiveIdx=Math.max(0,list.length-1);
-  renderSchedList();
+  renderSchedUrl();
 }
 
 /* ── Memo ── */
@@ -472,14 +435,13 @@ document.addEventListener('keydown',e=>{
   if(e.key==='Enter'&&!e.isComposing&&isDayOpen()&&
      document.activeElement===document.getElementById('dv-evt-input')) dvAddEvt();
   if(e.key==='Enter'&&!e.isComposing&&isDayOpen()&&
-     (document.activeElement===document.getElementById('sched-url-in')||
-      document.activeElement===document.getElementById('sched-label-in'))) schedAddUrl();
+     document.activeElement===document.getElementById('sched-url-in')) schedSetUrl();
 });
 
 /* ── Expose ── */
 window.showCal=showCal; window.showDay=showDay;
 window.dvAddEvt=dvAddEvt; window.dvDelEvt=dvDelEvt;
-window.schedSelectTab=schedSelectTab; window.schedAddUrl=schedAddUrl; window.schedDelActive=schedDelActive;
+window.schedSetUrl=schedSetUrl; window.schedClearUrl=schedClearUrl;
 
 /* ── Init ── */
 buildWeekdays(); buildCalendar();
