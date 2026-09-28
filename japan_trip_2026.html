@@ -107,6 +107,9 @@
   .evt-full-text{flex:1;line-height:1.4;}
   .evt-del-btn{background:none;border:none;cursor:pointer;font-size:17px;opacity:0.45;line-height:1;padding:0 2px;color:inherit;flex-shrink:0;transition:opacity 0.15s;}
   .evt-del-btn:hover{opacity:1;}
+  .evt-order-btn{background:none;border:none;cursor:pointer;font-size:13px;opacity:0.4;line-height:1;padding:0 2px;color:inherit;flex-shrink:0;transition:opacity 0.15s;}
+  .evt-order-btn:hover{opacity:0.9;}
+  .evt-order-btn.off{opacity:0.12;cursor:default;}
   .no-evts-msg{font-size:13px;color:var(--faint);font-style:italic;padding:4px 0;}
   .add-evt-form{display:flex;flex-direction:column;gap:10px;}
   .add-evt-form input,.add-evt-form select{width:100%;padding:10px 13px;border:1px solid var(--border);border-radius:8px;font-size:14px;font-family:'Noto Sans JP',sans-serif;color:var(--text);background:var(--bg);outline:none;transition:border 0.15s;}
@@ -305,7 +308,8 @@ function saveSchedUrls(){setSync('saving');set(ref(db,'schedUrls'),JSON.stringif
 function memoMsg(m){const el=document.getElementById('memo-status');if(!el)return;el.textContent=m;setTimeout(()=>{el.textContent='';},2000);}
 
 function dk(y,m,d){return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;}
-function allEvts(k){return [...(FIXED[k]||[]),(userEvts[k]||[])].flat();}
+function sortEvts(evts){return [...evts.filter(e=>e.type!=='hotel'),...evts.filter(e=>e.type==='hotel')];}
+function allEvts(k){return [...(FIXED[k]||[]),...sortEvts(userEvts[k]||[])];}
 function inTrip(d){return d>=TRIP_START&&d<=TRIP_END;}
 function hasMemo(k){return !!(memos[k]&&memos[k].trim());}
 function hasSchedUrl(k){return !!(schedUrls[k]);}
@@ -370,13 +374,20 @@ function mkDay(y,m,d,ci,bs,be){
 
 /* ── Events ── */
 function renderEvts(){
-  const evts=allEvts(activeKey);
+  const fixed=FIXED[activeKey]||[];
+  const ue=sortEvts(userEvts[activeKey]||[]);
   const el=document.getElementById('dv-evts-list');
-  if(!evts.length){el.innerHTML='<div class="no-evts-msg">予定なし</div>';return;}
-  el.innerHTML=evts.map((e,i)=>{
-    const fixed=(FIXED[activeKey]||[]).some(f=>f.text===e.text&&f.type===e.type);
-    return `<div class="evt-full-row ${e.type}"><span class="evt-full-text">${e.text}</span>${fixed?'':`<button class="evt-del-btn" onclick="window.dvDelEvt(${i})">×</button>`}</div>`;
-  }).join('');
+  if(!fixed.length&&!ue.length){el.innerHTML='<div class="no-evts-msg">予定なし</div>';return;}
+  let html='';
+  fixed.forEach(e=>{html+=`<div class="evt-full-row ${e.type}"><span class="evt-full-text">${e.text}</span></div>`;});
+  const nonHotelCount=ue.filter(e=>e.type!=='hotel').length;
+  ue.forEach((e,ui)=>{
+    const isHotel=e.type==='hotel';
+    const canUp=!isHotel&&ui>0;
+    const canDown=!isHotel&&ui<nonHotelCount-1;
+    html+=`<div class="evt-full-row ${e.type}"><span class="evt-full-text">${e.text}</span>${!isHotel?`<button class="evt-order-btn${canUp?'':' off'}" onclick="${canUp?`window.dvMoveEvt(${ui},-1)`:''}">↑</button><button class="evt-order-btn${canDown?'':' off'}" onclick="${canDown?`window.dvMoveEvt(${ui},1)`:''}">↓</button>`:''}<button class="evt-del-btn" onclick="window.dvDelEvt(${ui})">×</button></div>`;
+  });
+  el.innerHTML=html;
 }
 function dvAddEvt(){
   const name=document.getElementById('dv-evt-input').value.trim();
@@ -386,12 +397,18 @@ function dvAddEvt(){
   userEvts[activeKey].push({type,text:name});
   saveEvts();document.getElementById('dv-evt-input').value='';renderEvts();
 }
-function dvDelEvt(idx){
-  const e=allEvts(activeKey)[idx];
-  if((FIXED[activeKey]||[]).some(f=>f.text===e.text&&f.type===e.type))return;
-  const ue=userEvts[activeKey]||[];
-  const pos=ue.findIndex(f=>f.text===e.text&&f.type===e.type);
-  if(pos>-1){ue.splice(pos,1);userEvts[activeKey]=ue;}
+function dvDelEvt(ueIdx){
+  const ue=sortEvts(userEvts[activeKey]||[]);
+  ue.splice(ueIdx,1);
+  userEvts[activeKey]=ue;
+  saveEvts();renderEvts();
+}
+function dvMoveEvt(ueIdx,dir){
+  const ue=sortEvts(userEvts[activeKey]||[]);
+  const ni=ueIdx+dir;
+  if(ni<0||ni>=ue.length||ue[ni].type==='hotel'||ue[ueIdx].type==='hotel')return;
+  [ue[ueIdx],ue[ni]]=[ue[ni],ue[ueIdx]];
+  userEvts[activeKey]=ue;
   saveEvts();renderEvts();
 }
 
@@ -444,7 +461,7 @@ document.addEventListener('keydown',e=>{
 
 /* ── Expose ── */
 window.showCal=showCal; window.showDay=showDay;
-window.dvAddEvt=dvAddEvt; window.dvDelEvt=dvDelEvt;
+window.dvAddEvt=dvAddEvt; window.dvDelEvt=dvDelEvt; window.dvMoveEvt=dvMoveEvt;
 window.schedSetUrl=schedSetUrl; window.schedClearUrl=schedClearUrl;
 
 /* ── Init ── */
