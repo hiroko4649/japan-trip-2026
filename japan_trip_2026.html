@@ -331,20 +331,18 @@ function buildWeekdays(){
 function buildCalendar(){
   const grid=document.getElementById('days-grid');
   grid.innerHTML='';
-  const nov1dow=new Date(2026,10,1).getDay();
-  const dec1row=Math.floor((nov1dow+30)/7);
-  const bs=dec1row*7,be=bs+6;
+  // Nov 15は日曜(ci=0)、Dec 1はci=16(火曜)、月境界行はci=14〜20
+  const bs=14,be=20;
   let ci=0;
   const blank=ci=>{const el=document.createElement('div');el.className='day empty'+(ci>=bs&&ci<=be?' month-boundary':'');return el;};
-  for(let i=0;i<nov1dow;i++){grid.appendChild(blank(ci));ci++;}
-  for(let d=1;d<=30;d++){grid.appendChild(mkDay(2026,10,d,ci,bs,be));ci++;}
-  for(let d=1;d<=31;d++){grid.appendChild(mkDay(2026,11,d,ci,bs,be));ci++;}
+  for(let d=15;d<=30;d++){grid.appendChild(mkDay(2026,10,d,ci,bs,be));ci++;}
+  for(let d=1;d<=15;d++){grid.appendChild(mkDay(2026,11,d,ci,bs,be));ci++;}
   const rem=ci%7;
   if(rem>0)for(let i=rem;i<7;i++){grid.appendChild(blank(ci));ci++;}
 }
 function mkDay(y,m,d,ci,bs,be){
   const date=new Date(y,m,d),dow=date.getDay(),k=dk(y,m,d);
-  const trip=inTrip(date),isNov1=(m===10&&d===1),isDec1=(m===11&&d===1);
+  const trip=inTrip(date),isNov15=(m===10&&d===15),isDec1=(m===11&&d===1);
   const evts=allEvts(k);
   const cell=document.createElement('div');
   let cls='day';
@@ -355,7 +353,7 @@ function mkDay(y,m,d,ci,bs,be){
   if(trip&&hasMemo(k))cls+=' has-memo';
   cell.className=cls;
   let html='';
-  if(isNov1||isDec1)html+=`<div class="month-label">${m===10?'11月':'12月'}</div>`;
+  if(isNov15||isDec1)html+=`<div class="month-label">${m===10?'11月':'12月'}</div>`;
   html+=`<div class="day-num">${d}</div>`;
   evts.slice(0,5).forEach(e=>{html+=`<span class="evt-chip ${e.type}">${e.text}</span>`;});
   if(evts.length>5)html+=`<div class="evt-more">+${evts.length-5}件</div>`;
