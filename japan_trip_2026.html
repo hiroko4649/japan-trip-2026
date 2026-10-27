@@ -219,11 +219,11 @@
         <div id="sched-input-area">
           <div class="sched-input-row">
             <input type="url" class="sched-url-in" id="sched-url-in"
-              placeholder="GitHubのスケジュールHTMLのURLを貼り付けてください" />
+              placeholder="ファイル名を続けて入力してください（例：itinerary_nov24_tokyo.html）" />
             <button class="sched-set-btn" onclick="window.schedSetUrl()">表示</button>
           </div>
           <div class="sched-hint">
-            例：https://hiroko4649.github.io/japan-trip-2026/itinerary_nov20.html
+            ファイル名を続けて入力してください（例：itinerary_nov24_tokyo.html）
           </div>
         </div>
         <div id="sched-frame-area" style="display:none">
@@ -423,7 +423,7 @@ function renderSchedUrl(){
     inputArea.style.display='none';
     frameArea.style.display='block';
   } else {
-    document.getElementById('sched-url-in').value='';
+    document.getElementById('sched-url-in').value='https://hiroko4649.github.io/japan-trip-2026/';
     document.getElementById('sched-frame').src='';
     inputArea.style.display='block';
     frameArea.style.display='none';
