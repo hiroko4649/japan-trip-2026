@@ -137,6 +137,8 @@
   .sched-del-row:hover{border-color:#c0392b;color:#c0392b;}
   .sched-add-row{background:none;border:1px dashed var(--border);border-radius:7px;padding:8px 14px;font-size:12px;color:var(--muted);font-family:'Noto Sans JP',sans-serif;cursor:pointer;display:block;width:100%;margin:0 0 10px;text-align:left;transition:all 0.15s;}
   .sched-add-row:hover{border-color:var(--muted);color:var(--text);}
+  .sched-lbl-in{width:130px;flex-shrink:0;padding:10px 10px;border:1px solid var(--border);border-radius:8px;font-size:12px;font-family:'Noto Sans JP',sans-serif;color:var(--text);background:var(--bg);outline:none;transition:border 0.15s;}
+  .sched-lbl-in:focus{border-color:var(--muted);background:#fff;}
 
   /* Memo */
   .memo-area{width:100%;min-height:220px;padding:14px;border:1px solid var(--border);border-radius:8px;font-size:14px;font-family:'Noto Sans JP',sans-serif;color:var(--text);background:var(--bg);line-height:1.9;resize:vertical;outline:none;transition:border 0.15s;}
@@ -410,27 +412,32 @@ function dvMoveEvt(ueIdx,dir){
 const SCHED_BASE='https://hiroko4649.github.io/japan-trip-2026/';
 let schedTabIdx=0;
 
+function normalizeEntry(x){
+  if(!x)return null;
+  if(typeof x==='string')return x?{url:x,label:''}:null;
+  return(x.url)?{url:x.url,label:x.label||''}:null;
+}
 function getSchedUrls(k){
   const v=schedUrls[k];
   if(!v)return[];
-  if(Array.isArray(v))return v.filter(Boolean);
-  if(typeof v==='string'&&v)return[v];
-  return[];
+  const arr=Array.isArray(v)?v:[v];
+  return arr.map(normalizeEntry).filter(Boolean);
 }
 function hasSchedUrl(k){return getSchedUrls(k).length>0;}
 
 function renderSchedUrl(){
-  const urls=getSchedUrls(activeKey);
+  const entries=getSchedUrls(activeKey);
   const inputArea=document.getElementById('sched-input-area');
   const frameArea=document.getElementById('sched-frame-area');
-  if(urls.length>0){
+  if(entries.length>0){
     inputArea.style.display='none';
     frameArea.style.display='block';
-    if(schedTabIdx>=urls.length)schedTabIdx=0;
-    const tabBar=urls.length>1
-      ?`<div class="sched-tabs">${urls.map((u,i)=>`<button class="sched-tab${i===schedTabIdx?' active':''}" onclick="window.schedSwitchTab(${i})">スケジュール ${i+1}</button>`).join('')}</div>`
+    if(schedTabIdx>=entries.length)schedTabIdx=0;
+    const tabLabel=(e,i)=>e.label||`スケジュール ${i+1}`;
+    const tabBar=entries.length>1
+      ?`<div class="sched-tabs">${entries.map((e,i)=>`<button class="sched-tab${i===schedTabIdx?' active':''}" onclick="window.schedSwitchTab(${i})">${tabLabel(e,i)}</button>`).join('')}</div>`
       :'';
-    frameArea.innerHTML=`${tabBar}<div class="sched-frame-wrap"><iframe class="sched-frame" id="sched-frame" src="${urls[schedTabIdx]}" frameborder="0"></iframe></div><button class="sched-clear-btn" onclick="window.schedEditUrls()">URLを変更する</button>`;
+    frameArea.innerHTML=`${tabBar}<div class="sched-frame-wrap"><iframe class="sched-frame" id="sched-frame" src="${entries[schedTabIdx].url}" frameborder="0"></iframe></div><button class="sched-clear-btn" onclick="window.schedEditUrls()">URLを変更する</button>`;
   } else {
     frameArea.style.display='none';
     inputArea.style.display='block';
@@ -438,38 +445,40 @@ function renderSchedUrl(){
   }
 }
 
-function renderSchedInputRows(vals){
+function renderSchedInputRows(entries){
   const inputArea=document.getElementById('sched-input-area');
-  const rows=vals.length?vals:[''];
-  const rowsHtml=rows.map((v,i)=>`<div class="sched-url-row"><input type="url" class="sched-url-in sched-url-mi" data-idx="${i}" value="${v||SCHED_BASE}" placeholder="ファイル名を続けて入力してください（例：itinerary_nov24_tokyo.html）" />${rows.length>1?`<button class="sched-del-row" onclick="window.schedDelRow(${i})">×</button>`:''}</div>`).join('');
-  inputArea.innerHTML=`${rowsHtml}<button class="sched-add-row" onclick="window.schedAddRow()">＋ URLを追加</button><div class="sched-input-row"><button class="sched-set-btn" onclick="window.schedSetUrl()">表示</button></div><div class="sched-hint">ファイル名を続けて入力してください（例：itinerary_nov24_tokyo.html）</div>`;
+  const rows=entries.length?entries:[{url:'',label:''}];
+  const rowsHtml=rows.map((e,i)=>`<div class="sched-url-row"><input type="text" class="sched-lbl-in sched-lbl-mi" data-idx="${i}" value="${e.label||''}" placeholder="タブ名（例：合流前）" /><input type="url" class="sched-url-in sched-url-mi" data-idx="${i}" value="${e.url||SCHED_BASE}" placeholder="ファイル名を続けて入力してください（例：itinerary_nov24_tokyo.html）" />${rows.length>1?`<button class="sched-del-row" onclick="window.schedDelRow(${i})">×</button>`:''}</div>`).join('');
+  inputArea.innerHTML=`${rowsHtml}<button class="sched-add-row" onclick="window.schedAddRow()">＋ URLを追加</button><div class="sched-input-row"><button class="sched-set-btn" onclick="window.schedSetUrl()">表示</button></div><div class="sched-hint">タブ名は省略可。URLはファイル名を続けて入力（例：itinerary_nov24_tokyo.html）</div>`;
 }
 
+function collectEntries(){
+  const urlEls=document.querySelectorAll('.sched-url-mi');
+  const lblEls=document.querySelectorAll('.sched-lbl-mi');
+  return[...urlEls].map((el,i)=>({url:el.value.trim(),label:lblEls[i]?lblEls[i].value.trim():''})).filter(e=>e.url);
+}
 function schedSetUrl(){
-  const inputs=document.querySelectorAll('.sched-url-mi');
-  const urls=[...inputs].map(el=>el.value.trim()).filter(Boolean);
-  if(!urls.length)return;
-  schedUrls[activeKey]=urls.length===1?urls[0]:urls;
+  const entries=collectEntries();
+  if(!entries.length)return;
+  schedUrls[activeKey]=entries;
   schedTabIdx=0;
   saveSchedUrls();
   renderSchedUrl();
 }
 function schedAddRow(){
-  const inputs=document.querySelectorAll('.sched-url-mi');
-  const vals=[...inputs].map(el=>el.value.trim());
-  renderSchedInputRows([...vals,'']);
+  const entries=collectEntries();
+  renderSchedInputRows([...entries,{url:'',label:''}]);
 }
 function schedDelRow(i){
-  const inputs=document.querySelectorAll('.sched-url-mi');
-  const vals=[...inputs].map(el=>el.value.trim());
-  vals.splice(i,1);
-  renderSchedInputRows(vals);
+  const entries=collectEntries();
+  entries.splice(i,1);
+  renderSchedInputRows(entries);
 }
 function schedEditUrls(){
-  const urls=getSchedUrls(activeKey);
+  const entries=getSchedUrls(activeKey);
   document.getElementById('sched-frame-area').style.display='none';
   document.getElementById('sched-input-area').style.display='block';
-  renderSchedInputRows(urls);
+  renderSchedInputRows(entries);
 }
 function schedClearUrl(){
   delete schedUrls[activeKey];
