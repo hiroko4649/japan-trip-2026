@@ -128,6 +128,15 @@
   .sched-frame{width:100%;height:620px;border:1px solid var(--border);border-radius:10px;display:block;}
   .sched-clear-btn{margin-top:10px;background:none;border:1px solid var(--border);border-radius:7px;padding:6px 14px;font-size:12px;color:var(--muted);font-family:'Noto Sans JP',sans-serif;cursor:pointer;transition:all 0.15s;}
   .sched-clear-btn:hover{border-color:var(--muted);color:var(--text);}
+  .sched-tabs{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap;}
+  .sched-tab{padding:6px 14px;border:1px solid var(--border);border-radius:6px;font-size:12px;font-family:'Noto Sans JP',sans-serif;cursor:pointer;background:var(--bg);color:var(--muted);transition:all 0.15s;}
+  .sched-tab.active{background:var(--text);color:#fff;border-color:var(--text);}
+  .sched-tab:hover:not(.active){border-color:var(--muted);color:var(--text);}
+  .sched-url-row{display:flex;gap:8px;margin-bottom:8px;align-items:center;}
+  .sched-del-row{background:none;border:1px solid var(--border);border-radius:6px;padding:9px 10px;font-size:13px;color:var(--muted);cursor:pointer;flex-shrink:0;line-height:1;transition:all 0.15s;}
+  .sched-del-row:hover{border-color:#c0392b;color:#c0392b;}
+  .sched-add-row{background:none;border:1px dashed var(--border);border-radius:7px;padding:8px 14px;font-size:12px;color:var(--muted);font-family:'Noto Sans JP',sans-serif;cursor:pointer;display:block;width:100%;margin:0 0 10px;text-align:left;transition:all 0.15s;}
+  .sched-add-row:hover{border-color:var(--muted);color:var(--text);}
 
   /* Memo */
   .memo-area{width:100%;min-height:220px;padding:14px;border:1px solid var(--border);border-radius:8px;font-size:14px;font-family:'Noto Sans JP',sans-serif;color:var(--text);background:var(--bg);line-height:1.9;resize:vertical;outline:none;transition:border 0.15s;}
@@ -216,22 +225,8 @@
     <div class="day-section">
       <div class="day-section-head"><div class="day-section-title">スケジュール表</div></div>
       <div class="day-section-body">
-        <div id="sched-input-area">
-          <div class="sched-input-row">
-            <input type="url" class="sched-url-in" id="sched-url-in"
-              placeholder="ファイル名を続けて入力してください（例：itinerary_nov24_tokyo.html）" />
-            <button class="sched-set-btn" onclick="window.schedSetUrl()">表示</button>
-          </div>
-          <div class="sched-hint">
-            ファイル名を続けて入力してください（例：itinerary_nov24_tokyo.html）
-          </div>
-        </div>
-        <div id="sched-frame-area" style="display:none">
-          <div class="sched-frame-wrap">
-            <iframe class="sched-frame" id="sched-frame" src="" frameborder="0"></iframe>
-          </div>
-          <button class="sched-clear-btn" onclick="window.schedClearUrl()">URLを変更する</button>
-        </div>
+        <div id="sched-input-area"></div>
+        <div id="sched-frame-area" style="display:none"></div>
       </div>
     </div>
 
@@ -312,7 +307,6 @@ function sortEvts(evts){return [...evts.filter(e=>e.type!=='hotel'),...evts.filt
 function allEvts(k){return [...(FIXED[k]||[]),...sortEvts(userEvts[k]||[])];}
 function inTrip(d){return d>=TRIP_START&&d<=TRIP_END;}
 function hasMemo(k){return !!(memos[k]&&memos[k].trim());}
-function hasSchedUrl(k){return !!(schedUrls[k]);}
 function isDayOpen(){return document.getElementById('dayPage').classList.contains('active');}
 
 function showCal(){
@@ -412,33 +406,79 @@ function dvMoveEvt(ueIdx,dir){
   saveEvts();renderEvts();
 }
 
-/* ── Schedule URL embed ── */
+/* ── Schedule URL embed (複数URL対応) ── */
+const SCHED_BASE='https://hiroko4649.github.io/japan-trip-2026/';
+let schedTabIdx=0;
+
+function getSchedUrls(k){
+  const v=schedUrls[k];
+  if(!v)return[];
+  if(Array.isArray(v))return v.filter(Boolean);
+  if(typeof v==='string'&&v)return[v];
+  return[];
+}
+function hasSchedUrl(k){return getSchedUrls(k).length>0;}
+
 function renderSchedUrl(){
-  const url=schedUrls[activeKey];
+  const urls=getSchedUrls(activeKey);
   const inputArea=document.getElementById('sched-input-area');
   const frameArea=document.getElementById('sched-frame-area');
-  if(url){
-    document.getElementById('sched-url-in').value=url;
-    document.getElementById('sched-frame').src=url;
+  if(urls.length>0){
     inputArea.style.display='none';
     frameArea.style.display='block';
+    if(schedTabIdx>=urls.length)schedTabIdx=0;
+    const tabBar=urls.length>1
+      ?`<div class="sched-tabs">${urls.map((u,i)=>`<button class="sched-tab${i===schedTabIdx?' active':''}" onclick="window.schedSwitchTab(${i})">スケジュール ${i+1}</button>`).join('')}</div>`
+      :'';
+    frameArea.innerHTML=`${tabBar}<div class="sched-frame-wrap"><iframe class="sched-frame" id="sched-frame" src="${urls[schedTabIdx]}" frameborder="0"></iframe></div><button class="sched-clear-btn" onclick="window.schedEditUrls()">URLを変更する</button>`;
   } else {
-    document.getElementById('sched-url-in').value='https://hiroko4649.github.io/japan-trip-2026/';
-    document.getElementById('sched-frame').src='';
-    inputArea.style.display='block';
     frameArea.style.display='none';
+    inputArea.style.display='block';
+    renderSchedInputRows([]);
   }
 }
+
+function renderSchedInputRows(vals){
+  const inputArea=document.getElementById('sched-input-area');
+  const rows=vals.length?vals:[''];
+  const rowsHtml=rows.map((v,i)=>`<div class="sched-url-row"><input type="url" class="sched-url-in sched-url-mi" data-idx="${i}" value="${v||SCHED_BASE}" placeholder="ファイル名を続けて入力してください（例：itinerary_nov24_tokyo.html）" />${rows.length>1?`<button class="sched-del-row" onclick="window.schedDelRow(${i})">×</button>`:''}</div>`).join('');
+  inputArea.innerHTML=`${rowsHtml}<button class="sched-add-row" onclick="window.schedAddRow()">＋ URLを追加</button><div class="sched-input-row"><button class="sched-set-btn" onclick="window.schedSetUrl()">表示</button></div><div class="sched-hint">ファイル名を続けて入力してください（例：itinerary_nov24_tokyo.html）</div>`;
+}
+
 function schedSetUrl(){
-  const url=document.getElementById('sched-url-in').value.trim();
-  if(!url)return;
-  schedUrls[activeKey]=url;
+  const inputs=document.querySelectorAll('.sched-url-mi');
+  const urls=[...inputs].map(el=>el.value.trim()).filter(Boolean);
+  if(!urls.length)return;
+  schedUrls[activeKey]=urls.length===1?urls[0]:urls;
+  schedTabIdx=0;
   saveSchedUrls();
   renderSchedUrl();
 }
+function schedAddRow(){
+  const inputs=document.querySelectorAll('.sched-url-mi');
+  const vals=[...inputs].map(el=>el.value.trim());
+  renderSchedInputRows([...vals,'']);
+}
+function schedDelRow(i){
+  const inputs=document.querySelectorAll('.sched-url-mi');
+  const vals=[...inputs].map(el=>el.value.trim());
+  vals.splice(i,1);
+  renderSchedInputRows(vals);
+}
+function schedEditUrls(){
+  const urls=getSchedUrls(activeKey);
+  document.getElementById('sched-frame-area').style.display='none';
+  document.getElementById('sched-input-area').style.display='block';
+  renderSchedInputRows(urls);
+}
 function schedClearUrl(){
   delete schedUrls[activeKey];
+  schedTabIdx=0;
   saveSchedUrls();
+  renderSchedUrl();
+}
+function schedSwitchTab(i){
+  schedTabIdx=i;
   renderSchedUrl();
 }
 
@@ -456,13 +496,15 @@ document.addEventListener('keydown',e=>{
   if(e.key==='Enter'&&!e.isComposing&&isDayOpen()&&
      document.activeElement===document.getElementById('dv-evt-input')) dvAddEvt();
   if(e.key==='Enter'&&!e.isComposing&&isDayOpen()&&
-     document.activeElement===document.getElementById('sched-url-in')) schedSetUrl();
+     document.activeElement.classList.contains('sched-url-mi')) schedSetUrl();
 });
 
 /* ── Expose ── */
 window.showCal=showCal; window.showDay=showDay;
 window.dvAddEvt=dvAddEvt; window.dvDelEvt=dvDelEvt; window.dvMoveEvt=dvMoveEvt;
 window.schedSetUrl=schedSetUrl; window.schedClearUrl=schedClearUrl;
+window.schedAddRow=schedAddRow; window.schedDelRow=schedDelRow;
+window.schedEditUrls=schedEditUrls; window.schedSwitchTab=schedSwitchTab;
 
 /* ── Init ── */
 buildWeekdays(); buildCalendar();
